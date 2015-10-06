@@ -11,3 +11,4 @@ bin/
 out/
 .gitignore~
 .idea/
+tests/
