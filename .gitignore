@@ -10,3 +10,4 @@ WallpaperPicker/.project.properties
 bin/
 out/
 .gitignore~
+.idea/
