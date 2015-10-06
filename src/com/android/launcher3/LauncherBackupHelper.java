@@ -289,6 +289,7 @@ public class LauncherBackupHelper implements BackupHelper {
                 Journal journal = new Journal();
                 MessageNano.mergeFrom(journal, readCheckedBytes(mBuffer, dataSize));
                 applyJournal(journal);
+
                 restoreSuccessful = false;
                 return;
             }
@@ -820,7 +821,6 @@ public class LauncherBackupHelper implements BackupHelper {
         long userSerialNumber =
                 UserManagerCompat.getInstance(mContext).getSerialNumberForUser(myUserHandle);
         values.put(LauncherSettings.Favorites.PROFILE_ID, userSerialNumber);
-
 
         if (favorite.itemType == Favorites.ITEM_TYPE_APPWIDGET) {
             if (!TextUtils.isEmpty(favorite.appWidgetProvider)) {

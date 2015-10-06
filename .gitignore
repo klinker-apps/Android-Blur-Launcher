@@ -8,7 +8,10 @@ tests/stress/gen/
 WallpaperPicker/gen/
 WallpaperPicker/.project.properties
 bin/
+<<<<<<< HEAD
 out/
 .gitignore~
 .idea/
 tests/
+=======
+>>>>>>> upstream/marshmallow-release
