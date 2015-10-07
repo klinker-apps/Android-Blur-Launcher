@@ -300,6 +300,11 @@ public class DeviceProfile {
                         defaultWidgetPadding.right), searchBarSpaceHeightPx);
             }
         }
+
+        if (!settings.showSearchBar) {
+            bounds = new Rect();
+        }
+
         return bounds;
     }
 

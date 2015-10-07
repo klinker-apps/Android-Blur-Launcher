@@ -3488,6 +3488,10 @@ public class Launcher extends Activity
     }
 
     public View getOrCreateQsbBar() {
+        if (!AppSettings.getInstance(this).showSearchBar) {
+            return null;
+        }
+
         if (mLauncherCallbacks != null && mLauncherCallbacks.providesSearch()) {
             return mLauncherCallbacks.getQsbBar();
         }
