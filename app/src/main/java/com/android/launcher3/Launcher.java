@@ -70,6 +70,7 @@ import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.method.TextKeyListener;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -104,6 +105,7 @@ import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.compat.UserHandleCompat;
 import com.android.launcher3.compat.UserManagerCompat;
 import com.android.launcher3.model.WidgetsModel;
+import com.android.launcher3.testing.LauncherExtension;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.LongArrayMap;
 import com.android.launcher3.util.Thunk;
@@ -3509,13 +3511,7 @@ public class Launcher extends Activity
                 }
 
                 // Try to bind a new widget
-                widgetId = mAppWidgetHost.allocateAppWidgetId();
-
-                if (!AppWidgetManagerCompat.getInstance(this)
-                        .bindAppWidgetIdIfAllowed(widgetId, searchProvider, opts)) {
-                    mAppWidgetHost.deleteAppWidgetId(widgetId);
-                    widgetId = -1;
-                }
+                widgetId = View.generateViewId();
 
                 sp.edit()
                     .putInt(QSB_WIDGET_ID, widgetId)
@@ -3524,15 +3520,39 @@ public class Launcher extends Activity
             }
 
             mAppWidgetHost.setQsbWidgetId(widgetId);
+
             if (widgetId != -1) {
                 mQsb = mAppWidgetHost.createView(this, widgetId, searchProvider);
                 mQsb.updateAppWidgetOptions(opts);
                 mQsb.setPadding(0, 0, 0, 0);
                 mSearchDropTargetBar.addView(mQsb);
                 mSearchDropTargetBar.setQsbSearchBar(mQsb);
+
+                createClickableSearch();
             }
         }
         return mQsb;
+    }
+
+    private void createClickableSearch() {
+        FrameLayout content = (FrameLayout) findViewById(android.R.id.content);
+
+        View search = new View(Launcher.this);
+
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mQsb.getHeight());
+        params.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics());
+
+        search.setLayoutParams(params);
+
+        search.setOnTouchListener(getHapticFeedbackTouchListener());
+        search.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSearch("", false, new Bundle(), new Rect());
+            }
+        });
+
+        content.addView(search);
     }
 
     private void reinflateQSBIfNecessary() {
