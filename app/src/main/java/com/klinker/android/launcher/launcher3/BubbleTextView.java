@@ -19,6 +19,7 @@ package com.klinker.android.launcher.launcher3;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.Resources.Theme;
@@ -29,6 +30,7 @@ import android.graphics.Paint;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.TypedValue;
@@ -39,10 +41,15 @@ import android.view.ViewParent;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
+
+import com.klinker.android.launcher.addons.settings.AppSettings;
 import com.klinker.android.launcher.launcher3.IconCache.IconLoadRequest;
 import com.klinker.android.launcher.launcher3.model.PackageItemInfo;
 
 import com.klinker.android.launcher.R;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * TextView that draws a bubble behind the text. We cannot use a LineBackgroundSpan
@@ -165,6 +172,9 @@ public class BubbleTextView extends TextView
         applyFromShortcutInfo(info, iconCache, false);
     }
 
+    public static List<String> customNames = null;
+    private static SharedPreferences sharedPrefs = null;
+
     public void applyFromShortcutInfo(ShortcutInfo info, IconCache iconCache,
             boolean promiseStateChanged) {
         Bitmap b = info.getIcon(iconCache);
@@ -176,7 +186,32 @@ public class BubbleTextView extends TextView
         if (info.contentDescription != null) {
             setContentDescription(info.contentDescription);
         }
-        setText(info.title);
+
+        // this is where we check the name and replace any custom ones
+        if (AppSettings.getInstance(getContext()).showIconNames) {
+
+            if (sharedPrefs == null) {
+                sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            }
+            if (customNames == null) {
+                customNames = Arrays.asList(sharedPrefs.getString("launcher_custom_app_names", "").split(":|:"));
+            }
+
+            String name = "";
+            try {
+                name = info.title.toString();
+            } catch (Exception e) {
+
+            }
+            if (customNames.contains(name)) {
+                setText(sharedPrefs.getString(info.title.toString(), ""));
+            } else {
+                setText(info.title);
+            }
+        } else {
+            setText("");
+        }
+
         setTag(info);
 
         if (promiseStateChanged || info.isPromise()) {
@@ -187,6 +222,7 @@ public class BubbleTextView extends TextView
     public void applyFromApplicationInfo(AppInfo info) {
         setIcon(mLauncher.createIconDrawable(info.iconBitmap), mIconSize);
         setText(info.title);
+
         if (info.contentDescription != null) {
             setContentDescription(info.contentDescription);
         }
