@@ -22,8 +22,8 @@
         android:key="dock_count"
         android:title="@string/dock_count"
         android:defaultValue="@integer/default_dock_items"
-        android:entries="@array/col_count"
-        android:entryValues="@array/col_count"
+        android:entries="@array/dock_count"
+        android:entryValues="@array/dock_count"
         android:dependency="show_dock"
         />
 
