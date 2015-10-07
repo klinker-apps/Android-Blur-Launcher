@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/media/luke/android/apps/Launcher3/app/src/main/res/values-sw720dp-port/dimens.xml -->
+    <eat-comment/>
+    <dimen name="scroll_zone">40dp</dimen>
+</resources>

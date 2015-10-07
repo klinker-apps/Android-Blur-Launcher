@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/media/luke/android/apps/Launcher3/wallpaper_picker/build/intermediates/bundles/debug/res/values-fa/values-fa.xml -->
+    <eat-comment/>
+    <plurals name="number_of_items_selected">
+    <item msgid="9015111147509924344" quantity="zero">"‏%1$d انتخاب شد"</item>
+    <item msgid="8409622005831789373" quantity="one">"‏%1$d انتخاب شد"</item>
+    <item msgid="479468347731745357" quantity="other">"‏%1$d انتخاب شد"</item>
+  </plurals>
+    <string msgid="123723511662250539" name="announce_selection">"<ns1:g id="LABEL">%1$s</ns1:g> انتخاب شد"</string>
+    <string msgid="4882870800623585836" name="crop_wallpaper">"برش کاغذدیواری"</string>
+    <string msgid="7538534580694411837" name="image_load_fail">"تصویر بارگیری نشد"</string>
+    <string msgid="3189640419551368385" name="pick_image">"عکس‌های من"</string>
+    <string msgid="4628969645948454559" name="pick_wallpaper">"کاغذدیواری‌ها"</string>
+    <string msgid="4093221025304876354" name="wallpaper_accessibility_name">"‏کاغذدیواری %1$d از %2$d"</string>
+    <string msgid="1459353972739215344" name="wallpaper_delete">"حذف"</string>
+    <string msgid="3524143401182707094" name="wallpaper_instructions">"تنظیم کاغذدیواری"</string>
+    <string msgid="4800700444605404650" name="wallpaper_load_fail">"تصویر به‌عنوان کاغذدیواری بارگیری نشد"</string>
+</resources>

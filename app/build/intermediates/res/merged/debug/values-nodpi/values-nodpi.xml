@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/media/luke/android/apps/Launcher3/app/build/intermediates/exploded-aar/Launcher3/wallpaper_picker/unspecified/res/values-nodpi/values-nodpi.xml -->
+    <eat-comment/>
+    <string-array name="wallpapers" translatable="false">
+    </string-array>
+</resources>

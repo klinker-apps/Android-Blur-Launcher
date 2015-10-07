@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/media/luke/android/apps/Launcher3/wallpaper_picker/src/main/res/values-zh-rTW/strings.xml -->
+    <eat-comment/>
+    <plurals name="number_of_items_selected">
+    <item msgid="9015111147509924344" quantity="zero">"已選取 %1$d 個"</item>
+    <item msgid="8409622005831789373" quantity="one">"已選取 %1$d 個"</item>
+    <item msgid="479468347731745357" quantity="other">"已選取 %1$d 個"</item>
+  </plurals>
+    <string msgid="123723511662250539" name="announce_selection">"已選取<ns1:g id="LABEL">%1$s</ns1:g>"</string>
+    <string msgid="4882870800623585836" name="crop_wallpaper">"裁剪桌布"</string>
+    <string msgid="7538534580694411837" name="image_load_fail">"無法載入圖片"</string>
+    <string msgid="3189640419551368385" name="pick_image">"我的相片"</string>
+    <string msgid="4628969645948454559" name="pick_wallpaper">"桌布"</string>
+    <string msgid="4093221025304876354" name="wallpaper_accessibility_name">"第 %1$d 張桌布，共 %2$d 張"</string>
+    <string msgid="1459353972739215344" name="wallpaper_delete">"刪除"</string>
+    <string msgid="3524143401182707094" name="wallpaper_instructions">"設定桌布"</string>
+    <string msgid="4800700444605404650" name="wallpaper_load_fail">"無法載入您要設為桌布的圖片"</string>
+</resources>
