@@ -55,10 +55,8 @@ public class AppSettings {
     public boolean showPageIndicators;
     public boolean showSearchBar;
     public boolean showIconNames;
-    public boolean scrollWallpaper;
     public boolean shouldPersist;
     public boolean useUnread;
-    public boolean useHotword;
 
     public int colCount;
     public int rowCount;
@@ -81,9 +79,7 @@ public class AppSettings {
         this.showPageIndicators = sharedPrefs.getBoolean("show_page_indicator", true);
         this.showSearchBar = sharedPrefs.getBoolean("show_search_bar", true);
         this.showIconNames = sharedPrefs.getBoolean("show_icon_names", true);
-        this.scrollWallpaper = sharedPrefs.getBoolean("scroll_wallpaper", true);
         this.shouldPersist = sharedPrefs.getBoolean("keep_running", false);
-        this.useHotword = sharedPrefs.getBoolean("hotword", false);
 
         // need to know if it is selected as well as them having unread app installed
         this.useUnread = sharedPrefs.getBoolean("use_unread", false) &&
@@ -96,7 +92,7 @@ public class AppSettings {
         this.heightMargin = sharedPrefs.getInt("height_margin", 0);
         this.dockItems = Integer.parseInt(sharedPrefs.getString("dock_count", context.getResources().getInteger(R.integer.default_dock_items) + ""));
         this.unreadBack = Integer.parseInt(sharedPrefs.getString("unread_back", "1"));
-        this.extraPage = sharedPrefs.getInt("extra_page", 0);
+        this.extraPage = sharedPrefs.getInt("extra_page", NO_EXTRA_PAGE);
 
         this.iconScale = Float.parseFloat(sharedPrefs.getString("icon_scale", "1.0"));
         this.dockScale = Float.parseFloat(sharedPrefs.getString("dock_icon_scale", "1.0"));

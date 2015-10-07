@@ -236,9 +236,15 @@ public class DeviceProfile {
         dragViewScale = (iconSizePx + scaleDps) / iconSizePx;
 
         // Hotseat
-        hotseatBarHeightPx = iconSizePx + 4 * edgeMarginPx;
-        hotseatCellWidthPx = iconSizePx;
-        hotseatCellHeightPx = iconSizePx;
+        if (settings.showDock) {
+            hotseatBarHeightPx = iconSizePx + 4 * edgeMarginPx;
+            hotseatCellWidthPx = iconSizePx;
+            hotseatCellHeightPx = iconSizePx;
+        } else {
+            hotseatBarHeightPx = 0;
+            hotseatCellWidthPx = 0;
+            hotseatCellHeightPx = 0;
+        }
 
         // Folder
         folderCellWidthPx = cellWidthPx + 3 * edgeMarginPx;
