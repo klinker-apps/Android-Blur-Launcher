@@ -24,9 +24,6 @@ import android.widget.LinearLayout;
 
 import com.klinker.android.launcher.R;
 
-/*
- * This class is useful for using inside of ListView that needs to have checkable items.
- */
 public class CheckableLinearLayout extends LinearLayout implements Checkable {
     private CheckBox mCheckBox;
 

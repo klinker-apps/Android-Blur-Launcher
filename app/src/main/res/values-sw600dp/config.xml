@@ -1,7 +1,14 @@
 <resources>
     <bool name="is_tablet">true</bool>
-    <bool name="allow_rotation">true</bool>
+    <bool name="allow_rotation">false</bool>
 
-<!-- DragController -->
+    <!-- DragController -->
     <integer name="config_flingToDeleteMinVelocity">-1000</integer>
+
+    <!-- Homescreen Icon Counts -->
+    <integer name="default_col_count">6</integer>
+    <integer name="default_row_count">5</integer>
+
+    <!-- Default Orientation (portrait) -->
+    <string name="default_orientation">1</string>
 </resources>

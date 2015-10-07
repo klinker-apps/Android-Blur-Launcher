@@ -25,7 +25,7 @@ import com.klinker.android.launcher.addons.pages.FragmentStatePagerAdapter;
 
 public class PickerPagerAdapter extends FragmentStatePagerAdapter {
 
-    public static final int NUM_PAGES = 6;
+    public static final int NUM_PAGES = 5; // change to 6 to be able to add the extra page on the left
 
     public PickerPagerAdapter(FragmentManager manager, Context context) {
         super(manager, context);

@@ -104,6 +104,8 @@ public class LauncherAppState {
         filter.addAction(LauncherAppsCompat.ACTION_MANAGED_PROFILE_REMOVED);
 
         sContext.registerReceiver(mModel, filter);
+
+        Utilities.generateTypeface(getContext());
     }
 
     /**

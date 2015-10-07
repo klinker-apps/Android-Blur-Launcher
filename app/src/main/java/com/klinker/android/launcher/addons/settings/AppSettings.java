@@ -44,13 +44,6 @@ public class AppSettings {
         AppSettings.settings = new AppSettings(context);
     }
 
-    public static final int PORTRAIT = 1;
-    public static final int LANDSCAPE = 2;
-    public static final int ALLOW_ROTATION = 3;
-
-    public static final int STYLE_KITKAT = 1;
-    public static final int STYLE_LOLLIPOP = 2;
-
     public static final int WHITE_UNREAD_BACK = 0;
     public static final int BLACK_UNREAD_BACK = 1;
 
@@ -75,7 +68,6 @@ public class AppSettings {
     public int heightMargin;
     public int dockItems;
     public int rotationType;
-    public int appStyle;
     public int unreadBack;
     public int extraPage;
 
@@ -101,15 +93,6 @@ public class AppSettings {
         this.useUnread = sharedPrefs.getBoolean("use_unread", false) &&
                 Utils.isPackageInstalled(context, "com.klinker.android.blur_unread");
 
-        String style = sharedPrefs.getString("app_style", "android-l");
-
-        /*if (style.equals("kitkat")) {
-            this.appStyle = STYLE_KITKAT;
-        } else if (style.equals("android-l")) {
-            this.appStyle = STYLE_LOLLIPOP;
-        }*/
-        this.appStyle = STYLE_LOLLIPOP;
-
         this.colCount = Integer.parseInt(sharedPrefs.getString("col_count", context.getResources().getInteger(R.integer.default_col_count) + ""));
         this.rowCount = Integer.parseInt(sharedPrefs.getString("row_count", context.getResources().getInteger(R.integer.default_row_count) + ""));
         this.colCountAllApps = Integer.parseInt(sharedPrefs.getString("col_count_all_apps", context.getResources().getInteger(R.integer.default_col_count) + ""));
@@ -117,16 +100,14 @@ public class AppSettings {
         this.widthMargin = sharedPrefs.getInt("width_margin", 0);
         this.heightMargin = sharedPrefs.getInt("height_margin", 0);
         this.dockItems = Integer.parseInt(sharedPrefs.getString("dock_count", context.getResources().getInteger(R.integer.default_dock_items) + ""));
-        this.rotationType = Integer.parseInt(sharedPrefs.getString("orientation_type", context.getResources().getString(R.string.default_orientation)));
         this.unreadBack = Integer.parseInt(sharedPrefs.getString("unread_back", "1"));
-        this.extraPage = sharedPrefs.getInt("extra_page", 1);
+        this.extraPage = sharedPrefs.getInt("extra_page", 0);
 
         this.iconScale = Float.parseFloat(sharedPrefs.getString("icon_scale", "1.0"));
         this.dockScale = Float.parseFloat(sharedPrefs.getString("dock_icon_scale", "1.0"));
 
         this.iconPack = sharedPrefs.getString("icon_pack", "");
         this.fontFace = sharedPrefs.getString("fontface", "sans-serif-condensed");
-        this.homeTransitionEffect = sharedPrefs.getString("home_transition", "none");
 
         setUpGestures(sharedPrefs);
     }

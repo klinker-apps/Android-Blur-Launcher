@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/button_actions" >
+        <ListPreference
+                android:key="home_button_action"
+                android:title="@string/home_button"
+                android:defaultValue="1"
+                android:entries="@array/gesture_options"
+                android:entryValues="@array/gesture_options_inserted"
+                />
+
+        <ListPreference
+                android:key="back_button_action"
+                android:title="@string/back_button"
+                android:defaultValue="2"
+                android:entries="@array/gesture_options"
+                android:entryValues="@array/gesture_options_inserted"
+                />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/gestures" >
+        <ListPreference
+                android:key="swipe_up_action"
+                android:title="@string/swipe_up"
+                android:defaultValue="3"
+                android:entries="@array/gesture_options"
+                android:entryValues="@array/gesture_options_inserted"
+                />
+        <ListPreference
+                android:key="swipe_down_action"
+                android:title="@string/swipe_down"
+                android:defaultValue="4"
+                android:entries="@array/gesture_options"
+                android:entryValues="@array/gesture_options_inserted"
+                />
+        <ListPreference
+                android:key="double_tap_action"
+                android:title="@string/double_tap"
+                android:defaultValue="5"
+                android:entries="@array/gesture_options"
+                android:entryValues="@array/gesture_options_inserted"
+                />
+    </PreferenceCategory>
+
+</PreferenceScreen>

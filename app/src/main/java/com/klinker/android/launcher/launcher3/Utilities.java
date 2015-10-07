@@ -41,6 +41,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
@@ -54,6 +55,7 @@ import android.util.Pair;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -710,5 +712,25 @@ public final class Utilities {
 
     public static String createDbSelectionQuery(String columnName, Iterable<?> values) {
         return String.format(Locale.ENGLISH, "%s IN (%s)", columnName, TextUtils.join(", ", values));
+    }
+
+    /**
+     * Generates the default icon typeface for use in icons.
+     */
+    public static void generateTypeface(Context context) {
+        sTypeface = Typeface.createFromAsset(context.getAssets(), "RobotoCondensed-Regular.ttf");
+    }
+
+    private static Typeface sTypeface;
+
+    /**
+     * Applies the default icon typeface to a textview.
+     *
+     * @param textView View to apply typeface to.
+     */
+    public static void applyTypeface(TextView textView) {
+        if (sTypeface != null) {
+            textView.setTypeface(sTypeface);
+        }
     }
 }

@@ -113,6 +113,78 @@
 
         -->
 
+        <activity android:name=".addons.settings.SettingsActivity"
+            android:theme="@style/Theme"
+            android:label="@string/settings_button_text"
+            android:icon="@mipmap/ic_launcher_wallpaper"
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleTop"
+            />
+
+        <activity android:name=".addons.settings.bubble_tutorial.TutorialActivity"
+            android:theme="@style/Theme.Tutorial"/>
+
+        <activity android:name=".addons.settings.IconPickerActivity"
+            android:theme="@style/Theme.Popup"
+            android:label="@string/icon_picker"
+            android:icon="@drawable/setting_button"
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleTop"
+            />
+
+        <activity android:name=".addons.settings.HiddenAppsActivity"
+            android:theme="@style/Theme.Popup"
+            android:label="@string/hidden_apps"
+            android:icon="@drawable/setting_button"
+            android:clearTaskOnLaunch="true"
+            android:launchMode="singleTop"
+            />
+
+        <activity android:name=".addons.settings.SettingsPopupActivity"
+            android:configChanges="orientation|screenSize"
+            android:icon="@drawable/setting_button"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:theme="@style/Theme.Popup" />
+
+        <activity android:name=".addons.settings.GetHelpActivity"
+            android:configChanges="orientation|screenSize"
+            android:icon="@drawable/btn_help"
+            android:label="@string/help"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:theme="@style/Theme.Popup" />
+
+        <activity android:name=".addons.settings.ButtonsGesturesActivity"
+            android:configChanges="orientation|screenSize"
+            android:icon="@drawable/setting_button"
+            android:label="@string/buttons_and_gestures"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:theme="@style/Theme.Popup" />
+
+        <activity android:name=".addons.settings.KlinkerAppsActivity"
+            android:configChanges="orientation|screenSize"
+            android:icon="@drawable/btn_klinker_apps"
+            android:label="@string/klinker_apps"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:theme="@style/Theme.Popup" />
+
+        <activity android:name=".addons.settings.page_picker.PagePickerActivity"
+            android:configChanges="orientation|screenSize"
+            android:icon="@drawable/setting_button"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:theme="@style/Theme.Popup" />
+
+        <activity android:name=".addons.settings.card_picker.CardPickerActivity"
+            android:configChanges="orientation|screenSize"
+            android:icon="@drawable/setting_button"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:theme="@style/Theme.Popup" />
+
+
         <activity
             android:name="com.klinker.android.launcher.launcher3.ToggleWeightWatcher"
             android:label="@string/toggle_weight_watcher"

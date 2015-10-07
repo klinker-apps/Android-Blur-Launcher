@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="col_count">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
+    <string-array name="scale">
+        <item>60%</item>
+        <item>70%</item>
+        <item>80%</item>
+        <item>90%</item>
+        <item>100%</item>
+        <item>110%</item>
+        <item>120%</item>
+        <item>130%</item>
+        <item>200%</item>
+    </string-array>
+
+    <string-array name="scale_inserted">
+        <item>.6</item>
+        <item>.7</item>
+        <item>.8</item>
+        <item>.9</item>
+        <item>1.0</item>
+        <item>1.1</item>
+        <item>1.2</item>
+        <item>1.3</item>
+        <item>2.0</item>
+    </string-array>
+
+    <string-array name="find_pages">
+        <item>Klinker Apps Pages</item>
+        <item>Play Store Search</item>
+    </string-array>
+
+    <string-array name="our_pages">
+        <item>Talon (Blur Launcher Page)</item>
+        <item>EvolveSMS</item>
+    </string-array>
+
+    <string-array name="unread_back_entries">
+        <item>@string/white</item>
+        <item>@string/black</item>
+    </string-array>
+
+    <string-array name="unread_back_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
+    <string-array name="transition_effect_entries">
+        <item>@string/none</item>
+        <item>@string/zoom_in</item>
+        <item>@string/zoom_out</item>
+        <item>@string/rotate_up</item>
+        <item>@string/rotate_down</item>
+        <item>@string/cube_in</item>
+        <item>@string/cube_out</item>
+        <item>@string/stack</item>
+        <item>@string/accordion</item>
+        <item>@string/flip</item>
+        <item>@string/cylinder_in</item>
+        <item>@string/cylinder_out</item>
+        <item>@string/carousel</item>
+        <item>@string/overview</item>
+   </string-array>
+
+   <string-array name="transition_effect_values">
+        <item>none</item>
+        <item>zoom-in</item>
+        <item>zoom-out</item>
+        <item>rotate-up</item>
+        <item>rotate-down</item>
+        <item>cube-in</item>
+        <item>cube-out</item>
+        <item>stack</item>
+        <item>accordion</item>
+        <item>flip</item>
+        <item>cylinder-in</item>
+        <item>cylinder-out</item>
+        <item>carousel</item>
+        <item>overview</item>
+    </string-array>
+
+    <string-array name="preferences_interface_general_icons_text_font_family_entries">
+        <item>@string/roboto</item>
+        <item>@string/roboto_light</item>
+        <item>@string/roboto_condensed</item>
+    </string-array>
+
+    <string-array name="preferences_interface_general_icons_text_font_family_values">
+        <item>sans-serif</item>
+        <item>sans-serif-light</item>
+        <item>sans-serif-condensed</item>
+    </string-array>
+
+    <string-array name="orientation">
+        <item>@string/portrait</item>
+        <item>@string/landscape</item>
+    </string-array>
+
+    <string-array name="orientation_inserted">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="gestures">
+        <item>@string/swipe_up</item>
+        <item>@string/swipe_down</item>
+        <item>@string/double_tap</item>
+    </string-array>
+
+    <string-array name="gestures_inserted">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="buttons">
+        <item>@string/home_button</item>
+        <item>@string/back_button</item>
+    </string-array>
+
+    <string-array name="buttons_inserted">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="get_help_options">
+        <item>@string/changelog</item>
+        <item>@string/frequent_questions</item>
+        <item>@string/contact_us</item>
+        <item>@string/beta_community</item>
+        <item>@string/website</item>
+        <item>@string/youtube_video</item>
+        <item>@string/credits</item>
+    </string-array>
+
+    <string-array name="contact_us_items">
+        <item>@string/twitter</item>
+        <item>@string/google_plus</item>
+        <item>@string/email</item>
+    </string-array>
+
+    <string-array name="klinker_apps">
+        <item>@string/talon_for_twitter</item>
+        <item>@string/evolve_sms</item>
+        <item>@string/source</item>
+        <item>@string/sliding_messaging</item>
+        <item>@string/theme_spotlight</item>
+        <item>@string/sliding_messaging_theme_engine</item>
+        <item>@string/sliding_emoji_keyboard</item>
+        <item>@string/sliding_emoji_keyboard_ios</item>
+        <item>@string/sliding_emoji_keyboard_unlocker</item>
+        <item>@string/inspire</item>
+        <item>@string/halopop</item>
+        <item>@string/slideover_messaging</item>
+        <item>@string/floating_window</item>
+    </string-array>
+
+    <string-array name="klinker_apps_links">
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.twitter</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.reader</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.messaging_donate</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.theme_spotlight</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.messaging_theme</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.deskclock</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.halopop</item>
+        <item>https://play.google.com/store/apps/details?id=com.lklinker.android.slideovermessaging</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.floating_window</item>
+    </string-array>
+
+    <string-array name="app_style_entries">
+        <item>KitKat</item>
+        <item>Lollipop</item>
+    </string-array>
+
+    <string-array name="app_style_values">
+        <item>kitkat</item>
+        <item>android-l</item>
+    </string-array>
+
+    <string-array name="gesture_options">
+        <item>@string/no_action</item>
+        <item>@string/open_extra_page</item>
+        <item>@string/open_pages</item>
+        <item>@string/open_all_apps</item>
+        <item>@string/open_notifications</item>
+        <item>@string/open_recents</item>
+        <item>@string/sleep_device</item>
+    </string-array>
+
+    <string-array name="gesture_options_inserted">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>6</item>
+        <item>5</item>
+    </string-array>
+
+</resources>

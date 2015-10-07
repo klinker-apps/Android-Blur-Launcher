@@ -29,7 +29,6 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import com.klinker.android.launcher.R;
-import com.klinker.android.launcher.addons.donate.DonateActivity;
 import com.klinker.android.launcher.addons.settings.bubble_tutorial.TutorialActivity;
 import com.klinker.android.launcher.addons.settings.card_picker.CardPickerActivity;
 import com.klinker.android.launcher.addons.settings.page_picker.PagePickerActivity;
@@ -63,7 +62,7 @@ public class SettingsActivity extends Activity {
 
         setContentView(R.layout.settings_activity);
 
-        findViewById(R.id.background).setAlpha(getResources().getInteger(R.integer.config_appsCustomizeSpringLoadedBgAlpha) / 100f);
+        findViewById(R.id.background).setAlpha(40/ 100f);
 
         getViews();
         setFeedback();
@@ -215,14 +214,6 @@ public class SettingsActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent picker = new Intent(context, GetHelpActivity.class);
-                startActivity(picker);
-            }
-        });
-
-        donate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent picker = new Intent(context, DonateActivity.class);
                 startActivity(picker);
             }
         });

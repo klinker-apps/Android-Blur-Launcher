@@ -20,7 +20,7 @@ public class PersisterService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.v("blur_launcher_persister", "running service");
-        if (Build.VERSION.SDK_INT >= 21) {
+        /*if (Build.VERSION.SDK_INT >= 21) {
             final Notification.Builder mBuilder =
                     new Notification.Builder(this)
                             .setSmallIcon(R.drawable.ic_stat_home)
@@ -43,7 +43,7 @@ public class PersisterService extends Service {
                             .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_stat_home));
 
             startForeground(1, mBuilder.build());
-        }
+        }*/
     }
 
     @Override

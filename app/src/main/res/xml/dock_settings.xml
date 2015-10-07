@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="show_dock"
+        android:title="@string/show_dock"
+        android:defaultValue="true"
+        />
+
+    <ListPreference
+        android:key="dock_icon_scale"
+        android:title="@string/dock_scale"
+        android:summary="@string/dock_scale_summary"
+        android:defaultValue="1.0"
+        android:entries="@array/scale"
+        android:entryValues="@array/scale_inserted"
+        android:dependency="show_dock"
+        />
+
+    <ListPreference
+        android:key="dock_count"
+        android:title="@string/dock_count"
+        android:defaultValue="@integer/default_dock_items"
+        android:entries="@array/col_count"
+        android:entryValues="@array/col_count"
+        android:dependency="show_dock"
+        />
+
+</PreferenceScreen>

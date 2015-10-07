@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/icons">
+
+        <Preference
+            android:key="ui_general_iconpack"
+            android:title="@string/icon_pack"
+            />
+
+        <ListPreference
+            android:key="icon_scale"
+            android:title="@string/icon_scale"
+            android:summary="@string/icon_scale_summary"
+            android:defaultValue="1.0"
+            android:entries="@array/scale"
+            android:entryValues="@array/scale_inserted"
+            />
+
+        <CheckBoxPreference
+            android:key="show_icon_names"
+            android:title="@string/show_icon_names"
+            android:defaultValue="true"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/scroll_effects">
+
+        <ListPreference
+            android:key="home_transition"
+            android:title="@string/home_effect"
+            android:entries="@array/transition_effect_entries"
+            android:entryValues="@array/transition_effect_values"
+            android:defaultValue="none"/>
+
+        <CheckBoxPreference
+            android:key="scroll_wallpaper"
+            android:defaultValue="true"
+            android:title="@string/wallpaper_scrolling"
+            />
+
+        </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/other"
+        android:key="other">
+
+        <!--<ListPreference
+                android:key="app_style"
+                android:title="@string/app_style"
+                android:entries="@array/app_style_entries"
+                android:entryValues="@array/app_style_values"
+                android:defaultValue="android-l"/>-->
+
+        <ListPreference
+                android:key="fontface"
+                android:title="@string/font_type"
+                android:entries="@array/preferences_interface_general_icons_text_font_family_entries"
+                android:entryValues="@array/preferences_interface_general_icons_text_font_family_values"
+                android:defaultValue="sans-serif-condensed"/>
+
+        <CheckBoxPreference
+            android:key="show_search_bar"
+            android:title="@string/show_search_bar"
+            android:defaultValue="true"
+            />
+
+        <CheckBoxPreference
+            android:key="show_page_indicator"
+            android:title="@string/show_page_indicator"
+            android:defaultValue="true"
+            />
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

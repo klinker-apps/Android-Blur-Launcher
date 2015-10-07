@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <TextView
+        android:id="@+id/add_card_button_footer"
+        android:background="@drawable/picker_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@android:drawable/ic_menu_add"
+        android:drawablePadding="7dp"
+        android:padding="10dp"
+        android:text="@string/create_card"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:fontFamily="sans-serif-light"
+        android:textSize="19sp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+</LinearLayout>
