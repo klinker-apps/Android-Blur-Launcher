@@ -1,7 +1,49 @@
-# Blur Launcher
+# Blur - A Launcher Replacement
 
 ![Promo](https://raw.githubusercontent.com/klinker24/Android-Blur-Launcher/master/promo/images/Feature%20Graphic.png)
 
 This is Blur Launcher, Klinker Apps one stop shop for the most powerful launcher around.
 
 NOTE: This repo does not contain the latest play store version. It will house the 2.0+ releases, which will be based off of Google's latest [Launcher3](https://github.com/klinker24/launcher3/) code. This version will be much more maintainable for the future and will be able to easily incorporate the latest upstream code.
+
+
+## Features
+
+As the apps feature-set continues to be merged into this new fork, I will continue to add to this repository.
+
+- Built from Marshmallow's Launcher3 code, with the latest improvements and Material Design in mind
+
+## Compiling
+
+The project is built with gradle, so maintenence and compilation is very straightforward. 
+
+```
+$ ./gradlew assembleDebug
+```
+
+## Contributing
+
+Please fork this repository and contribute back using [pull requests](https://github.com/klinker24/Android-Blur-Launcher/pulls). Features can be requested using [issues](https://github.com/klinker24/Android-Blur-Launcher/issues). All code, comments, and critiques are greatly appreciated.
+
+## Changelog
+
+The full changelog for the library can be found [here](https://github.com/klinker24/Android-Blur-Launcher/blob/master/changelog.md).
+
+
+---
+
+## License
+
+    Copyright 2015 Luke Klinker
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
