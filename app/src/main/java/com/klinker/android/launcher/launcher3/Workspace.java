@@ -2220,6 +2220,8 @@ public class Workspace extends PagedView
         layout.prepareChildForDrag(child);
 
         beginDragShared(child, this, accessible);
+
+        mLauncher.lockLauncherDrawer(true);
     }
 
     public void beginDragShared(View child, DragSource source, boolean accessible) {
@@ -2357,6 +2359,7 @@ public class Workspace extends PagedView
      * {@inheritDoc}
      */
     public boolean acceptDrop(DragObject d) {
+        mLauncher.lockLauncherDrawer(false);
         // If it's an external drop (e.g. from All Apps), check if it should be accepted
         CellLayout dropTargetLayout = mDropToLayout;
         if (d.dragSource != this) {
@@ -4486,5 +4489,47 @@ public class Workspace extends PagedView
                 }
             }
         }
+    }
+
+    public boolean isSmall() {
+        return mState == State.SPRING_LOADED || mState == State.OVERVIEW;
+    }
+
+    @Override
+    public void setCurrentPage(int currentPage) {
+        super.setCurrentPage(currentPage);
+
+        if (mPageChangeListener != null) {
+            mPageChangeListener.onPageChanged(mCurrentPage);
+        }
+    }
+
+    @Override
+    protected void pageBeginMoving() {
+        super.pageBeginMoving();
+        if (!mIsPageMoving && mPageChangeListener != null) {
+            mPageChangeListener.onScrollStart();
+        }
+    }
+
+    @Override
+    protected void pageEndMoving() {
+        super.pageEndMoving();
+        if (mIsPageMoving && mPageChangeListener != null) {
+            mPageChangeListener.onScrollEnd();
+        }
+    }
+
+
+    private OnPageChangeListener mPageChangeListener;
+    public void setOnPageChangedListener(OnPageChangeListener listener) {
+        mPageChangeListener = listener;
+    }
+
+    public interface OnPageChangeListener {
+        public abstract void onPageChanged(int page);
+
+        public abstract void onScrollStart();
+        public abstract void onScrollEnd();
     }
 }

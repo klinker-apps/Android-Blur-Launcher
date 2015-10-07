@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.SearchManager;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
@@ -51,6 +52,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -65,6 +67,7 @@ import android.os.Message;
 import android.os.StrictMode;
 import android.os.SystemClock;
 import android.os.UserHandle;
+import android.support.v4.view.ViewPager;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -96,9 +99,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.klinker.android.launcher.addons.pages.PagesFragmentAdapter;
 import com.klinker.android.launcher.addons.settings.*;
 import com.klinker.android.launcher.addons.settings.SettingsActivity;
+import com.klinker.android.launcher.addons.utils.GestureUtils;
 import com.klinker.android.launcher.addons.view.LauncherDrawerLayout;
+import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.launcher.launcher3.DropTarget.DragObject;
 import com.klinker.android.launcher.launcher3.PagedView.PageSwitchListener;
 import com.klinker.android.launcher.launcher3.allapps.AllAppsContainerView;
@@ -116,6 +122,7 @@ import com.klinker.android.launcher.launcher3.widget.PendingAddWidgetInfo;
 import com.klinker.android.launcher.launcher3.widget.WidgetHostViewLoader;
 import com.klinker.android.launcher.launcher3.widget.WidgetsContainerView;
 import com.klinker.android.launcher.R;
+import com.klinker.android.launcher.vertical_app_page.LauncherFragment;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -418,10 +425,6 @@ public class Launcher extends Activity
         }
     };
 
-    public LauncherDrawerLayout getLauncherDrawer() {
-        return null;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (DEBUG_STRICT_MODE) {
@@ -484,6 +487,8 @@ public class Launcher extends Activity
         setContentView(R.layout.launcher);
 
         setupViews();
+        setUpBlur();
+
         mDeviceProfile.layout(this);
 
         lockAllApps();
@@ -1889,12 +1894,44 @@ public class Launcher extends Activity
 
         // Close the menu
         if (Intent.ACTION_MAIN.equals(intent.getAction())) {
-            // also will cancel mWaitingForResult.
-            closeSystemDialogs();
-
             final boolean alreadyOnHome = mHasFocus && ((intent.getFlags() &
                     Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)
                     != Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+
+            if (mLauncherDrawer.isDrawerOpen(Gravity.LEFT)) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mLauncherDrawer.closeDrawer(Gravity.LEFT);
+                    }
+                }, 300);
+
+                return;
+            } else if (mLauncherDrawer.isDrawerOpen(Gravity.RIGHT)) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mLauncherDrawer.closeDrawer(Gravity.RIGHT);
+                    }
+                }, 300);
+
+                return;
+            } else if (!isAllAppsVisible() &&
+                    alreadyOnHome &&
+                    mWorkspace.getCurrentPage() == 0 &&
+                    !mWorkspace.isInOverviewMode()) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        GestureUtils.runGesture(Launcher.this, Launcher.this, AppSettings.HOME_BUTTON);
+                    }
+                }, 300);
+
+                return;
+            }
+
+            // also will cancel mWaitingForResult.
+            closeSystemDialogs();
 
             if (mWorkspace == null) {
                 // Can be cases where mWorkspace is null, this prevents a NPE
@@ -2418,18 +2455,13 @@ public class Launcher extends Activity
 
     @Override
     public void onBackPressed() {
-        if (mLauncherCallbacks != null && mLauncherCallbacks.handleBackPressed()) {
-            return;
-        }
-
-        if (mDragController.isDragging()) {
-            mDragController.cancelDrag();
-            return;
-        }
-
-        if (isAppsViewVisible()) {
+        if (mLauncherDrawer.isDrawerOpen(Gravity.LEFT)) {
+            mLauncherDrawer.closeDrawer(Gravity.LEFT);
+        } else if (mLauncherDrawer.isDrawerOpen(Gravity.RIGHT)) {
+            mLauncherDrawer.closeDrawer(Gravity.RIGHT);
+        } else if (isAllAppsVisible()) {
             showWorkspace(true);
-        } else if (isWidgetsViewVisible())  {
+        } else if (isWidgetsViewVisible()) {
             showOverviewMode(true);
         } else if (mWorkspace.isInOverviewMode()) {
             showWorkspace(true);
@@ -2441,10 +2473,8 @@ public class Launcher extends Activity
                 closeFolder();
             }
         } else {
-            mWorkspace.exitWidgetResizeMode();
-
-            // Back button is a no-op here, but give at least some feedback for the button press
-            mWorkspace.showOutlinesTemporarily();
+            // run the gesture for back button
+            GestureUtils.runGesture(this, Launcher.this, AppSettings.BACK_BUTTON);
         }
     }
 
@@ -3154,6 +3184,7 @@ public class Launcher extends Activity
                     showOverviewMode(true);
                     mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
                             HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                    lockLauncherDrawer(true);
                     return true;
                 } else {
                     return false;
@@ -3295,6 +3326,9 @@ public class Launcher extends Activity
     }
 
     void showWorkspace(int snapToPage, boolean animated, Runnable onCompleteRunnable) {
+
+        lockLauncherDrawer(false);
+
         boolean changed = mState != State.WORKSPACE ||
                 mWorkspace.getState() != Workspace.State.NORMAL;
         if (changed) {
@@ -3377,6 +3411,8 @@ public class Launcher extends Activity
     // TODO: calling method should use the return value so that when {@code false} is returned
     // the workspace transition doesn't fall into invalid state.
     private boolean showAppsOrWidgets(State toState, boolean animated, boolean focusSearchBar) {
+        lockLauncherDrawer(true);
+
         if (mState != State.WORKSPACE &&  mState != State.APPS_SPRING_LOADED &&
                 mState != State.WIDGETS_SPRING_LOADED) {
             return false;
@@ -4772,6 +4808,169 @@ public class Launcher extends Activity
             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
         }
     }
+
+    private LauncherDrawerLayout mLauncherDrawer;
+    private ViewPager mDrawerPager;
+
+    private Fragment extraFragment;
+    private PagesFragmentAdapter adapter;
+    private boolean adapterSetUp = false;
+
+    public LauncherDrawerLayout getLauncherDrawer() {
+        return mLauncherDrawer;
+    }
+
+    private void setUpBlur() {
+
+        mLauncherDrawer = (LauncherDrawerLayout) findViewById(R.id.launcher_drawer);
+        mDrawerPager = (ViewPager) mLauncherDrawer.findViewById(R.id.launcher_pager);
+
+        setupDrawer();
+
+        adapter = new PagesFragmentAdapter(getFragmentManager(), this);
+        mDrawerPager.setOffscreenPageLimit(4);
+        mDrawerPager.setAdapter(adapter);
+
+        // Vertical App Drawer Fragment
+        /*extraFragment = null;
+        switch (AppSettings.getInstance(this).extraPage) {
+            case AppSettings.BLUR_INFO:
+                extraFragment = new com.klinker.android.launcher.info_page.LauncherFragment();
+                break;
+            case AppSettings.VERTICAL_DRAWER:
+                extraFragment = new LauncherFragment();
+                break;
+        }
+        if (extraFragment != null) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.right_page, extraFragment)
+                    .commit();
+        } else {
+            View right = findViewById(R.id.right_page);
+            mLauncherDrawer.removeView(right);
+        }*/
+
+        // start us on the last page available
+        mDrawerPager.setCurrentItem(adapter.getCount() - 1);
+        mLauncherDrawer.setCurrentDrawerPage(adapter.getCount() - 1);
+        mLauncherDrawer.setMaxDrawerPage(adapter.getCount() - 1);
+
+        adapterSetUp = true;
+    }
+
+    private void setupDrawer() {
+        mWorkspace.setOnPageChangedListener(new Workspace.OnPageChangeListener() {
+            @Override
+            public void onPageChanged(int page) {
+                if (mLauncherDrawer == null) {
+                    return;
+                }
+
+                if (mLauncherDrawer.getDrawerLockMode(Gravity.LEFT) == LauncherDrawerLayout.LOCK_MODE_LOCKED_CLOSED
+                        && !mWorkspace.isSmall()) {
+                    lockLauncherDrawer(false);
+                }
+
+
+                if (page == 0) {
+                    // on the first page
+                    mLauncherDrawer.setDrawerLeftEdgeSize(Launcher.this, 1.0f);
+                } else {
+                    // somewhere in the middle
+                    mLauncherDrawer.setDrawerLeftEdgeSize(Launcher.this, .07f);
+                }
+            }
+
+            @Override
+            public void onScrollStart() {
+                lockLauncherDrawer(true);
+            }
+
+            @Override
+            public void onScrollEnd() {
+
+            }
+        });
+
+        mDrawerPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                mLauncherDrawer.setCurrentDrawerPage(position);
+            }
+        });
+
+        mLauncherDrawer.setDrawerListener(new LauncherDrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if (drawerView == mDrawerPager) {
+                    mDragLayer.setTranslationX(getScreenWidth() * slideOffset);
+                    ((PagesFragmentAdapter) mDrawerPager.getAdapter()).adjustFragmentBackgroundAlpha(mDrawerPager.getCurrentItem(), slideOffset);
+                } else {
+                    mDragLayer.setTranslationX(getScreenWidth() * slideOffset * -1);
+                    for (View v : ((BaseLauncherPage) extraFragment).getBackground()) {
+                        v.setAlpha(slideOffset);
+                    }
+                }
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                if (drawerView == mDrawerPager) {
+                    mDragLayer.setTranslationX(getScreenWidth());
+                } else {
+                    mDragLayer.setTranslationX(getScreenWidth() * -1);
+                }
+
+                sendBroadcast(new Intent("com.klinker.android.launcher.FRAGMENTS_OPENED"));
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                mDragLayer.setTranslationX(0);
+                sendBroadcast(new Intent("com.klinker.android.launcher.FRAGMENTS_CLOSED"));
+
+                InputMethodManager imm = (InputMethodManager) getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mLauncherDrawer.getWindowToken(), 0);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+            }
+
+            private int screenWidth = -1;
+
+            private int getScreenWidth() {
+                if (screenWidth == -1) {
+                    Display display = getWindowManager().getDefaultDisplay();
+                    Point size = new Point();
+                    display.getSize(size);
+                    screenWidth = size.x;
+                }
+
+                return screenWidth;
+            }
+        });
+
+    }
+
+    public void lockLauncherDrawer(boolean locked) {
+        if (locked) {
+            mLauncherDrawer.setDrawerLockMode(LauncherDrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.LEFT);
+        } else {
+            mLauncherDrawer.setDrawerLockMode(LauncherDrawerLayout.LOCK_MODE_UNLOCKED, Gravity.LEFT);
+        }
+
+        mLauncherDrawer.setDrawerLockMode(LauncherDrawerLayout.LOCK_MODE_UNLOCKED, Gravity.RIGHT);
+    }
+
+    public void resetExtraPages() {
+        adapter = new PagesFragmentAdapter(getFragmentManager(), this);
+        mDrawerPager.setAdapter(adapter);
+        mDrawerPager.setCurrentItem(adapter.getCount() - 1);
+    }
+
 }
 
 interface DebugIntents {

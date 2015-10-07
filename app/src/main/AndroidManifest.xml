@@ -63,6 +63,17 @@
     <uses-permission android:name="com.klinker.android.launcher.launcher3.permission.RECEIVE_LAUNCH_BROADCASTS" />
     <uses-permission android:name="com.klinker.android.launcher.launcher3.permission.RECEIVE_FIRST_LOAD_BROADCAST" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="com.android.launcher3.permission.RECEIVE_LAUNCH_BROADCASTS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PROFILE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
+
     <application
         android:allowBackup="@bool/enable_backup"
         android:backupAgent="com.klinker.android.launcher.launcher3.LauncherBackupAgentHelper"
