@@ -34,4 +34,5 @@ dependencies {
 
     compile fileTree(dir: 'lib', include: ['*.jar'])
     compile project(':wallpaper_picker')
+    compile project(':libraries:extra_pages')
 }

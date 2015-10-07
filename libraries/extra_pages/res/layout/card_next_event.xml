@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true">
+
+    <!-- here is the regular layout, just icon, name, and time span -->
+    <LinearLayout
+            android:id="@+id/event_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:id="@+id/cal_image"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_calendar"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+            <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="25sp"
+                    android:singleLine="true"
+                    android:layout_marginRight="25dp"
+                    android:textColor="@android:color/black"
+                    android:alpha=".87"
+                    android:fontFamily="sans-serif-light"/>
+
+            <TextView
+                    android:id="@+id/timestamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"
+                    android:alpha=".5"
+                    android:fontFamily="sans-serif-light"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- This is the settings layout, a bit like google now's card settings -->
+    <!-- here is the regular layout, just icon, name, and time span -->
+    <LinearLayout
+            android:id="@+id/event_settings_layout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible">
+
+        <TextView android:layout_width="0dp"
+                  android:layout_height="match_parent"
+                  android:layout_weight="2"
+                  android:text="@string/show_all_day"
+                  android:gravity="center"
+                  android:fontFamily="sans-serif-light"
+                  android:textSize="24sp"
+                  android:textColor="@android:color/background_dark"/>
+
+        <TextView android:layout_width="0dp"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:text="Y"
+                  android:gravity="center"
+                  android:id="@+id/yes_button"
+                  android:fontFamily="sans-serif-light"
+                  android:textStyle="bold"
+                  android:textSize="35sp"
+                  android:textColor="@android:color/black"
+                  android:alpha=".87"
+                  android:background="@drawable/pressed_button"/>
+
+        <TextView android:layout_width="0dp"
+                  android:layout_height="match_parent"
+                  android:layout_weight="1"
+                  android:text="N"
+                  android:gravity="center"
+                  android:id="@+id/no_button"
+                  android:fontFamily="sans-serif-light"
+                  android:textStyle="bold"
+                  android:textSize="35sp"
+                  android:textColor="@android:color/black"
+                  android:alpha=".87"
+                  android:background="@drawable/pressed_button"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

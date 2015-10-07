@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:animateLayoutChanges="true">
+
+    <LinearLayout
+            android:id="@+id/weather_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:id="@+id/today_weather"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center_vertical">
+
+            <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="100dp"
+                    android:scaleType="fitCenter"
+                    android:scaleY="1.65"
+                    android:scaleX="1.65"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:src="@android:drawable/ic_menu_gallery" />
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp">
+
+                <TextView
+                        android:id="@+id/location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/black"
+                        android:paddingLeft="10dp"
+                        android:fontFamily="sans-serif-light"
+                        android:singleLine="true"
+                        android:gravity="right"
+                        android:paddingRight="75dp"
+                        />
+
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:gravity="right">
+
+                    <TextView
+                            android:id="@+id/temp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="65sp"
+                            android:textColor="@android:color/black"
+                            android:fontFamily="sans-serif-light"
+                            android:paddingRight="20dp"
+                            />
+
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginRight="40dp"
+                            android:layout_gravity="bottom|right"
+                            android:gravity="bottom|right"
+                            android:paddingBottom="10dp">
+
+                        <TextView
+                                android:id="@+id/today_high"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:fontFamily="sans-serif-light"
+                                android:textSize="22sp" />
+
+                        <TextView
+                                android:id="@+id/today_low"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:textColor="@android:color/black"
+                                android:alpha=".35"
+                                android:textSize="22sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/today_weather"
+                android:layout_marginBottom="13dp">
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:id="@+id/day_1"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/black"
+                        android:fontFamily="sans-serif-light"/>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:id="@+id/forecast_1_pic"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:paddingRight="9dp"
+                            android:paddingTop="9dp"
+                            android:paddingBottom="9dp"
+                            android:scaleY="1.5"
+                            android:scaleX="1.5"
+                            android:scaleType="fitCenter"/>
+
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                        <TextView
+                                android:id="@+id/forecast_1_high"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"/>
+
+                        <TextView
+                                android:id="@+id/forecast_1_low"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:alpha=".35"
+                                android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#20020202"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" />
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:id="@+id/day_2"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/black"
+                        android:fontFamily="sans-serif-light"/>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:id="@+id/forecast_2_pic"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:paddingRight="9dp"
+                            android:paddingTop="9dp"
+                            android:paddingBottom="9dp"
+                            android:scaleY="1.5"
+                            android:scaleX="1.5"
+                            android:scaleType="fitCenter" />
+
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                        <TextView
+                                android:id="@+id/forecast_2_high"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"/>
+
+                        <TextView
+                                android:id="@+id/forecast_2_low"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:alpha=".35"
+                                android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#20020202"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" />
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:id="@+id/day_3"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/black"
+                        android:fontFamily="sans-serif-light"/>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:id="@+id/forecast_3_pic"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:paddingRight="9dp"
+                            android:paddingTop="9dp"
+                            android:paddingBottom="9dp"
+                            android:scaleY="1.5"
+                            android:scaleX="1.5"
+                            android:scaleType="fitCenter" />
+
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                        <TextView
+                                android:id="@+id/forecast_3_high"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"/>
+
+                        <TextView
+                                android:id="@+id/forecast_3_low"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:alpha=".35"
+                                android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#20020202"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" />
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:id="@+id/day_4"
+                        android:layout_gravity="center"
+                        android:textColor="@android:color/black"
+                        android:fontFamily="sans-serif-light"/>
+
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center">
+
+                    <ImageView
+                            android:id="@+id/forecast_4_pic"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:paddingRight="9dp"
+                            android:paddingTop="9dp"
+                            android:paddingBottom="9dp"
+                            android:scaleY="1.5"
+                            android:scaleX="1.5"
+                            android:scaleType="fitCenter" />
+
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center">
+
+                        <TextView
+                                android:id="@+id/forecast_4_high"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:textSize="12sp"/>
+
+                        <TextView
+                                android:id="@+id/forecast_4_low"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/black"
+                                android:alpha=".35"
+                                android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/settings_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            android:animateLayoutChanges="true">
+
+        <TextView
+                android:id="@+id/question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:textSize="24sp"
+                android:textColor="@android:color/background_dark"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:animateLayoutChanges="true">
+
+            <TextView
+                    android:id="@+id/answer_1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="35sp"
+                    android:textColor="@android:color/background_dark"
+                    android:fontFamily="sans-serif-light"
+                    android:background="@drawable/pressed_button"/>
+
+            <TextView
+                    android:id="@+id/answer_2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textSize="35sp"
+                    android:textColor="@android:color/background_dark"
+                    android:fontFamily="sans-serif-light"
+                    android:background="@drawable/pressed_button"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

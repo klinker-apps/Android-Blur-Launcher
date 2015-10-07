@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+            android:id="@+id/background"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_grey" />
+
+    <LinearLayout android:id="@+id/content"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  android:padding="8dp">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:orientation="vertical" >
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1" >
+
+                <TextView
+                        android:id="@+id/calculations"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:textSize="40sp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:textColor="@android:color/background_dark"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <Button
+                    android:id="@+id/clear"
+                    android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:layout_height="wrap_content"
+                    android:text="Clear"
+                    android:background="@drawable/card"
+                    android:textColor="@android:color/background_dark"/>
+
+            <View android:layout_width="5dp" android:layout_height="match_parent"/>
+
+            <ImageButton
+                    android:id="@+id/delete"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/card_reversed"
+                    android:src="@drawable/ic_action_backspace"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="2" >
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1" >
+
+                <Button
+                        android:id="@+id/button1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="1"
+                        android:background="@drawable/card"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp"/>
+
+                <Button
+                        android:id="@+id/button4"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="4"
+                        android:background="@drawable/card"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+                <Button
+                        android:id="@+id/button7"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="7"
+                        android:background="@drawable/card"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+                <Button
+                        android:id="@+id/buttonDecimal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="."
+                        android:background="@drawable/card_reversed"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+            </LinearLayout>
+
+            <View android:layout_width="5dp" android:layout_height="match_parent"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1" >
+
+                <Button
+                        android:id="@+id/button2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="2"
+                        android:background="@drawable/card"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+                <Button
+                        android:id="@+id/button5"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="5"
+                        android:background="@drawable/card"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+                <Button
+                        android:id="@+id/button8"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="8"
+                        android:background="@drawable/card"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+                <Button
+                        android:id="@+id/button0"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="0"
+                        android:background="@drawable/card"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+            </LinearLayout>
+
+            <View android:layout_width="5dp" android:layout_height="match_parent"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1" >
+
+                <Button
+                        android:id="@+id/button3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="3"
+                        android:background="@drawable/card"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+                <Button
+                        android:id="@+id/button6"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="6"
+                        android:background="@drawable/card"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+                <Button
+                        android:id="@+id/button9"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="9"
+                        android:background="@drawable/card"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+                <Button
+                        android:id="@+id/buttonEquals"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="="
+                        android:background="@drawable/card_reversed"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+            </LinearLayout>
+
+            <View android:layout_width="5dp" android:layout_height="match_parent"/>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1" >
+
+                <Button
+                        android:id="@+id/buttonAdd"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="+"
+                        android:background="@drawable/card_reversed"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+                <Button
+                        android:id="@+id/buttonSubtract"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="−"
+                        android:background="@drawable/card_reversed"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+                <Button
+                        android:id="@+id/buttonMultiply"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="×"
+                        android:background="@drawable/card_reversed"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+                <Button
+                        android:id="@+id/buttonDivide"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="÷"
+                        android:background="@drawable/card_reversed"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="30sp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

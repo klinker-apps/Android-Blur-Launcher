@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+Copyright (C) 2014 Klinker Apps Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+        
+<resources>
+    <string name="info_page">Blur Info</string>
+    <string name="app_name">Blur</string>
+    <string name="google">Google</string>
+
+    <!-- Card Settings Strings -->
+    <string name="choose_app">Choose App:</string>
+    <string name="all_day">All Day</string>
+    <string name="show_all_day">Show all\nday events?</string>
+
+    <!-- Calculator Page -->
+    <string name="syntax_error">Syntax Error</string>
+
+    <!-- Weather Card -->
+    <string name="no_weather_data">No Weather Data</string>
+    <string name="find_location_hint">Find a location…</string>
+    <string name="location_not_found">Location not found</string>
+    <string name="choose_location">Choose Location</string>
+    <string name="temp_units">Temperature Units</string>
+    <string name="auto">Auto</string>
+    <string name="find">Find</string>
+</resources>
