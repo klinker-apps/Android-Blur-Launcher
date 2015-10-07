@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- From: file:/media/luke/android/apps/Launcher3/app/src/main/res/values-sw600dp-land/dimens.xml -->
-    <eat-comment/>
-    <dimen name="toolbar_button_horizontal_padding">20dip</dimen>
-    <dimen name="toolbar_button_vertical_padding">12dip</dimen>
-</resources>
