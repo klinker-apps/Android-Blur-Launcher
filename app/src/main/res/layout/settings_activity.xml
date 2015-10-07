@@ -233,10 +233,12 @@
                             android:drawableTop="@drawable/btn_rate"
                             android:fontFamily="sans-serif-condensed"
                             android:textAllCaps="true"
-                            android:textSize="12sp"/>
+                            android:textSize="12sp"
+                            android:visibility="gone"/>
                         <Space
                             android:layout_width="40dp"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"/>
                         <TextView
                             android:id="@+id/our_apps_button"
                             android:layout_width="wrap_content"
