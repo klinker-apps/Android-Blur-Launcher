@@ -1,0 +1,148 @@
+<changelog>
+
+    <version name="1.5.0">
+        <text>Material all the things.</text>
+        <text>New animations, styles, and buttons</text>
+        <text>Backup and restore homescreen setup</text>
+        <text>New Gesture Option: open recent apps</text>
+        <text>Some bug fixes</text>
+    </version>
+
+    <version name="1.1.6">
+        <text>Nexus 9 fixes</text>
+    </version>
+
+    <version name="1.1.5">
+        <text>Stying for Android 5.0 Lollipop</text>
+        <text>Swipe down on the screen to close the "All Apps Drawer"</text>
+    </version>
+
+    <version name="1.1.3">
+        <text>Fix more blank page instances</text>
+    </version>
+
+    <version name="1.1.2">
+        <text>Attempts to fix blank pages</text>
+        <text>Force close fixes</text>
+        <text>Bug fixes</text>
+    </version>
+
+    <version name="1.1.1">
+        <text>Icon Pack creators can now apply their icon packs to Blur from within their own app.</text>
+    </version>
+
+    <version name="1.1.0">
+        <text>NEW: Vertical Scrolling App Page</text>
+        <text>NEW: Extra page (on the right) to set from the Page Picker</text>
+        <text>Revamp of gesture and button (home and back) support</text>
+        <text>Bug fixes</text>
+        <text>Crash fixes</text>
+    </version>
+
+    <version name="1.0.5">
+        <text>Crash fixes</text>
+    </version>
+
+    <version name="1.0.4.2">
+        <text>Crash and bug fixes</text>
+    </version>
+
+    <version name="1.0.4">
+        <text>New gesture: double tap for screen off</text>
+        <text>"Button Actions" preference under Workspace settings</text>
+        <text>Randomize icon back from icon packs</text>
+        <text>Sort icon packs by title instead of package name</text>
+        <text>Better settings styling for custom ROM theme users</text>
+        <text>Option to only clear unread count when app is opened (must install latest "Blur - Unread" v1.0.2)</text>
+        <text>More grid sizes</text>
+        <text>Better accessibility in settings for blind users</text>
+        <text>Fixed the pages being unintentionally pulled open when going through homescreen quickly</text>
+        <text>Fixed the overflow button in settings for some</text>
+        <text>Fixed ghost clicks on disabled search bar</text>
+        <text>Fixed some widgets not being available</text>
+        <text>Don't hide the widgets of hidden apps</text>
+        <text>Crash fixes</text>
+        <text>Better support for Android 4.1</text>
+    </version>
+
+    <version name="1.0.3">
+        <text>"Ok Google" Hotword now under experimental settings</text>
+        <text>Better custom icon pack support</text>
+        <text>Fix layout issues</text>
+        <text>Force close fixes</text>
+    </version>
+
+    <version name="1.0.2">
+        <text>Force close on startup coming from the hotword detection</text>
+    </version>
+
+    <version name="1.0.1" description="Day 1 bugs of course">
+        <text>Tablet support on the Play Store</text>
+        <text>Fix touch handling in the pages for some devices</text>
+        <text>Bug/Force Close fixes</text>
+    </version>
+
+    <version name="1.0.0" description="Finally a release :)">
+        <text>Support for experimental "Blur - Unread" extension</text>
+        <text>Better weather icons</text>
+        <text>Support for 10" tablets</text>
+        <text>Support for changing the grid size in the all apps drawer</text>
+        <text>Better new user and tutorial support</text>
+        <text>Better styling of popup menus</text>
+        <text>Better styling of many UI areas</text>
+        <text>"Experimental Settings" section</text>
+        <text>"Backup and Restore" section</text>
+        <text>New icon</text>
+        <text>Default workspace improvements</text>
+        <text>Finished "Help" section</text>
+        <text>Added an "About" section to the project</text>
+        <text>Support for searching for extensions</text>
+        <text>Bug fixes all around</text>
+    </version>
+
+    <version name="0.2.0" description="Closer every day">
+        <text>"OK Google" Hotword detection for 4.4+ devices</text>
+        <text>Default calculator page</text>
+        <text>Android "L" style option</text>
+        <text>Gestures to open the app drawer and notification drawer</text>
+        <text>Option to attempt to persist through low memory</text>
+        <text>Finished Klinker Apps section of settings</text>
+        <text>Changelog in get help section of settings</text>
+        <text>Calendar card and alarm card for info page</text>
+        <text>Donations accepted</text>
+        <text>Redid row and column sizer</text>
+        <text>Use Gradle to build</text>
+        <text>Bug fixes</text>
+    </version>
+
+    <version name="0.1.0" description="Adding onto the good stuff">
+        <text>Info page added for system information and access to Google Now</text>
+        <text>Weather card for info page</text>
+        <text>Edit icon names</text>
+        <text>Convert any item to all apps button</text>
+        <text>Transition effects when switching pages</text>
+        <text>Lots of other things!</text>
+        <text>Bug fixes</text>
+    </version>
+
+    <version name="0.0.1" description="First Alpha!">
+        <text>Allow adding awesomely cool pages instead of just Google Now to the left!</text>
+        <text>Apply icon packs</text>
+        <text>Hide hotseat option</text>
+        <text>Hide searchbar option</text>
+        <text>Hide page indicators</text>
+        <text>Move all apps button</text>
+        <text>Choose hidden apps from app drawer</text>
+        <text>Resize any widgets</text>
+        <text>Adjust grid sizes</text>
+        <text>Adjust orientation</text>
+        <text>Scale icon sizes</text>
+        <text>Hide icon names</text>
+        <text>Change font types</text>
+        <text>Scale dock icon sizes</text>
+        <text>Adjust number of docked items</text>
+        <text>Option to lock the workspace</text>
+        <text>Cool settings page to hold everything</text>
+    </version>
+
+</changelog>

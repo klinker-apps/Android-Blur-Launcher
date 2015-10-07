@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+* Copyright (C) 2014 Klinker Apps
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+-->
+
+<resources>
+    <!-- Our Strings -->
+    <!-- Misc. -->
+    <string name="other">General</string>
+    <string name="current">Current</string>
+    <string name="none">None</string>
+    <string name="pages">Pages</string>
+    <string name="icon_picker">Icon Picker</string>
+    <string name="clear">Clear</string>
+    <string name="hidden_apps">Hidden Apps</string>
+    <string name="info_page">Blur Info</string>
+    <string name="calculator_page">Simple Calculator</string>
+    <string name="vertical_app_drawer">Vertical App Drawer</string>
+    <string name="ok">OK</string>
+    <string name="launcher_is_running">Launcher is running.</string>
+    <string name="google_title">Google</string>
+    <string name="talon_title">Talon</string>
+    <string name="enable">Enable</string>
+    <string name="first_run_cling_blur_page_hint">Swipe to get to your custom pages</string>
+    <string name="welcome_disclaimer">We\'re glad you chose Blur!</string>
+
+    <!-- Device Admin -->
+    <string name="device_admin_description">Only allows Blur to turn off the screen.</string>
+    <string name="device_admin">Device Administrator</string>
+    <string name="device_admin_message">
+        To use this action, you need to grant Blur \"Device Administrator\" privileges.\n\n
+        Blur\'s privileges can only be used to turn the device off and show the lockscreen.
+    </string>
+
+    <!-- Settings Page -->
+    <string name="display_settings">Display Settings</string>
+    <string name="fragment_settings">Page Settings</string>
+    <string name="other_information">Other Information</string>
+    <string name="layout">Workspace</string>
+    <string name="visuals">Visuals</string>
+    <string name="dock">Dock</string>
+    <string name="choose_cards">Card\nPicker</string>
+    <string name="choose_fragments">Page\nPicker</string>
+    <string name="help">Help</string>
+    <string name="donate">Donate</string>
+    <string name="our_apps">Klinker\nApps</string>
+    <string name="restart_launcher">Restart\nPages</string>
+    <string name="card_picker">Card Picker</string>
+    <string name="experimental_settings">Experimental Settings</string>
+    <string name="backup_and_restore">Backup and Restore</string>
+    <string name="about">About</string>
+    <string name="find_pages">Find Pages</string>
+    <string name="find_cards">Find Cards</string>
+
+    <!-- Advanced Settings -->
+    <string name="experimental_disclaimer">These are housed here because they may not always work as intended. Please be aware of this warning when using these settings.</string>
+    <string name="keep_running">Keep Blur Running</string>
+    <string name="unread_badges">Unread Badges</string>
+    <string name="unread_download_summary">Must have the \"Blur - Unread\" app installed.</string>
+    <string name="download">Download</string>
+    <string name="known_bugs">Known Bugs</string>
+    <string name="about_running">Keeping Blur Running</string>
+    <string name="notification_listener">Notification Listener</string>
+    <string name="notification_listener_summary">You must enable \"Blur - Unread\" from this screen for unread counts to work.</string>
+    <string name="black">Black</string>
+    <string name="white">White</string>
+    <string name="unread_style">Count Style</string>
+    <string name="ok_google_hotword">\"Ok Google\" Hotword</string>
+
+    <!-- Backup and Restore -->
+    <string name="backup_settings">Backup Blur\'s Settings</string>
+    <string name="backup_settings_summary">This will back up any of Blur settings, not your homescreen configuration.</string>
+    <string name="restore_settings">Restore Blur\'s Settings</string>
+    <string name="backup_complete">Backup Complete</string>
+    <string name="backup_failed">Backup Failed</string>
+    <string name="restore_complete">Restore Complete</string>
+    <string name="restore_failed">Restore Failed</string>
+
+    <!-- Layout Settings -->
+    <string name="col_count">Columns</string>
+    <string name="row_count">Rows</string>
+    <string name="height_padding">Height Padding</string>
+    <string name="width_padding">Width Padding</string>
+    <string name="icon_grid">Homescreen Grid</string>
+    <string name="all_apps_grid">All Apps Grid</string>
+    <string name="padding">Padding</string>
+    <string name="screen_orientation">Screen Orientation</string>
+    <string name="portrait">Portrait</string>
+    <string name="landscape">Landscape</string>
+
+    <!-- Visuals Settings -->
+    <string name="show_dock">Show Dock</string>
+    <string name="icon_scale">Icon Scale</string>
+    <string name="icon_scale_summary">Applied to homescreen icons</string>
+    <string name="dock_scale">Dock Icon Scale</string>
+    <string name="dock_scale_summary">Applied to icons placed on the dock</string>
+    <string name="show_icon_names">Show Icon Names</string>
+    <string name="show_page_indicator">Show Page Indicators</string>
+    <string name="show_search_bar">Show Search Bar</string>
+    <string name="icon_pack">Icon Pack</string>
+    <string name="icons">Icons</string>
+    <string name="scroll_effects">Scroll Effects</string>
+    <string name="wallpaper_scrolling">Wallpaper Scrolling</string>
+    <string name="home_effect">Home Scrolling Effect</string>
+    <string name="font_type">Font Type</string>
+    <string name="preferences_interface_general_iconpack_summary">Icon packs replace the default application icons</string>
+    <string name="app_style">App Style</string>
+    <string name="dialog_pick_iconpack_title">Pick icon pack</string>
+    <string name="default_iconpack_title">Default icons</string>
+    <string name="no_iconpacks_summary">No icon packs installed</string>
+
+    <!-- Dock Settings -->
+    <string name="dock_count">Number of Items</string>
+
+    <!-- Icon Popup Menu -->
+    <string name="custom_name">Change Name</string>
+    <string name="custom_icon">Change Icon</string>
+    <string name="restore_defaults">Restore Defaults</string>
+    <string name="convert_to_all_apps">Convert to \"All Apps\"</string>
+    <string name="cancel">Cancel</string>
+    <string name="change">Change</string>
+    <string name="type_name">Type Name…</string>
+    <string name="no_icon_pack_set">No icon pack set!</string>
+
+    <!-- Card Picker -->
+    <string name="add_a_card">Add a Card:</string>
+    <string name="cards_description_1">With Blur, cards can fill up our <b>Blur Info</b> page with the content you choose.</string>
+    <string name="cards_description_2">Head over to the <b>Page Picker</b> to add <b>Blur Info</b> to your launcher.</string>
+    <string name="create_card">Create Card</string>
+    <string name="weather_card">Weather Card</string>
+    <string name="calendar_card">Calendar Card</string>
+    <string name="alarm_card">Alarm Card</string>
+    <string name="nothing_to_add">Nothing to add!</string>
+
+    <!-- Page Picker -->
+    <string name="page">Page</string>
+    <string name="fragment_picker">Page Picker</string>
+    <string name="extra_page">Extra Page</string>
+    <string name="extra_page_description">Get to this page by setting an action to <b>Open Extra Page</b> from <i>Workspace -> Buttons and Gestures</i>.</string>
+
+    <!-- Overview Panel -->
+    <string name="lock_desktop">Lock Desktop</string>
+    <string name="desktop_locked">Desktop Locked</string>
+    <string name="hidden_apps_space">Hidden\nApps</string>
+
+    <!-- Font Options -->
+    <string name="roboto">Roboto</string>
+    <string name="roboto_light">Roboto Light</string>
+    <string name="roboto_condensed">Roboto Condensed</string>
+
+    <!-- Transition Effects -->
+    <string name="zoom_in">Zoom In</string>
+    <string name="zoom_out">Zoom Out</string>
+    <string name="rotate_up">Rotate Up</string>
+    <string name="rotate_down">Rotate Down</string>
+    <string name="cube_in">Cube In</string>
+    <string name="cube_out">Cube Out</string>
+    <string name="stack">Stack</string>
+    <string name="accordion">Accordion</string>
+    <string name="flip">Flip</string>
+    <string name="cylinder_in">Cylinder In</string>
+    <string name="cylinder_out">Cylinder Out</string>
+    <string name="carousel">Carousel</string>
+    <string name="overview">Overview</string>
+
+    <!-- Gesture Settings -->
+    <string name="buttons_and_gestures">Buttons and Gestures</string>
+    <string name="button_actions">Button Actions</string>
+    <string name="home_button">Home Button</string>
+    <string name="back_button">Back Button</string>
+    <string name="gestures">Gestures</string>
+    <string name="swipe_up">Swipe Up</string>
+    <string name="swipe_down">Swipe Down</string>
+    <string name="double_tap">Double Tap</string>
+    <string name="no_action">Do Nothing</string>
+    <string name="open_extra_page">Open Extra Page</string>
+    <string name="open_pages">Open Pages</string>
+    <string name="open_all_apps">Open All Apps</string>
+    <string name="open_notifications">Open Notifications</string>
+    <string name="sleep_device">Turn Off the Screen</string>
+    <string name="open_recents">Open Recent Apps</string>
+
+    <!-- Get Help Settings -->
+    <string name="changelog">Changelog</string>
+    <string name="frequent_questions">Frequent Questions</string>
+    <string name="faq">FAQ</string>
+    <string name="contact_us">Send Feedback</string>
+    <string name="view_faq">View FAQ</string>
+    <string name="coming_soon">Coming Soon</string>
+    <string name="beta_community">Google+ Beta Community</string>
+    <string name="youtube_video">YouTube Video</string>
+    <string name="credits">Credits</string>
+
+    <!-- Contact Us Options-->
+    <string name="twitter">Twitter</string>
+    <string name="google_plus">Google+</string>
+    <string name="website">Website</string>
+    <string name="email">Email</string>
+
+    <!-- Klinker Apps -->
+    <string name="klinker_apps">Klinker Apps</string>
+    <string name="talon_for_twitter">Talon for Twitter</string>
+    <string name="evolve_sms">EvolveSMS</string>
+    <string name="source">Source</string>
+    <string name="sliding_messaging">Sliding Messaging Pro</string>
+    <string name="theme_spotlight">Theme Spotlight</string>
+    <string name="sliding_messaging_theme_engine">Sliding Messaging Theme Engine</string>
+    <string name="sliding_emoji_keyboard">Sliding Emoji Keyboard</string>
+    <string name="sliding_emoji_keyboard_ios">Sliding Emoji Keyboard iOS</string>
+    <string name="sliding_emoji_keyboard_unlocker">Sliding Emoji Keyboard Unlocker</string>
+    <string name="inspire">Inspire</string>
+    <string name="halopop">HaloPop (Open Source)</string>
+    <string name="slideover_messaging">SlideOver Messaging (Open Source)</string>
+    <string name="floating_window">Floating Window Demo (Open Source)</string>
+
+    <!-- Donate options -->
+    <string name="donate_1">$0.99</string>
+    <string name="donate_2">$1.99</string>
+    <string name="donate_3">$2.99</string>
+    <string name="donate_5">$4.99</string>
+    <string name="donate_10">$9.99</string>
+    <string name="donate_20">$19.99</string>
+    <string name="donate_100">$99.99</string>
+    <string name="problem_setting_up_billing">Problem setting up in-app billing: %s</string>
+    <string name="failed_to_query_inventory">Failed to query inventory: %s</string>
+    <string name="error_purchasing">Error purchasing: %s</string>
+    <string name="error_purchasing_auth_failure">Error purchasing. Authenticity verification failed.</string>
+    <string name="thanks_for_donating">Thanks for donating!</string>
+    <string name="error_while_consuming">Error while consuming: %s</string>
+    <string name="purchasing_error">Error: %s</string>
+
+    <!-- Explainations -->
+    <string name="keep_running_about">
+        This setting attempts to keep Blur running through low memory situations. When your device\'s RAM gets low, Android will go through and shut down any processes taking to much power.\n\n
+
+        It does this by creating a running service to tell Android not to shut down the launcher until the system\'s memory can\'t hold out any longer.\n\n
+
+        This may work in some situations, but there is no fool proof way to maintain an apps running state when the system tells it to shut down.\n\n
+
+        You can hide the notification from your system settings if you would like.
+    </string>
+    <string name="no_frags_disclaimer">
+        Oops, no pages have been added to Blur yet!\n\n\n
+
+        Head over to settings to add a few!
+    </string>
+    <string name="reset_frags_disclaimer">
+        Looks like we couldn\'t find this page!\n
+        This usually happens after an app update.\n\n
+
+        Go ahead and press the \"Restart\" button to try to get it loaded again!
+    </string>
+    <string name="faq_first">
+        We would love to get in touch with you about our apps, but before we do that, make sure you have checked out our \"Frequent Questions\" section!\n\n
+
+        A lot of your problems or questions could be answered right from there, without the need to wait on a reply from us.
+    </string>
+    <string name="about_unread_summary">
+        Enabling this will make it so Blur is able to display unread counts on top of the icons on your homescreen. It currently only works with icons placed on the homescreen and inside of folders - not on top of folders.\n\n
+
+        You need to download our \"Blur - Unread\" app to make this work. We use this app to store the data and find out which default apps should be used for common tasks such as SMS, calendar, and dialer.\n\n
+
+        For the most part, the unread counts come directly from the notification listener service included with \"Blur - Unread\". If the notification has declared a \"number\" field, we pick that up and write it into the launcher\'s unread counts. Otherwise it will just set the count to 1 for generic notifications.\n\n
+
+        There are also some natively supported counts, included in these are GMail, SMS/MMS, missed calls, and the number of calendar events for the next 12 hours. To set which apps should display these native counts, head into the \"Blur - Unread\" app that you downloaded.
+
+        Remember that you must enable the notification listener for \"Blur - Unread\" or it will not work correctly!
+    </string>
+
+    <string name="unread_bugs_summary">
+        1.) Re-arranging icons: icons do not revert back to their original position when moving out of the way to create a space for an icon being drug around.\n\n
+        2.) No counts on top of folders
+    </string>
+
+    <string name="hotword_about">
+        This is housed under experimental settings because it doesn\'t seem to work that great on some devices.
+
+        If you are getting black screens and force closes a lot, disable this. There is probably something conflicting on your system.
+    </string>
+
+</resources>

@@ -1,0 +1,38 @@
+<credits>
+
+    <source
+        name="Luke and Jake Klinker"
+        description="Lead Developers" />
+
+    <source
+            name="Aaron Klinker"
+            description="Icon work" />
+
+    <source
+        name="Google"
+        description="Launcher3 source code" />
+
+    <source
+        name="CyanogenMod Team"
+        description="Trebruchet source code" />
+
+    <source
+        name="Mohammad Abu-Garbeyyeh"
+        description="Ok-Google-Hotword-Lib" />
+
+    <source
+            name="Roman Nurik"
+            description="DashClock background work" />
+
+    <library
+        user_name="Simon Vig Therkildsen"
+        lib_name="android-numberpicker"
+        license="Apache License V2" />
+
+    <library
+        user_name="Carl A. Bauer"
+        lib_name="dragsortlistview"
+        license="Apache License V2" />
+
+
+</credits>

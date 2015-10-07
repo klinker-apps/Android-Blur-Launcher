@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <com.klinker.android.launcher.addons.settings.card_picker.DragGripView
+        android:id="@+id/drag_handle"
+        android:layout_width="48dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical|left"
+        android:paddingStart="16dp"
+        android:paddingTop="22dp"
+        android:paddingBottom="22dp"
+        android:color="#2333"/>
+
+    <ImageView
+        android:id="@+id/icon_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_marginRight="15dp"/>
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="64dp"
+        android:layout_gravity="center_vertical"
+        android:textSize="24sp"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        />
+
+</LinearLayout>

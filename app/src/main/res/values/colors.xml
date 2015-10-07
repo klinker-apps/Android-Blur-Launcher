@@ -52,4 +52,16 @@
     <color name="widgets_cell_color">#263238</color>
     
     <color name="wallpaper_picker_translucent_gray">#66000000</color>
+
+
+    <color name="settings_background">#000000</color>
+    <color name="settings_popup_background">#000000</color>
+    <color name="settings_popup_action_bar">#FF000000</color>
+    <color name="black">#000</color>
+    <color name="pressed_white">#55ffffff</color>
+    <color name="list_popup_background">#DD000000</color>
+
+    <color name="holder_background">#dd000000</color>
+
+    <color name="quantum_panel_text_shadow_color">#FFC4C4C4</color>
 </resources>

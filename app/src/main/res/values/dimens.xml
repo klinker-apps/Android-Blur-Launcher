@@ -17,6 +17,8 @@
 <resources>
     <dimen name="app_icon_size">64dp</dimen>
 
+    <dimen name="nope_animation_spacing">10dp</dimen>
+
 <!-- Dynamic Grid -->
     <dimen name="dynamic_grid_edge_margin">6dp</dimen>
     <dimen name="dynamic_grid_search_bar_max_width">500dp</dimen>
@@ -133,4 +135,18 @@
     <dimen name="wallpaperThumbnailWidth">106.5dp</dimen>
     <dimen name="wallpaperThumbnailHeight">94.5dp</dimen>
     <dimen name="wallpaperItemIconSize">32dp</dimen>
+
+    <!-- drag drop list view handle -->
+    <dimen name="drag_grip_ridge_size">4dp</dimen>
+    <dimen name="drag_grip_ridge_gap">2dp</dimen>
+
+    <!-- Settings Page -->
+    <dimen name="settings_title_margin_left">0dp</dimen>
+
+    <!-- tutorial stuff -->
+    <dimen name="tutorial_text_size">14sp</dimen>
+    <dimen name="tutorial_bubble_1_size">100dp</dimen>
+    <dimen name="tutorial_bubble_2_size">120dp</dimen>
+    <dimen name="tutorial_bubble_3_size">110dp</dimen>
+    <dimen name="tutorial_bubble_padding">35dp</dimen>
 </resources>

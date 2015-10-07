@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/holder_background"
+            android:id="@+id/holder_background"/>
+
+    <TextView
+            android:padding="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/page_number"
+            android:text="Holder Page Number"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:layout_marginBottom="50dp"/>
+
+    <TextView
+        android:id="@+id/restart_launcher_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/restart_launcher"
+        android:drawablePadding="4dp"
+        android:gravity="center_horizontal"
+        android:drawableTop="@drawable/btn_restart_launcher"
+        android:fontFamily="sans-serif-condensed"
+        android:textAllCaps="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="150dp"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/settings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/settings_button_text"
+        android:drawablePadding="4dp"
+        android:gravity="center_horizontal"
+        android:drawableTop="@drawable/setting_button"
+        android:fontFamily="sans-serif-condensed"
+        android:textAllCaps="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="150dp"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+</FrameLayout>

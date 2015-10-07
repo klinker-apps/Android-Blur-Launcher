@@ -96,6 +96,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.klinker.android.launcher.addons.view.LauncherDrawerLayout;
 import com.klinker.android.launcher.launcher3.DropTarget.DragObject;
 import com.klinker.android.launcher.launcher3.PagedView.PageSwitchListener;
 import com.klinker.android.launcher.launcher3.allapps.AllAppsContainerView;
@@ -414,6 +415,10 @@ public class Launcher extends Activity
             setOrientation();
         }
     };
+
+    public LauncherDrawerLayout getLauncherDrawer() {
+        return null;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
