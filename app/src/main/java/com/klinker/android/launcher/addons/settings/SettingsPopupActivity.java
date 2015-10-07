@@ -103,7 +103,7 @@ public class SettingsPopupActivity extends PreferenceActivity implements SharedP
         // You can easily set the alpha and the dim behind the window from here
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = .85f;    // lower than one makes it more transparent
-        params.dimAmount = .87f;  // set it higher if you want to dim behind the window
+        params.dimAmount = .6f;  // set it higher if you want to dim behind the window
         getWindow().setAttributes(params);
         getListView().setAlpha(.85f);
 
@@ -157,8 +157,16 @@ public class SettingsPopupActivity extends PreferenceActivity implements SharedP
         gestureSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Log.v("blur", "gestures clicked");
                 startActivity(new Intent(context, ButtonsGesturesActivity.class));
+                return false;
+            }
+        });
+
+        Preference hiddenApps = findPreference("hidden_apps");
+        hiddenApps.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                startActivity(new Intent(context, HiddenAppsActivity.class));
                 return false;
             }
         });

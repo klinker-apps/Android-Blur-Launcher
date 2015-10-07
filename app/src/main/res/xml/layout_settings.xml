@@ -30,17 +30,21 @@
     <PreferenceCategory
         android:title="@string/other">
 
-        <ListPreference
+        <!--<ListPreference
             android:key="orientation_type"
             android:title="@string/screen_orientation"
             android:defaultValue="@string/default_orientation"
             android:entries="@array/orientation"
             android:entryValues="@array/orientation_inserted"
-            />
+            /> -->
 
         <Preference
             android:key="buttons_and_gestures"
             android:title="@string/buttons_and_gestures" />
+
+        <Preference
+            android:key="hidden_apps"
+            android:title="@string/hidden_apps" />
 
     </PreferenceCategory>
 

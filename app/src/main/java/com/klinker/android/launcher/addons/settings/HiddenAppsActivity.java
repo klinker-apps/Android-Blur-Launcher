@@ -97,6 +97,8 @@ public class HiddenAppsActivity extends ListActivity {
             }
         };
         refreshAppsTask.execute(null, null, null);
+
+        SettingsActivity.prefChanged = true;
     }
 
     public void setUpWindow() {
@@ -108,7 +110,7 @@ public class HiddenAppsActivity extends ListActivity {
         // You can easily set the alpha and the dim behind the window from here
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = 1.0f;    // lower than one makes it more transparent
-        params.dimAmount = .87f;  // set it higher if you want to dim behind the window
+        params.dimAmount = .6f;  // set it higher if you want to dim behind the window
         getWindow().setAttributes(params);
 
         // Gets the display size so that you can set the window to a percent of that
@@ -130,12 +132,6 @@ public class HiddenAppsActivity extends ListActivity {
     public void onPause() {
         save();
         super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        // completely restart the Launcher
-        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     private void save() {
