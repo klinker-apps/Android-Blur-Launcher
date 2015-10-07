@@ -3554,10 +3554,9 @@ public class Launcher extends Activity
                             if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
                                 v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
                             }
-                            return true;
-                        } else {
-                            return false;
                         }
+
+                        return false;
                     }
                 });
                 search.setOnClickListener(new OnClickListener() {
