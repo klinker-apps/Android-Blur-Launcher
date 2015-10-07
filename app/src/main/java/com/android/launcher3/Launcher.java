@@ -3556,7 +3556,7 @@ public class Launcher extends Activity
                             }
                         }
 
-                        return false;
+                        return disableSearch();
                     }
                 });
                 search.setOnClickListener(new OnClickListener() {
