@@ -172,6 +172,7 @@ public class DeviceProfile {
         inv.numColumns = settings.colCount;
         inv.numRows = settings.rowCount;
         inv.numHotseatIcons = settings.dockItems;
+        inv.hotseatAllAppsRank = settings.dockItems / 2;
     }
 
     /**
