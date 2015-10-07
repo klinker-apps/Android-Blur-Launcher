@@ -1,7 +1,7 @@
-# Launcher3 - Gradle
+# Blur Launcher
 
-This repo contains an up-to-date Launcher3, with all the goodies Google added in Marshmallow. I converted it to build with gradle so it is easy to manage. All other credit goes to the Google Team.
+![Promo](https://raw.githubusercontent.com/klinker24/Android-Blur-Launcher/master/promo/images/Feature%20Graphic.png)
 
-Feel free to fork and use this as a base project for any launchers you might want to make in the future. I will try to keep it up with the latest changes from Google.
+This is Blur Launcher, Klinker Apps one stop shop for the most powerful launcher around.
 
-[Launcher3 Code](https://android.googlesource.com/platform/packages/apps/Launcher3/)
+NOTE: This repo does not contain the latest play store version. It will house the 2.0+ releases, which will be based off of Google's latest [Launcher3](https://github.com/klinker24/launcher3/) code. This version will be much more maintainable for the future and will be able to easily incorporate the latest upstream code.
