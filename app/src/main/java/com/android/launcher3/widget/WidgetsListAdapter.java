@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.os.Build;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,6 @@ import com.android.launcher3.Utilities;
 import com.android.launcher3.WidgetPreviewLoader;
 import com.android.launcher3.model.PackageItemInfo;
 import com.android.launcher3.model.WidgetsModel;
-import com.android.launcher3.recycler_view.RecyclerView;
 
 import java.util.List;
 

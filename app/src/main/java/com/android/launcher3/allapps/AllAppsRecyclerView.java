@@ -18,6 +18,8 @@ package com.android.launcher3.allapps;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -26,8 +28,6 @@ import com.android.launcher3.BaseRecyclerViewFastScrollBar;
 import com.android.launcher3.DeviceProfile;
 import com.android.launcher3.Stats;
 import com.android.launcher3.Utilities;
-import com.android.launcher3.recycler_view.LinearLayoutManager;
-import com.android.launcher3.recycler_view.RecyclerView;
 import com.android.launcher3.util.Thunk;
 
 import java.util.List;
@@ -185,7 +185,7 @@ public class AllAppsRecyclerView extends BaseRecyclerView
             if (mFastScrollMode == FAST_SCROLL_MODE_JUMP_TO_FIRST_ICON) {
                 smoothSnapToPosition(mPrevFastScrollFocusedPosition, mScrollPosState);
             } else if (mFastScrollMode == FAST_SCROLL_MODE_FREE_SCROLL) {
-                final ViewHolder vh = findViewHolderForPosition(mPrevFastScrollFocusedPosition);
+                final RecyclerView.ViewHolder vh = findViewHolderForPosition(mPrevFastScrollFocusedPosition);
                 if (vh != null &&
                         vh.itemView instanceof BaseRecyclerViewFastScrollBar.FastScrollFocusableView) {
                     mLastFastScrollFocusedView =

@@ -21,6 +21,8 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -44,8 +46,6 @@ import com.android.launcher3.Utilities;
 import com.android.launcher3.WidgetPreviewLoader;
 import com.android.launcher3.Workspace;
 import com.android.launcher3.model.WidgetsModel;
-import com.android.launcher3.recycler_view.LinearLayoutManager;
-import com.android.launcher3.recycler_view.RecyclerView;
 import com.android.launcher3.util.Thunk;
 
 /**

@@ -19,13 +19,13 @@ package com.android.launcher3.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.view.View;
 import com.android.launcher3.BaseRecyclerView;
 import com.android.launcher3.R;
 import com.android.launcher3.model.PackageItemInfo;
 import com.android.launcher3.model.WidgetsModel;
-import com.android.launcher3.recycler_view.LinearLayoutManager;
 
 /**
  * The widgets recycler view.

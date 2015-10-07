@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
 import android.text.method.TextKeyListener;
@@ -55,7 +56,6 @@ import com.android.launcher3.R;
 import com.android.launcher3.Stats;
 import com.android.launcher3.Utilities;
 import com.android.launcher3.Workspace;
-import com.android.launcher3.recycler_view.RecyclerView;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.Thunk;
 
