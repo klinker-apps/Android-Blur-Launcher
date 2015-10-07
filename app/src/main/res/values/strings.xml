@@ -31,7 +31,7 @@
     <string name="receive_first_load_broadcast_permission" translatable="false">com.android.launcher3.permission.RECEIVE_FIRST_LOAD_BROADCAST</string>
 
     <!-- Application name -->
-    <string name="application_name">Launcher3</string>
+    <string name="application_name">Blur 2</string>
     <!-- Default folder name -->
     <string name="folder_name"></string>
     <!-- Work folder name -->
