@@ -171,6 +171,7 @@ public class DeviceProfile {
 
         inv.numColumns = settings.colCount;
         inv.numRows = settings.rowCount;
+        inv.numHotseatIcons = settings.dockItems;
     }
 
     /**
@@ -326,7 +327,7 @@ public class DeviceProfile {
         padding.right += settings.widthMargin;
         padding.top += settings.heightMargin;
         padding.bottom += settings.heightMargin;
-        
+
         return padding;
     }
 
