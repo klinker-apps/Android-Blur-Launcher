@@ -124,8 +124,8 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
                 mCurrentPrimaryItem.setUserVisibleHint(false);
             }
             if (fragment != null) {
-                mCurrentPrimaryItem.setMenuVisibility(true);
-                mCurrentPrimaryItem.setUserVisibleHint(true);
+                fragment.setMenuVisibility(true);
+                fragment.setUserVisibleHint(true);
             }
             mCurrentPrimaryItem = fragment;
         }

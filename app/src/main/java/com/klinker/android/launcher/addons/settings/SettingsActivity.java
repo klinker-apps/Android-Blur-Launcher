@@ -62,7 +62,7 @@ public class SettingsActivity extends Activity {
 
         setContentView(R.layout.settings_activity);
 
-        findViewById(R.id.background).setAlpha(40/ 100f);
+        findViewById(R.id.background).setAlpha(55/100f);
 
         getViews();
         setFeedback();

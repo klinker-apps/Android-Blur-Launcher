@@ -96,6 +96,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.klinker.android.launcher.addons.settings.*;
+import com.klinker.android.launcher.addons.settings.SettingsActivity;
 import com.klinker.android.launcher.addons.view.LauncherDrawerLayout;
 import com.klinker.android.launcher.launcher3.DropTarget.DragObject;
 import com.klinker.android.launcher.launcher3.PagedView.PageSwitchListener;
@@ -1206,13 +1208,7 @@ public class Launcher extends Activity
     }
 
     protected boolean hasSettings() {
-        if (mLauncherCallbacks != null) {
-            return mLauncherCallbacks.hasSettings();
-        } else {
-            // On devices with a locked orientation, we will at least have the allow rotation
-            // setting.
-            return !Utilities.isRotationAllowedForDevice(this);
-        }
+        return true;
     }
 
     public void addToCustomContentPage(View customContent,
