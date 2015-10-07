@@ -321,6 +321,12 @@ public class DeviceProfile {
                         hotseatBarHeightPx + pageIndicatorHeightPx);
             }
         }
+
+        padding.left += settings.widthMargin;
+        padding.right += settings.widthMargin;
+        padding.top += settings.heightMargin;
+        padding.bottom += settings.heightMargin;
+        
         return padding;
     }
 
