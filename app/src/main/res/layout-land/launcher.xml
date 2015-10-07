@@ -15,7 +15,7 @@
 -->
 
 <!-- Full screen view projects under the status bar and contains the background -->
-<com.android.launcher3.LauncherRootView
+<com.klinker.android.launcher.launcher3.LauncherRootView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
     android:id="@+id/launcher"
@@ -23,19 +23,19 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <com.android.launcher3.DragLayer
+    <com.klinker.android.launcher.launcher3.DragLayer
         android:id="@+id/drag_layer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.android.launcher3.FocusIndicatorView
+        <com.klinker.android.launcher.launcher3.FocusIndicatorView
             android:id="@+id/focus_indicator"
             android:layout_width="52dp"
             android:layout_height="52dp" />
 
         <!-- The workspace contains 5 screens of cells -->
         <!-- DO NOT CHANGE THE ID -->
-        <com.android.launcher3.Workspace
+        <com.klinker.android.launcher.launcher3.Workspace
             android:id="@+id/workspace"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="invisible" />
-    </com.android.launcher3.DragLayer>
+    </com.klinker.android.launcher.launcher3.DragLayer>
 
     <ViewStub
         android:id="@+id/launcher_overlay_stub"
@@ -81,4 +81,4 @@
         android:layout_height="match_parent"
         android:inflatedId="@+id/launcher_overlay"
         android:layout="@layout/launcher_overlay" />
-</com.android.launcher3.LauncherRootView>
+</com.klinker.android.launcher.launcher3.LauncherRootView>

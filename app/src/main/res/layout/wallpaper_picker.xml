@@ -23,7 +23,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.android.launcher3.CropView
+    <com.klinker.android.launcher.launcher3.CropView
         android:id="@+id/cropView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

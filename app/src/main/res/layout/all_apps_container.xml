@@ -16,7 +16,7 @@
 -->
 <!-- Both android:focusable and android:focusableInTouchMode are needed for
      the view to get focus change events. -->
-<com.android.launcher3.allapps.AllAppsRecyclerViewContainerView
+<com.klinker.android.launcher.launcher3.allapps.AllAppsRecyclerViewContainerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,7 +25,7 @@
     android:focusableInTouchMode="true">
 
     <!-- DO NOT CHANGE THE ID -->
-    <com.android.launcher3.allapps.AllAppsRecyclerView
+    <com.klinker.android.launcher.launcher3.allapps.AllAppsRecyclerView
         android:id="@+id/apps_list_view"
         android:theme="@style/Theme.Light.CustomOverscroll"
         android:layout_width="match_parent"
@@ -35,4 +35,4 @@
         android:focusable="true"
         android:descendantFocusability="afterDescendants" />
 
-</com.android.launcher3.allapps.AllAppsRecyclerViewContainerView>
+</com.klinker.android.launcher.launcher3.allapps.AllAppsRecyclerViewContainerView>
