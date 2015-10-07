@@ -107,7 +107,6 @@ public class DeviceProfile {
             Point minSize, Point maxSize,
             int width, int height, boolean isLandscape) {
 
-
         this.inv = inv;
         this.isLandscape = isLandscape;
 
