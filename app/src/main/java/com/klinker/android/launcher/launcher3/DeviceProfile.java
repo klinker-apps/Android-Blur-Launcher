@@ -169,10 +169,17 @@ public class DeviceProfile {
         updateAvailableDimensions(dm, res);
         computeAllAppsButtonSize(context);
 
+        // set the grid
         inv.numColumns = settings.colCount;
         inv.numRows = settings.rowCount;
+
+        // set the hotseat/dock
         inv.numHotseatIcons = settings.dockItems;
         inv.hotseatAllAppsRank = settings.dockItems / 2;
+
+        // set the icon size
+        inv.iconSize = inv.iconSize * settings.iconScale;
+        inv.hotseatIconSize = inv.hotseatIconSize * settings.dockScale;
     }
 
     /**
