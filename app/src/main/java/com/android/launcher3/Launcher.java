@@ -3535,24 +3535,46 @@ public class Launcher extends Activity
     }
 
     private void createClickableSearch() {
-        FrameLayout content = (FrameLayout) findViewById(android.R.id.content);
-
-        View search = new View(Launcher.this);
-
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mQsb.getHeight());
-        params.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics());
-
-        search.setLayoutParams(params);
-
-        search.setOnTouchListener(getHapticFeedbackTouchListener());
-        search.setOnClickListener(new OnClickListener() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
-                startSearch("", false, new Bundle(), new Rect());
-            }
-        });
+            public void run() {
+                FrameLayout content = (FrameLayout) findViewById(R.id.search_dummy);
 
-        content.addView(search);
+                View search = new View(Launcher.this);
+
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mQsb.getHeight());
+                params.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics());
+
+                search.setLayoutParams(params);
+
+                search.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (!disableSearch()) {
+                            if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
+                                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                            }
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                });
+                search.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startSearch("", false, new Bundle(), new Rect());
+                    }
+                });
+
+                content.addView(search);
+            }
+        }, 1000);
+
+    }
+
+    private boolean disableSearch() {
+        return mWorkspace.isInOverviewMode() || isAllAppsVisible() || isWidgetsViewVisible();
     }
 
     private void reinflateQSBIfNecessary() {

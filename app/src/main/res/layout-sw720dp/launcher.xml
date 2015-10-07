@@ -53,6 +53,11 @@
             android:id="@+id/search_drop_target_bar"
             layout="@layout/search_drop_target_bar" />
 
+        <FrameLayout
+            android:id="@+id/search_dummy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <include layout="@layout/overview_panel"
             android:id="@+id/overview_panel"
             android:visibility="gone" />
