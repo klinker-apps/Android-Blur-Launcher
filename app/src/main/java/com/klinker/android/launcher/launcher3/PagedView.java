@@ -50,6 +50,7 @@ import android.view.animation.Interpolator;
 
 import com.klinker.android.launcher.R;
 
+import com.klinker.android.launcher.addons.settings.AppSettings;
 import com.klinker.android.launcher.launcher3.util.LauncherEdgeEffect;
 import com.klinker.android.launcher.launcher3.util.Thunk;
 
@@ -377,7 +378,14 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     }
 
     PageIndicator getPageIndicator() {
-        return mPageIndicator;
+        if (AppSettings.getInstance(getContext()).showPageIndicators) {
+            return mPageIndicator;
+        } else {
+            if (mPageIndicator != null && mPageIndicator.getVisibility() != View.GONE)
+                mPageIndicator.setVisibility(View.GONE);
+
+            return null;
+        }
     }
     protected PageIndicator.PageMarkerResources getPageIndicatorMarker(int pageIndex) {
         return new PageIndicator.PageMarkerResources();

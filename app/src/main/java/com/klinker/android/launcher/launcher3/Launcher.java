@@ -992,6 +992,10 @@ public class Launcher extends Activity
 
         super.onResume();
 
+        if (!AppSettings.getInstance(this).showPageIndicators) {
+            findViewById(R.id.page_indicator).setVisibility(View.GONE);
+        }
+
         // Restore the previous launcher state
         if (mOnResumeState == State.WORKSPACE) {
             showWorkspace(false);
