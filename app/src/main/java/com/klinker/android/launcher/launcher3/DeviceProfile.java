@@ -107,10 +107,12 @@ public class DeviceProfile {
             Point minSize, Point maxSize,
             int width, int height, boolean isLandscape) {
 
-        settings = AppSettings.getInstance(context);
 
         this.inv = inv;
         this.isLandscape = isLandscape;
+
+        settings = AppSettings.getInstance(context);
+        setInvFromSettings(settings);
 
         Resources res = context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
@@ -168,7 +170,9 @@ public class DeviceProfile {
         // Calculate the remaining vars
         updateAvailableDimensions(dm, res);
         computeAllAppsButtonSize(context);
+    }
 
+    private void setInvFromSettings(AppSettings settings) {
         // set the grid
         inv.numColumns = settings.colCount;
         inv.numRows = settings.rowCount;
