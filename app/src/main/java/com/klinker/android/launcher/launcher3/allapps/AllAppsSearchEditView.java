@@ -37,14 +37,17 @@ public class AllAppsSearchEditView extends EditText {
 
     public AllAppsSearchEditView(Context context) {
         this(context, null);
+        setHint("Search Apps");
     }
 
     public AllAppsSearchEditView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+        setHint("Search Apps");
     }
 
     public AllAppsSearchEditView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setHint("Search Apps");
     }
 
     public void setOnBackKeyListener(OnBackKeyListener listener) {
