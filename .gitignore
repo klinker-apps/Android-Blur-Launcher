@@ -12,3 +12,9 @@ out/
 .gitignore~
 .idea/
 tests/
+*.gradle~
+.gradle/
+build/
+*.properties
+local.properties
+*.pro~
