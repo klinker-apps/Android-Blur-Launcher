@@ -63,11 +63,9 @@ public class AppSettings {
     public int colCount;
     public int rowCount;
     public int colCountAllApps;
-    public int rowCountAllApps;
     public int widthMargin;
     public int heightMargin;
     public int dockItems;
-    public int rotationType;
     public int unreadBack;
     public int extraPage;
 
@@ -75,8 +73,6 @@ public class AppSettings {
     public float dockScale;
 
     public String iconPack;
-    public String fontFace;
-    public String homeTransitionEffect;
 
     public AppSettings(Context context) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -96,7 +92,6 @@ public class AppSettings {
         this.colCount = Integer.parseInt(sharedPrefs.getString("col_count", context.getResources().getInteger(R.integer.default_col_count) + ""));
         this.rowCount = Integer.parseInt(sharedPrefs.getString("row_count", context.getResources().getInteger(R.integer.default_row_count) + ""));
         this.colCountAllApps = Integer.parseInt(sharedPrefs.getString("col_count_all_apps", context.getResources().getInteger(R.integer.default_col_count) + ""));
-        this.rowCountAllApps = Integer.parseInt(sharedPrefs.getString("row_count_all_apps", context.getResources().getInteger(R.integer.default_row_count) + ""));
         this.widthMargin = sharedPrefs.getInt("width_margin", 0);
         this.heightMargin = sharedPrefs.getInt("height_margin", 0);
         this.dockItems = Integer.parseInt(sharedPrefs.getString("dock_count", context.getResources().getInteger(R.integer.default_dock_items) + ""));
@@ -107,7 +102,6 @@ public class AppSettings {
         this.dockScale = Float.parseFloat(sharedPrefs.getString("dock_icon_scale", "1.0"));
 
         this.iconPack = sharedPrefs.getString("icon_pack", "");
-        this.fontFace = sharedPrefs.getString("fontface", "sans-serif-condensed");
 
         setUpGestures(sharedPrefs);
     }

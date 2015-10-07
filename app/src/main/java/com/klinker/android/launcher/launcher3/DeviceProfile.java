@@ -34,6 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.klinker.android.launcher.R;
+import com.klinker.android.launcher.addons.settings.AppSettings;
 
 public class DeviceProfile {
 
@@ -100,9 +101,13 @@ public class DeviceProfile {
     private int searchBarSpaceWidthPx;
     private int searchBarSpaceHeightPx;
 
+    private AppSettings settings;
+
     public DeviceProfile(Context context, InvariantDeviceProfile inv,
             Point minSize, Point maxSize,
             int width, int height, boolean isLandscape) {
+
+        settings = AppSettings.getInstance(context);
 
         this.inv = inv;
         this.isLandscape = isLandscape;
@@ -163,6 +168,9 @@ public class DeviceProfile {
         // Calculate the remaining vars
         updateAvailableDimensions(dm, res);
         computeAllAppsButtonSize(context);
+
+        inv.numColumns = settings.colCount;
+        inv.numRows = settings.rowCount;
     }
 
     /**
@@ -231,16 +239,8 @@ public class DeviceProfile {
      * @param recyclerViewWidth the available width of the AllAppsRecyclerView
      */
     public void updateAppsViewNumCols(Resources res, int recyclerViewWidth) {
-        int appsViewLeftMarginPx =
-                res.getDimensionPixelSize(R.dimen.all_apps_grid_view_start_margin);
-        int allAppsCellWidthGap =
-                res.getDimensionPixelSize(R.dimen.all_apps_icon_width_gap);
-        int availableAppsWidthPx = (recyclerViewWidth > 0) ? recyclerViewWidth : availableWidthPx;
-        int numAppsCols = (availableAppsWidthPx - appsViewLeftMarginPx) /
-                (allAppsIconSizePx + allAppsCellWidthGap);
-        int numPredictiveAppCols = Math.max(inv.minAllAppsPredictionColumns, numAppsCols);
-        allAppsNumCols = numAppsCols;
-        allAppsNumPredictiveCols = numPredictiveAppCols;
+        allAppsNumCols = settings.colCountAllApps;
+        allAppsNumPredictiveCols = settings.colCountAllApps;
     }
 
     /** Returns the search bar top offset */
