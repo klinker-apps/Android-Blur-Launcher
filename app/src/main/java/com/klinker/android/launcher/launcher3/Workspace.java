@@ -4520,6 +4520,25 @@ public class Workspace extends PagedView
         }
     }
 
+    @Override
+    protected boolean computeScrollHelper() {
+        boolean val = super.computeScrollHelper();
+
+        if (!mScroller.computeScrollOffset() && mNextPage != INVALID_PAGE) {
+            if (mPageChangeListener != null && (!isPageMoving() || getCurrentPage() == 0)) {
+                mPageChangeListener.onPageChanged(mCurrentPage);
+            } else if (mPageChangeListener != null) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPageChangeListener.onPageChanged(mCurrentPage);
+                    }
+                }, 300);
+            }
+        }
+
+        return val;
+    }
 
     private OnPageChangeListener mPageChangeListener;
     public void setOnPageChangedListener(OnPageChangeListener listener) {
