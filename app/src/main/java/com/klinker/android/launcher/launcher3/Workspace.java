@@ -4543,6 +4543,13 @@ public class Workspace extends PagedView
     private OnPageChangeListener mPageChangeListener;
     public void setOnPageChangedListener(OnPageChangeListener listener) {
         mPageChangeListener = listener;
+
+        setPageSwitchListener(new PageSwitchListener() {
+            @Override
+            public void onPageSwitch(View newPage, int newPageIndex) {
+                mPageChangeListener.onPageChanged(newPageIndex);
+            }
+        });
     }
 
     public interface OnPageChangeListener {
