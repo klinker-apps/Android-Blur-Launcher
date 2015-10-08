@@ -27,6 +27,7 @@ As the apps feature-set continues to be merged into this new fork, I will contin
 - icon names on the homescreen are optional
 - Blur can turn off your screen
 - backup and restore app settings
+- Persister service to try to ensure that the app stays in memory (no statistics as to whether or not this works though...)
 
 ## Compiling
 
