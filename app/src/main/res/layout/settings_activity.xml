@@ -268,7 +268,6 @@
                  android:minWidth="48dp" android:maxWidth="48dp"
                  android:background="@android:color/transparent"
                  android:src="@drawable/ic_action_circle_overflow_dark"
-                 android:visibility="gone"
                  android:layout_alignParentRight="true"
             />
 
