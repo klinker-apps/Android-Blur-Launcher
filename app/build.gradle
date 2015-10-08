@@ -38,5 +38,5 @@ dependencies {
     compile(name: 'dragsortlistview', ext: 'aar')
 
     compile project(':wallpaper_picker')
-    compile project(':libraries:extra_pages')
+    compile project(':extra_pages')
 }

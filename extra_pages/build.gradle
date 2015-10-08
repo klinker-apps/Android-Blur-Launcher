@@ -1,0 +1,37 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
+    buildToolsVersion project.BUILD_TOOLS_VERSION
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
+        versionCode Integer.parseInt(project.VERSION_CODE)
+        versionName project.VERSION_NAME
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile "com.android.support:support-v4:${project.ANDROID_SUPPORT_VERSION}"
+    compile 'com.google.android.gms:play-services:6.1.11' // TODO, this should be updated to the version defined in gradle.properties
+    compile 'com.klinkerapps:launcher-apis:1.1.1-SNAPSHOT@aar'
+
+    compile files('lib/arity-2.1.6.jar')
+}
