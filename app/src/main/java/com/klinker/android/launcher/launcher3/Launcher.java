@@ -42,6 +42,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
@@ -63,6 +64,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 import android.os.StrictMode;
 import android.os.SystemClock;
@@ -99,6 +101,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.klinker.android.launcher.addons.PersisterService;
 import com.klinker.android.launcher.addons.pages.PagesFragmentAdapter;
 import com.klinker.android.launcher.addons.settings.*;
 import com.klinker.android.launcher.addons.settings.SettingsActivity;
@@ -985,6 +988,21 @@ public class Launcher extends Activity
 
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onStart();
+        }
+
+        if (AppSettings.getInstance(this).shouldPersist) {
+            Intent persister = new Intent(getApplicationContext(), PersisterService.class);
+            bindService(persister, new ServiceConnection() {
+                @Override
+                public void onServiceConnected(ComponentName name, IBinder service) {
+                    Log.v("blur_persister", "connection to persistent service established");
+                }
+
+                @Override
+                public void onServiceDisconnected(ComponentName name) {
+                    Log.v("blur_persister", "connection to persistent service destroyed");
+                }
+            }, Context.BIND_AUTO_CREATE);
         }
     }
 
