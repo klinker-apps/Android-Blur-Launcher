@@ -25,6 +25,8 @@ public class PredictiveAppsProvider {
     private SharedPreferences sharedPreferences;
     private Context context;
 
+    private List<ComponentName> mHiddenApps;
+
     public PredictiveAppsProvider(Context context) {
         this.context = context;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -49,7 +51,7 @@ public class PredictiveAppsProvider {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List< PredictedApp > allPredictions = new ArrayList<>();
+                List<PredictedApp> allPredictions = new ArrayList<>();
                 Set<String> predictiveAppsSet =
                         sharedPreferences.getStringSet(PREDICTIVE_APPS_KEY, new HashSet<String>());
 
@@ -63,6 +65,25 @@ public class PredictiveAppsProvider {
                         return Long.valueOf(result2.count).compareTo(Long.valueOf(result1.count));
                     }
                 });
+
+                String[] flattened = PreferenceManager.getDefaultSharedPreferences(context).getString("hidden_apps", "").split("\\|");
+                mHiddenApps = new ArrayList<ComponentName>(flattened.length);
+                for (String flat : flattened) {
+                    ComponentName cmp = ComponentName.unflattenFromString(flat);
+                    if (cmp != null) {
+                        mHiddenApps.add(cmp);
+                    }
+                }
+                // add blur to the hidden apps
+                ComponentName cmp = ComponentName.unflattenFromString("com.klinker.android.launcher/com.klinker.android.launcher.launcher3.Launcher");
+                mHiddenApps.add(cmp);
+
+                for (int i = 0; i < allPredictions.size(); i++) {
+                    if (mHiddenApps.contains(allPredictions.get(i).component)) {
+                        allPredictions.remove(i);
+                        i--;
+                    }
+                }
 
                 if (allPredictions.size() > NUM_PREDICTIVE_APPS_TO_HOLD) {
                     allPredictions = allPredictions.subList(0, NUM_PREDICTIVE_APPS_TO_HOLD);
