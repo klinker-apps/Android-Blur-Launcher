@@ -3568,7 +3568,7 @@ public class Launcher extends Activity
                 }
 
                 // Try to bind a new widget
-                widgetId = View.generateViewId();
+                widgetId = generateViewId();
 
                 sp.edit()
                     .putInt(QSB_WIDGET_ID, widgetId)
