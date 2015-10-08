@@ -2955,7 +2955,10 @@ public class Launcher extends Activity
         }
         try {
             success = startActivity(v, intent, tag);
-            predictiveAppsProvider.updateComponentCount(intent.getComponent());
+
+            if (isAllAppsVisible()) { // only add to the prediction if they open from the drawer
+                predictiveAppsProvider.updateComponentCount(intent.getComponent());
+            }
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
             Log.e(TAG, "Unable to launch. tag=" + tag + " intent=" + intent, e);
