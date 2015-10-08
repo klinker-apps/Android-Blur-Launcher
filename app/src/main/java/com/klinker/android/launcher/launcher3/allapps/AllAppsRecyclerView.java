@@ -315,12 +315,16 @@ public class AllAppsRecyclerView extends BaseRecyclerView
      * Returns the scrollY for the given position in the adapter.
      */
     private int getScrollAtPosition(int position, int rowHeight) {
-        AlphabeticalAppsList.AdapterItem item = mApps.getAdapterItems().get(position);
-        if (item.viewType == AllAppsGridAdapter.ICON_VIEW_TYPE ||
-                item.viewType == AllAppsGridAdapter.PREDICTION_ICON_VIEW_TYPE) {
-            int offset = item.rowIndex > 0 ? getPaddingTop() : 0;
-            return offset + item.rowIndex * rowHeight;
-        } else {
+        try {
+            AlphabeticalAppsList.AdapterItem item = mApps.getAdapterItems().get(position);
+            if (item.viewType == AllAppsGridAdapter.ICON_VIEW_TYPE ||
+                    item.viewType == AllAppsGridAdapter.PREDICTION_ICON_VIEW_TYPE) {
+                int offset = item.rowIndex > 0 ? getPaddingTop() : 0;
+                return offset + item.rowIndex * rowHeight;
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
             return 0;
         }
     }

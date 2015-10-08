@@ -533,6 +533,7 @@ public class AlphabeticalAppsList {
                 AppInfo info = mAdapterItems.get(i).appInfo;
                 if (info != null && mHiddenApps.contains(info.componentName)) {
                     mAdapterItems.remove(i);
+                    decrementFastScrollPositions(i);
                     i--;
                 }
             }
@@ -541,6 +542,14 @@ public class AlphabeticalAppsList {
         // Refresh the recycler view
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void decrementFastScrollPositions(int anythingAbove) {
+        for (int i = 0; i < mFastScrollerSections.size(); i++) {
+            if (mFastScrollerSections.get(i).fastScrollToItem.position >= anythingAbove) {
+                mFastScrollerSections.get(i).fastScrollToItem.position--;
+            }
         }
     }
 
