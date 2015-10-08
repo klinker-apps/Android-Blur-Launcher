@@ -11,7 +11,21 @@ NOTE: This repo does not contain the latest play store version. It will house th
 
 As the apps feature-set continues to be merged into this new fork, I will continue to add to this repository.
 
+- Support for Blur Pages and Card
 - Built from Marshmallow's Launcher3 code, with the latest improvements and Material Design in mind
+- Blur puts app predictions at the top of the app drawer
+- quick scroll through the app drawer
+- revamped settings menu
+- gesture support
+- configure homescreen and all apps grid
+- configure workspace padding
+- change the number of dock icons
+- select icon scale
+- dock is optional
+- page indicators are optional
+- search bar is optional
+- icon names on the homescreen are optional
+- Blur can turn off your screen
 
 ## Compiling
 
@@ -27,7 +41,7 @@ Please fork this repository and contribute back using [pull requests](https://gi
 
 ## Changelog
 
-The full changelog for the library can be found [here](https://github.com/klinker24/Android-Blur-Launcher/blob/master/changelog.md).
+The full changelog for the library can be found [here](https://raw.githubusercontent.com/klinker24/Android-Blur-Launcher/master/app/src/main/res/xml/changelog.xml).
 
 
 ---

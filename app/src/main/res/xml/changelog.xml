@@ -1,5 +1,18 @@
 <changelog>
 
+    <version name="2.0.0">
+        <text>Based on latest Google Launcher</text>
+        <text>App drawer predictions</text>
+        <text>New animations</text>
+        <text>Search apps inside the app drawer</text>
+        <text>Vertical app drawer with quick scrolling</text>
+        <text>More material</text>
+        <text>Improved stability</text>
+        <text>Improved memory management</text>
+        <text>Improved speed</text>
+        <text>Squashed bugs</text>
+    </version>
+
     <version name="1.5.0">
         <text>Material all the things.</text>
         <text>New animations, styles, and buttons</text>
