@@ -46,11 +46,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Parcelable;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Choreographer;
 import android.view.Display;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +61,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.TextView;
 
+import com.klinker.android.launcher.addons.settings.AppSettings;
+import com.klinker.android.launcher.addons.utils.GestureUtils;
 import com.klinker.android.launcher.launcher3.FolderIcon.FolderRingAnimator;
 import com.klinker.android.launcher.launcher3.Launcher.CustomContentCallbacks;
 import com.klinker.android.launcher.launcher3.Launcher.LauncherOverlay;
@@ -320,6 +324,8 @@ public class Workspace extends PagedView
 
         // Disable multitouch across the workspace/all apps/customize tray
         setMotionEventSplittingEnabled(true);
+
+        mDetector = new GestureDetectorCompat(context, new MyGestureListener());
     }
 
     @Override
@@ -1052,6 +1058,10 @@ public class Workspace extends PagedView
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (!isInOverviewMode()) {
+            mDetector.onTouchEvent(ev);
+        }
+
         switch (ev.getAction() & MotionEvent.ACTION_MASK) {
         case MotionEvent.ACTION_DOWN:
             mXDown = ev.getX();
@@ -4491,6 +4501,10 @@ public class Workspace extends PagedView
         }
     }
 
+    /*
+            Additional Methods/Classes for Blur Launcher
+     */
+
     public boolean isSmall() {
         return mState == State.SPRING_LOADED || mState == State.OVERVIEW;
     }
@@ -4557,5 +4571,68 @@ public class Workspace extends PagedView
 
         public abstract void onScrollStart();
         public abstract void onScrollEnd();
+    }
+
+
+    public GestureDetectorCompat mDetector;
+    public AppSettings settings;
+
+    class MyGestureListener implements GestureDetector.OnGestureListener,GestureDetector.OnDoubleTapListener {
+
+        @Override
+        public boolean onDown(MotionEvent event) {
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2,
+                               float velocityX, float velocityY) {
+
+            if (event1.getY() > event2.getY()) {
+                // swipe up gesture
+                return GestureUtils.runGesture(getContext(), mLauncher, AppSettings.SWIPE_UP);
+            } else if (event2.getY() > event1.getY()) {
+                // swipe down gesture
+                return GestureUtils.runGesture(getContext(), mLauncher, AppSettings.SWIPE_DOWN);
+            }
+
+            return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent event) {
+
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+                                float distanceY) {
+
+            return true;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent event) {
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent event) {
+            return true;
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            return false;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            return GestureUtils.runGesture(getContext(), mLauncher, AppSettings.DOUBLE_TAP);
+        }
+
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent e) {
+            return false;
+        }
     }
 }
