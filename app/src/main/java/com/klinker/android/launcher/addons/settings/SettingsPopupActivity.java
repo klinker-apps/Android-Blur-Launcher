@@ -211,7 +211,7 @@ public class SettingsPopupActivity extends PreferenceActivity implements SharedP
             }
         });
 
-        if (Build.VERSION.SDK_INT >= 18) {
+        /*if (Build.VERSION.SDK_INT >= 18) {
             Preference unreadAbout = findPreference("unread_about");
             unreadAbout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -246,7 +246,7 @@ public class SettingsPopupActivity extends PreferenceActivity implements SharedP
                     return false;
                 }
             });
-        }
+        }*/
     }
 
     public void setUpBackup() {
