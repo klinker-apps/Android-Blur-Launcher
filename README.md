@@ -26,6 +26,7 @@ As the apps feature-set continues to be merged into this new fork, I will contin
 - search bar is optional
 - icon names on the homescreen are optional
 - Blur can turn off your screen
+- backup and restore app settings
 
 ## Compiling
 
