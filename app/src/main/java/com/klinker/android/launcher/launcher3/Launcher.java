@@ -114,7 +114,6 @@ import com.klinker.android.launcher.launcher3.compat.LauncherAppsCompat;
 import com.klinker.android.launcher.launcher3.compat.UserHandleCompat;
 import com.klinker.android.launcher.launcher3.compat.UserManagerCompat;
 import com.klinker.android.launcher.launcher3.model.WidgetsModel;
-import com.klinker.android.launcher.launcher3.testing.LauncherExtension;
 import com.klinker.android.launcher.launcher3.util.ComponentKey;
 import com.klinker.android.launcher.launcher3.util.LongArrayMap;
 import com.klinker.android.launcher.launcher3.util.Thunk;
@@ -122,7 +121,7 @@ import com.klinker.android.launcher.launcher3.widget.PendingAddWidgetInfo;
 import com.klinker.android.launcher.launcher3.widget.WidgetHostViewLoader;
 import com.klinker.android.launcher.launcher3.widget.WidgetsContainerView;
 import com.klinker.android.launcher.R;
-import com.klinker.android.launcher.vertical_app_page.LauncherFragment;
+import com.klinker.android.launcher.launcher3.allapps.PredictiveAppsProvider;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -441,6 +440,8 @@ public class Launcher extends Activity
                     .penaltyDeath()
                     .build());
         }
+
+        predictiveAppsProvider = new PredictiveAppsProvider(this);
 
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.preOnCreate();
@@ -1092,6 +1093,8 @@ public class Launcher extends Activity
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onResume();
         }
+
+        tryAndUpdatePredictedApps();
     }
 
     @Override
@@ -2991,10 +2994,12 @@ public class Launcher extends Activity
         }
         try {
             success = startActivity(v, intent, tag);
+            predictiveAppsProvider.updateComponentCount(intent.getComponent());
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
             Log.e(TAG, "Unable to launch. tag=" + tag + " intent=" + intent, e);
         }
+
         return success;
     }
 
@@ -3514,11 +3519,16 @@ public class Launcher extends Activity
      * resumed.
      */
     private void tryAndUpdatePredictedApps() {
+        List<ComponentKey> apps;
         if (mLauncherCallbacks != null) {
-            List<ComponentKey> apps = mLauncherCallbacks.getPredictedApps();
-            if (apps != null) {
-                mAppsView.setPredictedApps(apps);
-            }
+            apps = mLauncherCallbacks.getPredictedApps();
+        } else {
+            apps = predictiveAppsProvider.getPredictions();
+            predictiveAppsProvider.updateTopPredictedApps();
+        }
+
+        if (apps != null) {
+            mAppsView.setPredictedApps(apps);
         }
     }
 
@@ -4819,6 +4829,8 @@ public class Launcher extends Activity
             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
         }
     }
+
+    private PredictiveAppsProvider predictiveAppsProvider;
 
     private LauncherDrawerLayout mLauncherDrawer;
     private ViewPager mDrawerPager;

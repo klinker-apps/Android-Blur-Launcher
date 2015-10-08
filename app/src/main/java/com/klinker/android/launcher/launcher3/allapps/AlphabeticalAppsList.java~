@@ -15,6 +15,7 @@
  */
 package com.android.launcher3.allapps;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
