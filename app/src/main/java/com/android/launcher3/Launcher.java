@@ -99,13 +99,13 @@ import android.widget.Toast;
 import com.android.launcher3.DropTarget.DragObject;
 import com.android.launcher3.PagedView.PageSwitchListener;
 import com.android.launcher3.allapps.AllAppsContainerView;
+import com.android.launcher3.allapps.PredictiveAppsProvider;
 import com.android.launcher3.compat.AppWidgetManagerCompat;
 import com.android.launcher3.compat.LauncherActivityInfoCompat;
 import com.android.launcher3.compat.LauncherAppsCompat;
 import com.android.launcher3.compat.UserHandleCompat;
 import com.android.launcher3.compat.UserManagerCompat;
 import com.android.launcher3.model.WidgetsModel;
-import com.android.launcher3.testing.LauncherExtension;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.LongArrayMap;
 import com.android.launcher3.util.Thunk;
@@ -430,6 +430,8 @@ public class Launcher extends Activity
                     .penaltyDeath()
                     .build());
         }
+
+        predictiveAppsProvider = new PredictiveAppsProvider(this);
 
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.preOnCreate();
@@ -1071,6 +1073,8 @@ public class Launcher extends Activity
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onResume();
         }
+
+        tryAndUpdatePredictedApps();
     }
 
     @Override
@@ -2951,10 +2955,12 @@ public class Launcher extends Activity
         }
         try {
             success = startActivity(v, intent, tag);
+            predictiveAppsProvider.updateComponentCount(intent.getComponent());
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
             Log.e(TAG, "Unable to launch. tag=" + tag + " intent=" + intent, e);
         }
+
         return success;
     }
 
@@ -3461,11 +3467,16 @@ public class Launcher extends Activity
      * resumed.
      */
     private void tryAndUpdatePredictedApps() {
+        List<ComponentKey> apps;
         if (mLauncherCallbacks != null) {
-            List<ComponentKey> apps = mLauncherCallbacks.getPredictedApps();
-            if (apps != null) {
-                mAppsView.setPredictedApps(apps);
-            }
+            apps = mLauncherCallbacks.getPredictedApps();
+        } else {
+            apps = predictiveAppsProvider.getPredictions();
+            predictiveAppsProvider.updateTopPredictedApps();
+        }
+
+        if (apps != null) {
+            mAppsView.setPredictedApps(apps);
         }
     }
 
@@ -4762,6 +4773,8 @@ public class Launcher extends Activity
             }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void) null);
         }
     }
+
+    private PredictiveAppsProvider predictiveAppsProvider;
 }
 
 interface DebugIntents {
