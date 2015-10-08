@@ -3169,6 +3169,8 @@ public class Launcher extends Activity
     }
 
     public boolean onLongClick(View v) {
+        lockLauncherDrawer(true);
+
         if (!isDraggingEnabled()) return false;
         if (isWorkspaceLocked()) return false;
         if (mState != State.WORKSPACE) return false;
@@ -3184,7 +3186,6 @@ public class Launcher extends Activity
                     showOverviewMode(true);
                     mWorkspace.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS,
                             HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-                    lockLauncherDrawer(true);
                     return true;
                 } else {
                     return false;
@@ -3326,12 +3327,11 @@ public class Launcher extends Activity
     }
 
     void showWorkspace(int snapToPage, boolean animated, Runnable onCompleteRunnable) {
-
-        lockLauncherDrawer(false);
-
         boolean changed = mState != State.WORKSPACE ||
                 mWorkspace.getState() != Workspace.State.NORMAL;
         if (changed) {
+            lockLauncherDrawer(false);
+
             boolean wasInSpringLoadedMode = (mState != State.WORKSPACE);
             mWorkspace.setVisibility(View.VISIBLE);
             mStateTransitionAnimation.startAnimationToWorkspace(mState, Workspace.State.NORMAL,
@@ -3369,6 +3369,8 @@ public class Launcher extends Activity
                 WorkspaceStateTransitionAnimation.SCROLL_TO_CURRENT_PAGE, animated,
                 null /* onCompleteRunnable */);
         mState = State.WORKSPACE;
+
+        lockLauncherDrawer(true);
     }
 
     /**
@@ -3411,7 +3413,12 @@ public class Launcher extends Activity
     // TODO: calling method should use the return value so that when {@code false} is returned
     // the workspace transition doesn't fall into invalid state.
     private boolean showAppsOrWidgets(State toState, boolean animated, boolean focusSearchBar) {
-        lockLauncherDrawer(true);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                lockLauncherDrawer(true);
+            }
+        }, 750);
 
         if (mState != State.WORKSPACE &&  mState != State.APPS_SPRING_LOADED &&
                 mState != State.WIDGETS_SPRING_LOADED) {
