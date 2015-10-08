@@ -97,9 +97,6 @@ public class GestureUtils {
         switch (settings.gestureActions[type]) {
             case AppSettings.NOTHING:
                 return false;
-            case AppSettings.OPEN_EXTRA_PAGE:
-                mLauncher.getLauncherDrawer().openDrawer(Gravity.RIGHT);
-                return true;
             case AppSettings.OPEN_PAGES:
                 mLauncher.getLauncherDrawer().openDrawer(Gravity.LEFT);
                 return true;

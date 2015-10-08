@@ -200,7 +200,6 @@
 
     <string-array name="gesture_options">
         <item>@string/no_action</item>
-        <item>@string/open_extra_page</item>
         <item>@string/open_pages</item>
         <item>@string/open_all_apps</item>
         <item>@string/open_notifications</item>
@@ -213,9 +212,8 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
-        <item>4</item>
-        <item>6</item>
         <item>5</item>
+        <item>4</item>
     </string-array>
 
 </resources>

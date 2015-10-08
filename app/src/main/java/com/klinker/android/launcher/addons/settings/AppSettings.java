@@ -117,17 +117,31 @@ public class AppSettings {
     public static final int DOUBLE_TAP = 4;
 
     public static final int NOTHING = 0;
-    public static final int OPEN_EXTRA_PAGE = 1;
-    public static final int OPEN_PAGES = 2;
-    public static final int OPEN_ALL_APPS = 3;
-    public static final int OPEN_NOTIFICATIONS = 4;
-    public static final int SLEEP_DEVICE = 5;
-    public static final int OPEN_RECENT_APPS = 6;
+    public static final int OPEN_PAGES = 1;
+    public static final int OPEN_ALL_APPS = 2;
+    public static final int OPEN_NOTIFICATIONS = 3;
+    public static final int SLEEP_DEVICE = 4;
+    public static final int OPEN_RECENT_APPS = 5;
 
     // this will be used to store the actions for the gestures or buttons
     public int[] gestureActions = new int[gestureTitles.length];
 
     public void setUpGestures(SharedPreferences sp) {
+        // with blur 2, we removed the extra page, so this removes it from the gestures
+        // if they had that gesture, it will set it to NOTHING
+        if (sp.getBoolean("blur2", true)) {
+            for (int i = 0; i < gestureActions.length; i++) {
+                int val = Integer.parseInt(sp.getString(gestureTitles[i], (i + 1) + ""));
+                if (val > 1) {
+                    sp.edit().putString(gestureTitles[i], (val - 1) + "").commit();
+                } else if (val == 1) {
+                    sp.edit().putString(gestureTitles[i], NOTHING + "").commit();
+                }
+            }
+
+            sp.edit().putBoolean("blur2", false).commit();
+        }
+
         for (int i = 0; i < gestureActions.length; i++) {
             String key = gestureTitles[i];
 

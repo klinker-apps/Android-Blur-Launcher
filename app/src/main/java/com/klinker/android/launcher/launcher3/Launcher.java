@@ -446,7 +446,11 @@ public class Launcher extends Activity
             mLauncherCallbacks.preOnCreate();
         }
 
-        super.onCreate(savedInstanceState);
+        try {
+            super.onCreate(savedInstanceState);
+        } catch (Exception e) {
+            super.onCreate(new Bundle());
+        }
 
         LauncherAppState.setApplicationContext(getApplicationContext());
         LauncherAppState app = LauncherAppState.getInstance();

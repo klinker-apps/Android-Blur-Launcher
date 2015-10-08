@@ -24,9 +24,6 @@ public class ButtonsGesturesActivity extends SettingsPopupActivity {
                 case AppSettings.NOTHING:
                     p.setSummary(getString(R.string.no_action));
                     break;
-                case AppSettings.OPEN_EXTRA_PAGE:
-                    p.setSummary(getString(R.string.open_extra_page));
-                    break;
                 case AppSettings.OPEN_PAGES:
                     p.setSummary(getString(R.string.open_pages));
                     break;
