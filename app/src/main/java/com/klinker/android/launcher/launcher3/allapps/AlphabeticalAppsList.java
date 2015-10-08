@@ -15,7 +15,9 @@
  */
 package com.klinker.android.launcher.launcher3.allapps;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import com.klinker.android.launcher.launcher3.AppInfo;
@@ -29,6 +31,7 @@ import com.klinker.android.launcher.launcher3.util.ComponentKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -145,6 +148,10 @@ public class AlphabeticalAppsList {
     private final List<AppInfo> mApps = new ArrayList<>();
     private final HashMap<ComponentKey, AppInfo> mComponentToAppMap = new HashMap<>();
 
+    // the set of hidden apps and packages
+    private ArrayList<ComponentName> mHiddenApps;
+    private ArrayList<String> mHiddenPackages;
+
     // The set of filtered apps with the current filter
     private List<AppInfo> mFilteredApps = new ArrayList<>();
     // The current set of adapter items
@@ -172,6 +179,21 @@ public class AlphabeticalAppsList {
         mLauncher = (Launcher) context;
         mIndexer = new AlphabeticIndexCompat(context);
         mAppNameComparator = new AppNameComparator(context);
+
+        String[] flattened = PreferenceManager.getDefaultSharedPreferences(context).getString("hidden_apps", "").split("\\|");
+        mHiddenApps = new ArrayList<ComponentName>(flattened.length);
+        mHiddenPackages = new ArrayList<String>(flattened.length);
+        for (String flat : flattened) {
+            ComponentName cmp = ComponentName.unflattenFromString(flat);
+            if (cmp != null) {
+                mHiddenApps.add(cmp);
+                mHiddenPackages.add(cmp.getPackageName());
+            }
+        }
+        // add blur to the hidden apps
+        ComponentName cmp = ComponentName.unflattenFromString("com.klinker.android.launcher/com.klinker.android.launcher.launcher3.Launcher");
+        mHiddenApps.add(cmp);
+        mHiddenPackages.add(cmp.getPackageName());
     }
 
     /**
@@ -496,6 +518,21 @@ public class AlphabeticalAppsList {
 
                 float subRowFraction = item.rowAppIndex * (rowFraction / mNumAppsPerRow);
                 info.touchFraction = item.rowIndex * rowFraction + subRowFraction;
+            }
+        }
+
+        for (int i = 0; i < mFilteredApps.size(); i++) {
+            if (mHiddenApps.contains(mFilteredApps.get(i).componentName)) {
+                mFilteredApps.remove(i);
+                i--;
+            }
+        }
+
+        for (int i = 0; i < mAdapterItems.size(); i++) {
+            AppInfo info = mAdapterItems.get(i).appInfo;
+            if (info != null && mHiddenApps.contains(info.componentName)) {
+                mAdapterItems.remove(i);
+                i--;
             }
         }
 
