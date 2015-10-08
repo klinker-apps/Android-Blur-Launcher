@@ -74,7 +74,12 @@ public class PredictiveAppsProvider {
     }
 
     public List<ComponentKey> getPredictions() {
-        String[] topPredictions = sharedPreferences.getString(TOP_PREDICTIVE_APPS_KEY, "").split(" ");
+        String predictions = sharedPreferences.getString(TOP_PREDICTIVE_APPS_KEY, "");
+        if (predictions.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        String[] topPredictions = predictions.split(" ");
         List<ComponentKey> keys = new ArrayList<>();
 
         for (int i = 0; i < topPredictions.length - 1; i++) {
@@ -90,7 +95,11 @@ public class PredictiveAppsProvider {
             string += buildComponentString(app.component) + " ";
         }
 
-        return string.substring(0, string.length() - 1);
+        try {
+            return string.substring(0, string.length() - 1);
+        } catch (StringIndexOutOfBoundsException e) {
+            return "";
+        }
     }
 
     private String buildComponentString(ComponentName component) {
