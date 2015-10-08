@@ -82,7 +82,7 @@
         android:label="@string/application_name"
         android:largeHeap="@bool/config_largeHeap"
         android:restoreAnyVersion="true"
-        android:supportsRtl="true" >
+        android:supportsRtl="true">
 
         <activity
             android:name="com.klinker.android.launcher.launcher3.Launcher"
@@ -94,6 +94,7 @@
             android:screenOrientation="nosensor"
             android:resumeWhilePausing="true"
             android:taskAffinity=""
+            android:excludeFromRecents="true"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
