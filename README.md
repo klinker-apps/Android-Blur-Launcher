@@ -44,7 +44,7 @@ Please fork this repository and contribute back using [pull requests](https://gi
 
 ## Changelog
 
-The full changelog for the library can be found [here](https://raw.githubusercontent.com/klinker24/Android-Blur-Launcher/master/app/src/main/res/xml/changelog.xml).
+The full changelog for the app can be found [here](https://raw.githubusercontent.com/klinker24/Android-Blur-Launcher/master/app/src/main/res/xml/changelog.xml).
 
 
 ---
