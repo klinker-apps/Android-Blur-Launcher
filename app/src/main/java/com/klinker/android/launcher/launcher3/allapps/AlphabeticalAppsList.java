@@ -521,18 +521,20 @@ public class AlphabeticalAppsList {
             }
         }
 
-        for (int i = 0; i < mFilteredApps.size(); i++) {
-            if (mHiddenApps.contains(mFilteredApps.get(i).componentName)) {
-                mFilteredApps.remove(i);
-                i--;
+        if (!hasFilter()) {
+            for (int i = 0; i < mFilteredApps.size(); i++) {
+                if (mHiddenApps.contains(mFilteredApps.get(i).componentName)) {
+                    mFilteredApps.remove(i);
+                    i--;
+                }
             }
-        }
 
-        for (int i = 0; i < mAdapterItems.size(); i++) {
-            AppInfo info = mAdapterItems.get(i).appInfo;
-            if (info != null && mHiddenApps.contains(info.componentName)) {
-                mAdapterItems.remove(i);
-                i--;
+            for (int i = 0; i < mAdapterItems.size(); i++) {
+                AppInfo info = mAdapterItems.get(i).appInfo;
+                if (info != null && mHiddenApps.contains(info.componentName)) {
+                    mAdapterItems.remove(i);
+                    i--;
+                }
             }
         }
 
