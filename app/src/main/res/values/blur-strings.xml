@@ -243,7 +243,16 @@
     <string name="error_while_consuming">Error while consuming: %s</string>
     <string name="purchasing_error">Error: %s</string>
 
-    <!-- Explainations -->
+    <!-- Permission Model -->
+    <string name="permission_check_title">Blur\'s Permissions:</string>
+    <string name="permission_check_message">Blur is about to ask you for authorization on some permissions.\n\n
+
+        The permissions that are requested are NOT used by Blur itself, they are added so that developers that expand on Blur\'s functionality.\n\n
+
+        Feel free to decline any of these permissions. You can manually access these from your system\'s app settings.
+    </string>
+
+    <!-- Explanations -->
     <string name="keep_running_about">
         This setting attempts to keep Blur running through low memory situations. When your device\'s RAM gets low, Android will go through and shut down any processes taking to much power.\n\n
 

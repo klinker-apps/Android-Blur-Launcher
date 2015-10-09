@@ -101,6 +101,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.klinker.android.launcher.addons.PermissionModelUtil;
 import com.klinker.android.launcher.addons.PersisterService;
 import com.klinker.android.launcher.addons.pages.PagesFragmentAdapter;
 import com.klinker.android.launcher.addons.settings.*;
@@ -4865,6 +4866,11 @@ public class Launcher extends Activity
     }
 
     private void setUpBlur() {
+
+        PermissionModelUtil permissionUtils = new PermissionModelUtil(this);
+        if (permissionUtils.needPermissionCheck()) {
+            permissionUtils.showPermissionExplanationThenAuthorization();
+        }
 
         mLauncherDrawer = (LauncherDrawerLayout) findViewById(R.id.launcher_drawer);
         mDrawerPager = (ViewPager) mLauncherDrawer.findViewById(R.id.launcher_pager);
