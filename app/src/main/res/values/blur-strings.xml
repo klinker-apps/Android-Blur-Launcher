@@ -97,7 +97,7 @@
     <string name="width_padding">Width Padding</string>
     <string name="icon_grid">Homescreen Grid</string>
     <string name="all_apps_grid">All Apps Grid</string>
-    <string name="padding">Padding</string>
+    <string name="padding">Workspace Padding</string>
     <string name="screen_orientation">Screen Orientation</string>
     <string name="portrait">Portrait</string>
     <string name="landscape">Landscape</string>
