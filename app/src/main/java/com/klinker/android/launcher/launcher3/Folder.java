@@ -51,6 +51,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.klinker.android.launcher.addons.utils.ItemDropHelper;
 import com.klinker.android.launcher.launcher3.CellLayout.CellInfo;
 import com.klinker.android.launcher.launcher3.DragController.DragListener;
 import com.klinker.android.launcher.launcher3.FolderInfo.FolderListener;
@@ -256,9 +257,11 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
                 return false;
             }
 
+            mLauncher.lockLauncherDrawer(true);
             mLauncher.getWorkspace().beginDragShared(v, new Point(), this, accessible);
 
-            mCurrentDragInfo = item;
+            setItemBeingDragged(item);
+
             mEmptyCellRank = item.rank;
             mCurrentDragView = v;
 
@@ -591,7 +594,8 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
     }
 
     public void beginExternalDrag(ShortcutInfo item) {
-        mCurrentDragInfo = item;
+        setItemBeingDragged(item);
+
         mEmptyCellRank = mContent.allocateRankForNewItem(item);
         mIsExternalDrag = true;
         mDragInProgress = true;
@@ -763,7 +767,8 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
     }
 
     private void clearDragInfo() {
-        mCurrentDragInfo = null;
+        setItemBeingDragged(null);
+
         mCurrentDragView = null;
         mSuppressOnAdd = false;
         mIsExternalDrag = false;
@@ -848,7 +853,9 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         mDeleteFolderOnDropCompleted = false;
         mDragInProgress = false;
         mItemAddedBackToSelfViaIcon = false;
-        mCurrentDragInfo = null;
+
+        setItemBeingDragged(null);
+
         mCurrentDragView = null;
         mSuppressOnAdd = false;
 
@@ -1165,6 +1172,8 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
     public void onDrop(DragObject d) {
         Runnable cleanUpRunnable = null;
 
+        mLauncher.lockLauncherDrawer(false);
+
         // If we are coming from All Apps space, we defer removing the extra empty screen
         // until the folder closes
         if (d.dragSource != mLauncher.getWorkspace() && !(d.dragSource instanceof Folder)) {
@@ -1209,6 +1218,8 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         } else {
             currentDragView = mCurrentDragView;
             mContent.addViewForRank(currentDragView, si, mEmptyCellRank);
+
+            itemDropHelper.displayPopupIfNoChange(si, currentDragView);
         }
 
         if (d.dragView.hasDrawn()) {
@@ -1233,8 +1244,9 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         mSuppressOnAdd = true;
         mInfo.add(si);
         mSuppressOnAdd = false;
+
         // Clear the drag info, as it is no longer being dragged.
-        mCurrentDragInfo = null;
+        setItemBeingDragged(null);
         mDragInProgress = false;
 
         if (mContent.getPageCount() > 1) {
@@ -1404,4 +1416,26 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             }
         }
     };
+
+    private ItemDropHelper itemDropHelper;
+
+    private void setItemBeingDragged(ShortcutInfo info) {
+        if (itemDropHelper == null) {
+            itemDropHelper = new ItemDropHelper(getContext());
+        }
+
+        mCurrentDragInfo = info;
+
+        if (info == null) {
+            itemDropHelper.setItemBeingDragged(null);
+            return;
+        }
+
+        for (ShortcutInfo i : mInfo.contents) {
+            if (info.title.equals(i.title)) {
+                itemDropHelper.setItemBeingDragged(i);
+                break;
+            }
+        }
+    }
 }

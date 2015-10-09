@@ -18,6 +18,7 @@ As the apps feature-set continues to be merged into this new fork, I will contin
 - hidden apps (still show up when searching in the all apps drawer though, by design)
 - revamped settings menu
 - gesture support
+- menu when you drop an icon in the original location on the workspace
 - configure homescreen and all apps grid
 - configure workspace padding
 - change the number of dock icons

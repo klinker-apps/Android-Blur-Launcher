@@ -63,6 +63,7 @@ import android.widget.TextView;
 
 import com.klinker.android.launcher.addons.settings.AppSettings;
 import com.klinker.android.launcher.addons.utils.GestureUtils;
+import com.klinker.android.launcher.addons.utils.ItemDropHelper;
 import com.klinker.android.launcher.launcher3.FolderIcon.FolderRingAnimator;
 import com.klinker.android.launcher.launcher3.Launcher.CustomContentCallbacks;
 import com.klinker.android.launcher.launcher3.Launcher.LauncherOverlay;
@@ -2004,7 +2005,7 @@ public class Workspace extends PagedView
             }
             setImportantForAccessibility((mState == State.NORMAL || mState == State.OVERVIEW)
                     ? IMPORTANT_FOR_ACCESSIBILITY_AUTO
-                            : IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+                    : IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
         } else {
             int accessible = mState == State.NORMAL ?
                     IMPORTANT_FOR_ACCESSIBILITY_AUTO :
@@ -2683,6 +2684,10 @@ public class Workspace extends PagedView
                         addInScreen(cell, container, screenId, mTargetCell[0], mTargetCell[1],
                                 info.spanX, info.spanY);
                     }
+
+                    ItemDropHelper helper = new ItemDropHelper(getContext());
+                    helper.setItemBeingDragged(item);
+                    helper.displayPopupIfNoChange(mTargetCell[0], mTargetCell[1], d.dragView);
 
                     // update the item's position after drop
                     CellLayout.LayoutParams lp = (CellLayout.LayoutParams) cell.getLayoutParams();
