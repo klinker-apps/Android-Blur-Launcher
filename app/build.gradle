@@ -23,6 +23,27 @@ android {
         versionName project.VERSION_NAME
     }
 
+    File keystore = new File("../keystore.jks")
+    if (keystore.exists()) {
+        signingConfigs {
+            release {
+                storeFile file("keystore")
+                storePassword project.RELEASE_KEY
+                keyAlias "launcher"
+                keyPassword project.RELEASE_KEY
+            }
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled true
+                shrinkResources true
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
     lintOptions {
         abortOnError false
     }

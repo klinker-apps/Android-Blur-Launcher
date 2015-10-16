@@ -24,3 +24,4 @@ local.properties
 *.DS_Store
 LICENSE~
 */gen/
+keystore.jks
