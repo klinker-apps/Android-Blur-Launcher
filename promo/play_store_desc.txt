@@ -1,0 +1,55 @@
+Welcome to Blur, our launcher replacement! 
+
+
+Blur is  a custom launcher designed by Klinker Apps Inc. to bring you the most innovative experience on Android. With Blur, any developer can go in and create a "Page" for their app that can be displayed right on your homescreen, just a swipe away. Think about it like the Google Now Launcher, but instead of being limited to just Google Now on the side, you can use any app with a supported "Page"!
+
+Out of the box, we have created pages for both of our newest apps, Source News Reader, EvolveSMS and Talon for Twitter. We also have a Google Now style "Info Page" that other developers can plug into and create custom cards for.
+
+To get the Source News Reader page (the most useful - in my opinion!), just download the app: https://goo.gl/p81EWk
+To get the EvolveSMS page, just download the app: http://goo.gl/i4mzvB
+To get the Talon for Twitter page, follow these steps:
+1.) Download Talon for Twitter from the Play Store: http://goo.gl/Jfcpzw
+2.) Download and install the Talon Launcher Page: http://goo.gl/rXRkhG
+
+The reason you need to download the separate launcher page app is because of system limitations preventing us from reading the correct data from the normal Talon app (since it is paid).
+
+As I said, other devs can also create their own "pages" or "info cards" for Blur! Just search the Play Store for "Blur Launcher" and they should start to appear once developers start to make them!
+
+To apply pages to your launcher:
+1.) Long click an empty space on the homescreen, then press settings.
+2.) Go to the page picker, and just hit the add button on an open page (swipe left and right to get to other pages)
+3.) Next time you return to your homescreen, it will restart itself and the pages will be there!
+
+To apply info cards to the "Info Page":
+1.) Add the info page to your launcher with the above steps
+2.) Go back to settings and click the card picker button
+3.) Pressing the "Add Card" button on that screen will then bring up a list of all the available cards
+
+
+The page and card settings are just the beginning though. Diving into the rest of the settings, you will find things like:
+- Simple gesture support
+- Dock toggle and options
+- Icon scales
+- Search bar toggle
+- Grid size selection
+- And many more!
+
+A few other features that are included:
+- Ability to edit icon names individually
+- Hide apps
+- Resize any widgets
+- And much more!
+
+Hope you enjoy our project, I know we have had a lot of fun making it!
+
+Here are some helpful links for the project as well. Remember to check out the Settings -> Help -> Frequent Questions section first! Many of your issues will be solved or explained fairly quickly there, without worrying about waiting for us to respond!
+
+Google+ Beta Community: http://goo.gl/bTrWIL
+Twitter Support: https://twitter.com/lukeklinker (@lukeklinker)
+Website: http://klinkerapps.com
+Email: support@klinkerapps.com
+YouTube Video: http://youtu.be/HD66-8a3J1w
+
+
+** For Developers **
+Extension API and example projects: https://github.com/klinker-apps/blur-launcher-apis
