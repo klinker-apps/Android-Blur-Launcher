@@ -2685,9 +2685,13 @@ public class Workspace extends PagedView
                                 info.spanX, info.spanY);
                     }
 
-                    ItemDropHelper helper = new ItemDropHelper(getContext());
-                    helper.setItemBeingDragged(item);
-                    helper.displayPopupIfNoChange(mTargetCell[0], mTargetCell[1], d.dragView);
+                    try {
+                        ItemDropHelper helper = new ItemDropHelper(getContext());
+                        helper.setItemBeingDragged(item);
+                        helper.displayPopupIfNoChange(mTargetCell[0], mTargetCell[1], d.dragView);
+                    } catch (Exception e) {
+                        // we don't want it to crash when we are dropping a widget in place
+                    }
 
                     // update the item's position after drop
                     CellLayout.LayoutParams lp = (CellLayout.LayoutParams) cell.getLayoutParams();
