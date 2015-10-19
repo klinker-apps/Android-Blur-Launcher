@@ -74,6 +74,14 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
 
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+
+    <!-- read the calendar events -->
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+
+    <!-- read gmail -->
+    <uses-permission android:name="com.google.android.gm.permission.READ_CONTENT_PROVIDER"/>
+
     <application
         android:allowBackup="@bool/enable_backup"
         android:backupAgent="com.klinker.android.launcher.launcher3.LauncherBackupAgentHelper"
