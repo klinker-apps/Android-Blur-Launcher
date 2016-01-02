@@ -3579,13 +3579,13 @@ public class Launcher extends Activity
                 mSearchDropTargetBar.addView(mQsb);
                 mSearchDropTargetBar.setQsbSearchBar(mQsb);
 
-                createClickableSearch();
+                createClickableSearch(1);
             }
         }
         return mQsb;
     }
 
-    private void createClickableSearch() {
+    private void createClickableSearch(final int tryNumber) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -3617,7 +3617,18 @@ public class Launcher extends Activity
                     }
                 });
 
-                content.addView(search);
+                try {
+                    content.addView(search);
+                } catch (Exception e) {
+                    if (tryNumber <= 3) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                createClickableSearch(tryNumber + 1);
+                            }
+                        }, 2000);
+                    }
+                }
             }
         }, 1000);
 
