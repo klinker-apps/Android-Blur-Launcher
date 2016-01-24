@@ -2251,7 +2251,11 @@ public class Launcher extends Activity
         intent.setComponent(globalSearchActivity);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        startActivity(intent);
+        try {
+            startActivity(intent);
+        } catch (Throwable e) {
+            startGlobalSearch("", false, new Bundle(), new Rect());
+        }
     }
 
     public boolean isOnCustomContent() {
