@@ -2177,6 +2177,18 @@ public class Launcher extends Activity
         }
     }
 
+    private void showGlobalSearchOverlay() {
+        ComponentName globalSearchActivity =
+                new ComponentName("com.google.android.googlequicksearchbox",
+                        "com.google.android.apps.gsa.queryentry.QueryEntryActivity");
+
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setComponent(globalSearchActivity);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        startActivity(intent);
+    }
+
     public boolean isOnCustomContent() {
         return mWorkspace.isOnOrMovingToCustomContent();
     }
@@ -3613,7 +3625,8 @@ public class Launcher extends Activity
                 search.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startSearch("", false, new Bundle(), new Rect());
+                        showGlobalSearchOverlay();
+                        //startSearch("", false, new Bundle(), new Rect());
                     }
                 });
 
