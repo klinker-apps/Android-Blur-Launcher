@@ -1,8 +1,13 @@
 <changelog>
 
+    <version name="2.0.4">
+        <text>Bug fixes</text>
+    </version>
+
     <version name="2.0.3">
         <text>Improve the search UI</text>
     </version>
+    
     <version name="2.0.2">
         <text>Force close on device reboot is fixed</text>
     </version>
