@@ -55,6 +55,10 @@ class AllAppsGridAdapter extends RecyclerView.Adapter<AllAppsGridAdapter.ViewHol
     public static final int PREDICTION_ICON_VIEW_TYPE = 2;
     // The message shown when there are no filtered results
     public static final int EMPTY_SEARCH_VIEW_TYPE = 3;
+    // A divider that separates the apps list and the search market button
+    public static final int SEARCH_MARKET_DIVIDER_VIEW_TYPE = 4;
+    // The message to continue to a market search when there are no filtered results
+    public static final int SEARCH_MARKET_VIEW_TYPE = 5;
 
     /**
      * ViewHolder for each icon.

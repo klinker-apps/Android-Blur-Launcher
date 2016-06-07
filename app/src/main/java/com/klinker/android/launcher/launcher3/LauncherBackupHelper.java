@@ -32,6 +32,7 @@ import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
@@ -74,7 +75,7 @@ public class LauncherBackupHelper implements BackupHelper {
     private static final boolean VERBOSE = LauncherBackupAgentHelper.VERBOSE;
     private static final boolean DEBUG = LauncherBackupAgentHelper.DEBUG;
 
-    private static final int BACKUP_VERSION = 3;
+    private static final int BACKUP_VERSION = 4;
     private static final int MAX_JOURNAL_SIZE = 1000000;
 
     // Journal key is such that it is always smaller than any dynamically generated
@@ -106,6 +107,7 @@ public class LauncherBackupHelper implements BackupHelper {
         Favorites.SPANY,                   // 15
         Favorites.TITLE,                   // 16
         Favorites.PROFILE_ID,              // 17
+        Favorites.RANK,                    // 18
     };
 
     private static final int ID_INDEX = 0;
@@ -125,6 +127,7 @@ public class LauncherBackupHelper implements BackupHelper {
     private static final int SPANX_INDEX = 14;
     private static final int SPANY_INDEX = 15;
     private static final int TITLE_INDEX = 16;
+    private static final int RANK_INDEX = 18;
 
     private static final String[] SCREEN_PROJECTION = {
         WorkspaceScreens._ID,              // 0
@@ -148,8 +151,14 @@ public class LauncherBackupHelper implements BackupHelper {
     private IconCache mIconCache;
     private InvariantDeviceProfile mIdp;
 
+    HashSet<String> widgetSizes = new HashSet<>();
+
     boolean restoreSuccessful;
     int restoredBackupVersion = 1;
+
+    // When migrating from a device which different hotseat configuration, the icons are shifted
+    // to center along the new all-apps icon.
+    private int mHotseatShift = 0;
 
     public LauncherBackupHelper(Context context) {
         mContext = context;
@@ -374,7 +383,10 @@ public class LauncherBackupHelper implements BackupHelper {
                 Key key = getKey(Key.FAVORITE, id);
                 mKeys.add(key);
                 final String backupKey = keyToBackupKey(key);
-                if (!mExistingKeys.contains(backupKey) || updateTime >= mLastBackupRestoreTime) {
+
+                // Favorite proto changed in v4. Backup again if the version is old.
+                if (!mExistingKeys.contains(backupKey) || updateTime >= mLastBackupRestoreTime
+                        || restoredBackupVersion < 4) {
                     writeRowToBackup(key, packFavorite(cursor), data);
                 } else {
                     if (DEBUG) Log.d(TAG, "favorite already backup up: " + id);
@@ -543,10 +555,11 @@ public class LauncherBackupHelper implements BackupHelper {
         Bitmap icon = BitmapFactory.decodeByteArray(res.data, 0, res.data.length);
         if (icon == null) {
             Log.w(TAG, "failed to unpack icon for " + key.name);
+        } else {
+            if (VERBOSE) Log.v(TAG, "saving restored icon as: " + key.name);
+            mIconCache.preloadIcon(ComponentName.unflattenFromString(key.name), icon, res.dpi,
+                    "" /* label */, mUserSerial, mIdp);
         }
-        if (VERBOSE) Log.v(TAG, "saving restored icon as: " + key.name);
-        mIconCache.preloadIcon(ComponentName.unflattenFromString(key.name), icon, res.dpi,
-                "" /* label */, mUserSerial);
     }
 
     /**
@@ -580,7 +593,9 @@ public class LauncherBackupHelper implements BackupHelper {
                 } else {
                     Log.w(TAG, "empty intent on appwidget: " + id);
                 }
-                if (mExistingKeys.contains(backupKey) && restoredBackupVersion >= BACKUP_VERSION) {
+
+                // Widget backup proto changed in v3. So add it again if the original backup is old.
+                if (mExistingKeys.contains(backupKey) && restoredBackupVersion >= 3) {
                     if (DEBUG) Log.d(TAG, "already saved widget " + backupKey);
 
                     // remember that we already backed this up previously
@@ -627,11 +642,12 @@ public class LauncherBackupHelper implements BackupHelper {
                 Log.w(TAG, "failed to unpack widget icon for " + key.name);
             } else {
                 mIconCache.preloadIcon(ComponentName.unflattenFromString(widget.provider),
-                        icon, widget.icon.dpi, widget.label, mUserSerial);
+                        icon, widget.icon.dpi, widget.label, mUserSerial, mIdp);
             }
         }
 
-        // future site of widget table mutation
+        // Cache widget min sizes incase migration is required.
+        widgetSizes.add(widget.provider + "#" + 1 + "," + 1);
     }
 
     /** create a new key, with an integer ID.
@@ -788,6 +804,11 @@ public class LauncherBackupHelper implements BackupHelper {
     private ContentValues unpackFavorite(byte[] buffer, int dataSize)
             throws IOException {
         Favorite favorite = unpackProto(new Favorite(), buffer, dataSize);
+
+        // If it is a hotseat item, move it accordingly.
+        if (favorite.container == Favorites.CONTAINER_HOTSEAT) {
+            favorite.screen += mHotseatShift;
+        }
 
         ContentValues values = new ContentValues();
         values.put(Favorites._ID, favorite.id);
@@ -1064,6 +1085,10 @@ public class LauncherBackupHelper implements BackupHelper {
         @Thunk InvalidBackupException(String reason) {
             super(reason);
         }
+    }
+
+    public boolean shouldAttemptWorkspaceMigration() {
+        return false;
     }
 
     /**

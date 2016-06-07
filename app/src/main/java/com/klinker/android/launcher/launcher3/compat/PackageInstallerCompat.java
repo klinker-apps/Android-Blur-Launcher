@@ -17,6 +17,7 @@
 package com.klinker.android.launcher.launcher3.compat;
 
 import android.content.Context;
+import android.os.Build;
 
 import com.klinker.android.launcher.launcher3.Utilities;
 
@@ -34,7 +35,7 @@ public abstract class PackageInstallerCompat {
     public static PackageInstallerCompat getInstance(Context context) {
         synchronized (sInstanceLock) {
             if (sInstance == null) {
-                if (Utilities.isLmpOrAbove()) {
+                if (Build.VERSION.SDK_INT > 21) {
                     sInstance = new PackageInstallerCompatVL(context);
                 } else {
                     sInstance = new PackageInstallerCompatV16();

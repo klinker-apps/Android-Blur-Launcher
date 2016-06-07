@@ -17,10 +17,10 @@
 package com.klinker.android.launcher.launcher3;
 
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.UserManager;
 import android.util.Log;
 
 import com.klinker.android.launcher.launcher3.accessibility.LauncherAccessibilityDelegate;
@@ -98,7 +98,6 @@ public class LauncherAppState {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_LOCALE_CHANGED);
         filter.addAction(SearchManager.INTENT_GLOBAL_SEARCH_ACTIVITY_CHANGED);
-        filter.addAction(SearchManager.INTENT_ACTION_SEARCHABLES_CHANGED);
         // For handling managed profiles
         filter.addAction(LauncherAppsCompat.ACTION_MANAGED_PROFILE_ADDED);
         filter.addAction(LauncherAppsCompat.ACTION_MANAGED_PROFILE_REMOVED);
@@ -130,7 +129,7 @@ public class LauncherAppState {
     LauncherModel setLauncher(Launcher launcher) {
         getLauncherProvider().setLauncherProviderChangeListener(launcher);
         mModel.initialize(launcher);
-        mAccessibilityDelegate = ((launcher != null) && Utilities.isLmpOrAbove()) ?
+        mAccessibilityDelegate = ((launcher != null) && Utilities.ATLEAST_LOLLIPOP) ?
             new LauncherAccessibilityDelegate(launcher) : null;
         return mModel;
     }
@@ -151,7 +150,7 @@ public class LauncherAppState {
         sLauncherProvider = new WeakReference<LauncherProvider>(provider);
     }
 
-    static LauncherProvider getLauncherProvider() {
+    public static LauncherProvider getLauncherProvider() {
         return sLauncherProvider.get();
     }
 

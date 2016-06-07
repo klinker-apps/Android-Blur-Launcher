@@ -15,6 +15,7 @@ import com.klinker.android.launcher.launcher3.DragLayer;
 import com.klinker.android.launcher.launcher3.DragSource;
 import com.klinker.android.launcher.launcher3.Launcher;
 import com.klinker.android.launcher.launcher3.LauncherAppWidgetProviderInfo;
+import com.klinker.android.launcher.launcher3.Utilities;
 import com.klinker.android.launcher.launcher3.compat.AppWidgetManagerCompat;
 import com.klinker.android.launcher.launcher3.util.Thunk;
 
@@ -131,7 +132,7 @@ public class WidgetHostViewLoader implements DragListener {
     public static Bundle getDefaultOptionsForWidget(Launcher launcher, PendingAddWidgetInfo info) {
         Bundle options = null;
         Rect rect = new Rect();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        if (Utilities.ATLEAST_JB_MR1) {
             AppWidgetResizeFrame.getWidgetSizeRanges(launcher, info.spanX, info.spanY, rect);
             Rect padding = AppWidgetHostView.getDefaultPaddingForWidget(launcher,
                     info.componentName, null);

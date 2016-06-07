@@ -63,7 +63,7 @@ public class LauncherBackupAgentHelper extends BackupAgentHelper {
     @Override
     public void onRestore(BackupDataInput data, int appVersionCode, ParcelFileDescriptor newState)
             throws IOException {
-        if (!Utilities.isLmpOrAbove()) {
+        if (!Utilities.ATLEAST_LOLLIPOP) {
             // No restore for old devices.
             Log.i(TAG, "You shall not pass!!!");
             Log.d(TAG, "Restore is only supported on devices running Lollipop and above.");
@@ -91,11 +91,12 @@ public class LauncherBackupAgentHelper extends BackupAgentHelper {
             LauncherAppState.getLauncherProvider().clearFlagEmptyDbCreated();
             LauncherClings.synchonouslyMarkFirstRunClingDismissed(this);
 
-            // TODO: Update the backup set to include rank.
+            // Rank was added in v4.
             if (mHelper.restoredBackupVersion <= 3) {
                 LauncherAppState.getLauncherProvider().updateFolderItemsRank();
-                LauncherAppState.getLauncherProvider().convertShortcutsToLauncherActivities();
             }
+
+            LauncherAppState.getLauncherProvider().convertShortcutsToLauncherActivities();
         } else {
             if (VERBOSE) Log.v(TAG, "Nothing was restored, clearing DB");
             LauncherAppState.getLauncherProvider().createEmptyDB();
