@@ -2177,6 +2177,22 @@ public class Launcher extends Activity
         startActivitySafely(v, searchIntent, null);
     }
 
+    private void showGlobalSearchOverlay() {
+        ComponentName globalSearchActivity =
+                new ComponentName("com.google.android.googlequicksearchbox",
+                        "com.google.android.apps.gsa.queryentry.QueryEntryActivity");
+
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.setComponent(globalSearchActivity);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        try {
+            startActivity(intent);
+        } catch (Throwable e) {
+            startGlobalSearch("", false, new Bundle(), new Rect());
+        }
+    }
+
     public boolean isOnCustomContent() {
         return mWorkspace.isOnOrMovingToCustomContent();
     }
@@ -3561,13 +3577,13 @@ public class Launcher extends Activity
                 mSearchDropTargetBar.addView(mQsb);
                 mSearchDropTargetBar.setQsbSearchBar(mQsb);
 
-                createClickableSearch();
+                createClickableSearch(1);
             }
         }
         return mQsb;
     }
 
-    private void createClickableSearch() {
+    private void createClickableSearch(final int tryNumber) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -3595,11 +3611,23 @@ public class Launcher extends Activity
                 search.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startSearch("", false, new Bundle(), new Rect());
+                        showGlobalSearchOverlay();
+                        //startSearch("", false, new Bundle(), new Rect());
                     }
                 });
 
-                content.addView(search);
+                try {
+                    content.addView(search);
+                } catch (Exception e) {
+                    if (tryNumber <= 3) {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                createClickableSearch(tryNumber + 1);
+                            }
+                        }, 2000);
+                    }
+                }
             }
         }, 1000);
 
