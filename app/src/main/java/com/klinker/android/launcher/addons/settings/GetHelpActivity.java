@@ -36,7 +36,7 @@ public class GetHelpActivity extends SettingsPopupActivity {
     private static final int EMAIL = 2;
 
     private static final String TWITTER_LINK = "https://twitter.com/lukeklinker";
-    private static final String[] EMAIL_ADDRESS = new String[] {"support@klinkerapps.com"};
+    private static final String[] EMAIL_ADDRESS = new String[] {"luke@klinkerapps.com"};
     private static final String WEBSITE_LINK = "http://klinkerapps.com";
     private static final String YOUTUBE_LINK = "http://youtu.be/HD66-8a3J1w";
     private static final String GOOGLE_PLUS_LINK = "https://plus.google.com/communities/111855545153586177337";
