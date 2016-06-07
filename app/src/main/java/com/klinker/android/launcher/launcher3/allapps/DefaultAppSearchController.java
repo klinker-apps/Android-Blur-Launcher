@@ -26,6 +26,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import com.klinker.android.launcher.R;
+import com.klinker.android.launcher.launcher3.ExtendedEditText;
 import com.klinker.android.launcher.launcher3.Utilities;
 import com.klinker.android.launcher.launcher3.util.Thunk;
 
@@ -54,7 +55,8 @@ final class DefaultAppSearchController extends AllAppsSearchBarController
     @Thunk View mSearchBarContainerView;
     private View mSearchButtonView;
     private View mDismissSearchButtonView;
-    @Thunk AllAppsSearchEditView mSearchBarEditView;
+    @Thunk
+    ExtendedEditText mSearchBarEditView;
     @Thunk AllAppsRecyclerView mAppsRecyclerView;
     @Thunk Runnable mFocusRecyclerViewRunnable = new Runnable() {
         @Override
@@ -82,12 +84,12 @@ final class DefaultAppSearchController extends AllAppsSearchBarController
         mSearchBarContainerView = mSearchView.findViewById(R.id.search_container);
         mDismissSearchButtonView = mSearchBarContainerView.findViewById(R.id.dismiss_search_button);
         mDismissSearchButtonView.setOnClickListener(this);
-        mSearchBarEditView = (AllAppsSearchEditView)
+        mSearchBarEditView = (ExtendedEditText)
                 mSearchBarContainerView.findViewById(R.id.search_box_input);
         mSearchBarEditView.addTextChangedListener(this);
         mSearchBarEditView.setOnEditorActionListener(this);
         mSearchBarEditView.setOnBackKeyListener(
-                new AllAppsSearchEditView.OnBackKeyListener() {
+                new ExtendedEditText.OnBackKeyListener() {
                     @Override
                     public void onBackKey() {
                         // Only hide the search field if there is no query, or if there
