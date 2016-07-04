@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.1.1">
+        <text>Fix weird text coloring in settings</text>
+    </version>
+
     <version name="2.1.0">
         <text>Update to the latest Google Now Launcher changes</text>
     </version>
