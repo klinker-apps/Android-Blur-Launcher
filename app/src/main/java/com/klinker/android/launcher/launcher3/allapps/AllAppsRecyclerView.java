@@ -15,6 +15,7 @@
  */
 package com.klinker.android.launcher.launcher3.allapps;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -25,10 +26,10 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.klinker.android.launcher.R;
 import com.klinker.android.launcher.launcher3.BaseRecyclerView;
 import com.klinker.android.launcher.launcher3.BaseRecyclerViewFastScrollBar;
 import com.klinker.android.launcher.launcher3.DeviceProfile;
+import com.klinker.android.launcher.launcher3.R;
 import com.klinker.android.launcher.launcher3.Stats;
 import com.klinker.android.launcher.launcher3.Utilities;
 import com.klinker.android.launcher.launcher3.util.Thunk;
@@ -76,7 +77,7 @@ public class AllAppsRecyclerView extends BaseRecyclerView
     }
 
     public AllAppsRecyclerView(Context context, AttributeSet attrs, int defStyleAttr,
-                               int defStyleRes) {
+            int defStyleRes) {
         super(context, attrs, defStyleAttr);
 
         Resources res = getResources();
