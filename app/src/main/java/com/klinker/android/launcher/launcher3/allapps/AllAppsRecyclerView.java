@@ -29,7 +29,7 @@ import android.view.View;
 import com.klinker.android.launcher.launcher3.BaseRecyclerView;
 import com.klinker.android.launcher.launcher3.BaseRecyclerViewFastScrollBar;
 import com.klinker.android.launcher.launcher3.DeviceProfile;
-import com.klinker.android.launcher.launcher3.R;
+import com.klinker.android.launcher.R;
 import com.klinker.android.launcher.launcher3.Stats;
 import com.klinker.android.launcher.launcher3.Utilities;
 import com.klinker.android.launcher.launcher3.util.Thunk;

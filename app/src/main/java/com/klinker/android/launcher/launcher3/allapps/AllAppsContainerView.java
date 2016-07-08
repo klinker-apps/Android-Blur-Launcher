@@ -44,7 +44,7 @@ import com.klinker.android.launcher.launcher3.Folder;
 import com.klinker.android.launcher.launcher3.ItemInfo;
 import com.klinker.android.launcher.launcher3.Launcher;
 import com.klinker.android.launcher.launcher3.LauncherTransitionable;
-import com.klinker.android.launcher.launcher3.R;
+import com.klinker.android.launcher.R;
 import com.klinker.android.launcher.launcher3.Utilities;
 import com.klinker.android.launcher.launcher3.Workspace;
 import com.klinker.android.launcher.launcher3.util.ComponentKey;

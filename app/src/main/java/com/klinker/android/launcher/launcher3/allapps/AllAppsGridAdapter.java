@@ -40,7 +40,7 @@ import android.widget.TextView;
 import com.klinker.android.launcher.launcher3.AppInfo;
 import com.klinker.android.launcher.launcher3.BubbleTextView;
 import com.klinker.android.launcher.launcher3.Launcher;
-import com.klinker.android.launcher.launcher3.R;
+import com.klinker.android.launcher.R;
 import com.klinker.android.launcher.launcher3.Utilities;
 import com.klinker.android.launcher.launcher3.util.Thunk;
 
