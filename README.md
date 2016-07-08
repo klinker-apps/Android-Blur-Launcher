@@ -1,6 +1,6 @@
 # Blur - A Launcher Replacement
 
-![Promo](https://raw.githubusercontent.com/klinker24/Android-Blur-Launcher/master/promo/images/Feature%20Graphic.png)
+![Promo](https://raw.githubusercontent.com/klinker24/Android-Blur-Launcher/ef68298c73f2c678996d7921b263b6f4e50843c0/promo/images/Feature%20Graphic%202.png)
 
 This is Blur Launcher, Klinker Apps one stop shop for the most powerful launcher around.
 
