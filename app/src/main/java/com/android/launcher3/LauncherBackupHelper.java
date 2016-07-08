@@ -51,7 +51,6 @@ import com.android.launcher3.backup.BackupProtos.Screen;
 import com.android.launcher3.backup.BackupProtos.Widget;
 import com.android.launcher3.compat.UserHandleCompat;
 import com.android.launcher3.compat.UserManagerCompat;
-import com.android.launcher3.model.MigrateFromRestoreTask;
 import com.android.launcher3.util.Thunk;
 import com.google.protobuf.nano.InvalidProtocolBufferNanoException;
 import com.google.protobuf.nano.MessageNano;
