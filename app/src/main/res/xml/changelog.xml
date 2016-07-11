@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.1.3">
+        <text>Fix hidden apps not working correctly</text>
+    </version>
+
     <version name="2.1.2">
         <text>Search the Play Store for apps if they aren't installed</text>
         <text>Bug/UI fixes</text>

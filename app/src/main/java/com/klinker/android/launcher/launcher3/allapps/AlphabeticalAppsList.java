@@ -17,6 +17,7 @@ package com.klinker.android.launcher.launcher3.allapps;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import com.klinker.android.launcher.launcher3.AppInfo;
@@ -172,6 +173,10 @@ public class AlphabeticalAppsList {
     private final List<AppInfo> mApps = new ArrayList<>();
     private final HashMap<ComponentKey, AppInfo> mComponentToAppMap = new HashMap<>();
 
+    // the set of hidden apps and packages
+    private ArrayList<ComponentName> mHiddenApps;
+    private ArrayList<String> mHiddenPackages;
+
     // The set of filtered apps with the current filter
     private List<AppInfo> mFilteredApps = new ArrayList<>();
     // The current set of adapter items
@@ -199,6 +204,22 @@ public class AlphabeticalAppsList {
         mLauncher = (Launcher) context;
         mIndexer = new AlphabeticIndexCompat(context);
         mAppNameComparator = new AppNameComparator(context);
+
+        String[] flattened = PreferenceManager.getDefaultSharedPreferences(context).getString("hidden_apps", "").split("\\|");
+        mHiddenApps = new ArrayList<ComponentName>(flattened.length);
+        mHiddenPackages = new ArrayList<String>(flattened.length);
+        for (String flat : flattened) {
+            ComponentName cmp = ComponentName.unflattenFromString(flat);
+            if (cmp != null) {
+                mHiddenApps.add(cmp);
+                mHiddenPackages.add(cmp.getPackageName());
+            }
+        }
+
+        // add blur to the hidden apps
+        ComponentName cmp = ComponentName.unflattenFromString("com.klinker.android.launcher/com.klinker.android.launcher.launcher3.Launcher");
+        mHiddenApps.add(cmp);
+        mHiddenPackages.add(cmp.getPackageName());
     }
 
     /**
@@ -456,32 +477,34 @@ public class AlphabeticalAppsList {
         // Recreate the filtered and sectioned apps (for convenience for the grid layout) from the
         // ordered set of sections
         for (AppInfo info : getFiltersAppInfos()) {
-            String sectionName = getAndUpdateCachedSectionName(info.title);
+            if (!mHiddenApps.contains(info.getIntent().getComponent()) || hasFilter()) {
+                String sectionName = getAndUpdateCachedSectionName(info.title);
 
-            // Create a new section if the section names do not match
-            if (lastSectionInfo == null || !sectionName.equals(lastSectionName)) {
-                lastSectionName = sectionName;
-                lastSectionInfo = new SectionInfo();
-                lastFastScrollerSectionInfo = new FastScrollSectionInfo(sectionName);
-                mSections.add(lastSectionInfo);
-                mFastScrollerSections.add(lastFastScrollerSectionInfo);
+                // Create a new section if the section names do not match
+                if (lastSectionInfo == null || !sectionName.equals(lastSectionName)) {
+                    lastSectionName = sectionName;
+                    lastSectionInfo = new SectionInfo();
+                    lastFastScrollerSectionInfo = new FastScrollSectionInfo(sectionName);
+                    mSections.add(lastSectionInfo);
+                    mFastScrollerSections.add(lastFastScrollerSectionInfo);
 
-                // Create a new section item to break the flow of items in the list
-                if (!hasFilter()) {
-                    AdapterItem sectionItem = AdapterItem.asSectionBreak(position++, lastSectionInfo);
-                    mAdapterItems.add(sectionItem);
+                    // Create a new section item to break the flow of items in the list
+                    if (!hasFilter()) {
+                        AdapterItem sectionItem = AdapterItem.asSectionBreak(position++, lastSectionInfo);
+                        mAdapterItems.add(sectionItem);
+                    }
                 }
-            }
 
-            // Create an app item
-            AdapterItem appItem = AdapterItem.asApp(position++, lastSectionInfo, sectionName,
-                    lastSectionInfo.numApps++, info, appIndex++);
-            if (lastSectionInfo.firstAppItem == null) {
-                lastSectionInfo.firstAppItem = appItem;
-                lastFastScrollerSectionInfo.fastScrollToItem = appItem;
+                // Create an app item
+                AdapterItem appItem = AdapterItem.asApp(position++, lastSectionInfo, sectionName,
+                        lastSectionInfo.numApps++, info, appIndex++);
+                if (lastSectionInfo.firstAppItem == null) {
+                    lastSectionInfo.firstAppItem = appItem;
+                    lastFastScrollerSectionInfo.fastScrollToItem = appItem;
+                }
+                mAdapterItems.add(appItem);
+                mFilteredApps.add(info);
             }
-            mAdapterItems.add(appItem);
-            mFilteredApps.add(info);
         }
 
         // Append the search market item if we are currently searching
