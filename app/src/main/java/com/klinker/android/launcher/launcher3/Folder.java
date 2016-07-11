@@ -208,6 +208,8 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             }
         });
         mFolderName.setOnFocusChangeListener(this);
+        mFolderName.setFocusable(true);
+        mFolderName.setFocusableInTouchMode(true);
 
         // We disable action mode for now since it messes up the view on phones
         mFolderName.setCustomSelectionActionModeCallback(mActionModeCallback);
