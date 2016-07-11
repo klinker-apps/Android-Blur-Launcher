@@ -1,5 +1,10 @@
 <changelog>
 
+    <version name="2.1.2">
+        <text>Search the Play Store for apps if they aren't installed</text>
+        <text>Bug/UI fixes</text>
+    </version>
+
     <version name="2.1.1">
         <text>Fix weird text coloring in settings</text>
     </version>
