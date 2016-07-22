@@ -33,7 +33,7 @@ android {
     }
 
     File keystore = new File(props['keystorefile'])
-    if (keystore.exists() && keystoreProperties.exists()) {
+    if (keystore.exists()) {
         signingConfigs {
             release {
                 storeFile file(props['keystorefile'])
