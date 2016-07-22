@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
 
+File keystoreProperties = new File("keystore.properties")
+def props = new Properties()
+if (keystoreProperties.exists()) {
+    def keystoreFile = rootProject.file('keystore.properties')
+    props.load(new FileInputStream(keystoreFile))
+} else {
+    props['keystorefile'] = 'none';
+}
+
 android {
     packagingOptions {
         exclude 'LICENSE.txt'
@@ -23,14 +32,14 @@ android {
         versionName project.VERSION_NAME
     }
 
-    File keystore = new File("keystore.jks")
-    if (keystore.exists()) {
+    File keystore = new File(props['keystorefile'])
+    if (keystore.exists() && keystoreProperties.exists()) {
         signingConfigs {
             release {
-                storeFile file("keystore.jks")
-                storePassword project.RELEASE_KEY
-                keyAlias "launcher"
-                keyPassword project.RELEASE_KEY
+                storeFile file(props['keystorefile'])
+                storePassword props['keystorepassword']
+                keyAlias props['keyalias']
+                keyPassword props['keypassword']
             }
         }
 
