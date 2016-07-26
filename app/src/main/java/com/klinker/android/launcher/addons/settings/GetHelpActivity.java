@@ -30,6 +30,7 @@ public class GetHelpActivity extends SettingsPopupActivity {
     private static final int WEBSITE = 4;
     private static final int YOUTUBE = 5;
     private static final int CREDITS = 6;
+    private static final int PRIVACY_POLICY = 7;
 
     private static final int TWITTER = 0;
     private static final int GOOGLE_PLUS = 1;
@@ -40,6 +41,7 @@ public class GetHelpActivity extends SettingsPopupActivity {
     private static final String WEBSITE_LINK = "http://klinkerapps.com";
     private static final String YOUTUBE_LINK = "http://youtu.be/HD66-8a3J1w";
     private static final String GOOGLE_PLUS_LINK = "https://plus.google.com/communities/111855545153586177337";
+    private static final String PRIVACY_POLICY_LINK = "http://privacy.klinkerapps.com";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,6 +96,11 @@ public class GetHelpActivity extends SettingsPopupActivity {
                         break;
                     case CREDITS:
                         showCreditsDialog();
+                        break;
+                    case PRIVACY_POLICY:
+                        Intent privacy = new Intent(Intent.ACTION_VIEW);
+                        privacy.setData(Uri.parse(PRIVACY_POLICY_LINK));
+                        startActivity(privacy);
                         break;
                 }
             }

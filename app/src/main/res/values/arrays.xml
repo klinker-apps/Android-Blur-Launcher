@@ -148,6 +148,7 @@
         <item>@string/website</item>
         <item>@string/youtube_video</item>
         <item>@string/credits</item>
+        <item>@string/privacy_policy</item>
     </string-array>
 
     <string-array name="contact_us_items">

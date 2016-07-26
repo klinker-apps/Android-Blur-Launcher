@@ -1,5 +1,9 @@
 <changelog>
 
+    <version name="2.1.5">
+        <text>Added a link to our privacy policy (http://privacy.klinkerapps.com)</text>
+    </version>
+    
 	<version name="2.1.4">
 		<text>Bug fixes</text>
 	</version>
