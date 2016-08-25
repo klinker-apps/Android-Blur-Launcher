@@ -8,9 +8,7 @@ import com.klinker.android.launcher.R;
 public class BlurPagesUtils {
 
     public static Page[] PAGES = new Page[] {
-            new Page(".info_page.LauncherFragment", R.string.info_page),
-            new Page(".calc_page.LauncherFragment", R.string.calculator_page),
-            new Page(".vertical_app_page.LauncherFragment", R.string.vertical_app_drawer)
+            new Page(".calc_page.LauncherFragment", R.string.calculator_page)
     };
 
     public static Item[] getAvailablePages(Context context) {
