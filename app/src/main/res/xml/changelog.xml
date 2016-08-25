@@ -2,8 +2,10 @@
 
     <version name="2.2.0">
         <text>Update to the latest Launcher3 code from Google</text>
-        <text>Set the lockscreen wallpaper in Nougat</text>
         <text>Icon normalization</text>
+        <text>Added an option to use the predicted apps in the app drawer</text>
+        <text>Set the lockscreen wallpaper in Nougat</text>
+        <text>Improved styling for large tablets</text>
         <text>Improved app drawer</text>
         <text>Improved searching</text>
         <text>Plus way more</text>
