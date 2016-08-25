@@ -161,32 +161,12 @@
         <item>@string/talon_for_twitter</item>
         <item>@string/evolve_sms</item>
         <item>@string/source</item>
-        <item>@string/sliding_messaging</item>
-        <item>@string/theme_spotlight</item>
-        <item>@string/sliding_messaging_theme_engine</item>
-        <item>@string/sliding_emoji_keyboard</item>
-        <item>@string/sliding_emoji_keyboard_ios</item>
-        <item>@string/sliding_emoji_keyboard_unlocker</item>
-        <item>@string/inspire</item>
-        <item>@string/halopop</item>
-        <item>@string/slideover_messaging</item>
-        <item>@string/floating_window</item>
     </string-array>
 
     <string-array name="klinker_apps_links">
-        <item>https://play.google.com/store/apps/details?id=com.klinker.android.twitter</item>
+        <item>https://play.google.com/store/apps/details?id=com.klinker.android.twitter_l</item>
         <item>https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms</item>
         <item>https://play.google.com/store/apps/details?id=com.klinker.android.reader</item>
-        <item>https://play.google.com/store/apps/details?id=com.klinker.android.messaging_donate</item>
-        <item>https://play.google.com/store/apps/details?id=com.klinker.android.theme_spotlight</item>
-        <item>https://play.google.com/store/apps/details?id=com.klinker.android.messaging_theme</item>
-        <item>https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial</item>
-        <item>https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard_trial_ios</item>
-        <item>https://play.google.com/store/apps/details?id=com.klinker.android.emoji_keyboard</item>
-        <item>https://play.google.com/store/apps/details?id=com.klinker.deskclock</item>
-        <item>https://play.google.com/store/apps/details?id=com.klinker.android.halopop</item>
-        <item>https://play.google.com/store/apps/details?id=com.lklinker.android.slideovermessaging</item>
-        <item>https://play.google.com/store/apps/details?id=com.klinker.android.floating_window</item>
     </string-array>
 
     <string-array name="app_style_entries">
