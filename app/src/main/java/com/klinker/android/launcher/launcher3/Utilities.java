@@ -19,6 +19,7 @@ package com.klinker.android.launcher.launcher3;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.SearchManager;
+import android.app.WallpaperManager;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.ActivityNotFoundException;
@@ -47,8 +48,12 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.os.Process;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.TtsSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
@@ -58,11 +63,19 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.klinker.android.launcher.launcher3.compat.UserHandleCompat;
+import com.klinker.android.launcher.launcher3.config.FeatureFlags;
+import com.klinker.android.launcher.launcher3.util.IconNormalizer;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.Executor;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -91,8 +104,11 @@ public final class Utilities {
     private static final int[] sLoc0 = new int[2];
     private static final int[] sLoc1 = new int[2];
 
-    // TODO: use Build.VERSION_CODES when available
-    public static final boolean ATLEAST_MARSHMALLOW = Build.VERSION.SDK_INT >= 23;
+    // TODO: use the full N name (e.g. ATLEAST_N*****) when available
+    public static final boolean ATLEAST_N = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+
+    public static final boolean ATLEAST_MARSHMALLOW =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
 
     public static final boolean ATLEAST_LOLLIPOP_MR1 =
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1;
@@ -109,10 +125,17 @@ public final class Utilities {
     public static final boolean ATLEAST_JB_MR2 =
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
 
-    // To turn on these properties, type
-    // adb shell setprop log.tag.PROPERTY_NAME [VERBOSE | SUPPRESS]
-    private static final String FORCE_ENABLE_ROTATION_PROPERTY = "launcher_force_rotate";
-    private static boolean sForceEnableRotation = isPropertyEnabled(FORCE_ENABLE_ROTATION_PROPERTY);
+    // These values are same as that in {@link AsyncTask}.
+    private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
+    private static final int CORE_POOL_SIZE = CPU_COUNT + 1;
+    private static final int MAXIMUM_POOL_SIZE = CPU_COUNT * 2 + 1;
+    private static final int KEEP_ALIVE = 1;
+    /**
+     * An {@link Executor} to be used with async task with no limit on the queue size.
+     */
+    public static final Executor THREAD_POOL_EXECUTOR = new ThreadPoolExecutor(
+            CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE,
+            TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 
     public static final String ALLOW_ROTATION_PREFERENCE_KEY = "pref_allowRotation";
 
@@ -120,16 +143,18 @@ public final class Utilities {
         return Log.isLoggable(propertyName, Log.VERBOSE);
     }
 
-    public static boolean isAllowRotationPrefEnabled(Context context, boolean multiProcess) {
-        SharedPreferences sharedPrefs = context.getSharedPreferences(
-                LauncherAppState.getSharedPreferencesKey(), Context.MODE_PRIVATE | (multiProcess ?
-                        Context.MODE_MULTI_PROCESS : 0));
-        boolean allowRotationPref = sharedPrefs.getBoolean(ALLOW_ROTATION_PREFERENCE_KEY, false);
-        return sForceEnableRotation || allowRotationPref;
-    }
-
-    public static boolean isRotationAllowedForDevice(Context context) {
-        return sForceEnableRotation || context.getResources().getBoolean(R.bool.allow_rotation);
+    public static boolean isAllowRotationPrefEnabled(Context context) {
+        boolean allowRotationPref = false;
+        if (ATLEAST_N) {
+            // If the device was scaled, used the original dimensions to determine if rotation
+            // is allowed of not.
+            int originalDensity = DisplayMetrics.DENSITY_DEVICE_STABLE;
+            Resources res = context.getResources();
+            int originalSmallestWidth = res.getConfiguration().smallestScreenWidthDp
+                    * res.getDisplayMetrics().densityDpi / originalDensity;
+            allowRotationPref = originalSmallestWidth >= 600;
+        }
+        return getPrefs(context).getBoolean(ALLOW_ROTATION_PREFERENCE_KEY, allowRotationPref);
     }
 
     public static Bitmap createIconBitmap(Cursor c, int iconIndex, Context context) {
@@ -179,9 +204,41 @@ public final class Utilities {
     }
 
     /**
+     * Returns a bitmap suitable for the all apps view. The icon is badged for {@param user}.
+     * The bitmap is also visually normalized with other icons.
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static Bitmap createBadgedIconBitmap(
+            Drawable icon, UserHandleCompat user, Context context) {
+        float scale = FeatureFlags.LAUNCHER3_ICON_NORMALIZATION ?
+                IconNormalizer.getInstance().getScale(icon) : 1;
+        Bitmap bitmap = createIconBitmap(icon, context, scale);
+        if (Utilities.ATLEAST_LOLLIPOP && user != null
+                && !UserHandleCompat.myUserHandle().equals(user)) {
+            BitmapDrawable drawable = new FixedSizeBitmapDrawable(bitmap);
+            Drawable badged = context.getPackageManager().getUserBadgedIcon(
+                    drawable, user.getUser());
+            if (badged instanceof BitmapDrawable) {
+                return ((BitmapDrawable) badged).getBitmap();
+            } else {
+                return createIconBitmap(badged, context);
+            }
+        } else {
+            return bitmap;
+        }
+    }
+
+    /**
      * Returns a bitmap suitable for the all apps view.
      */
     public static Bitmap createIconBitmap(Drawable icon, Context context) {
+        return createIconBitmap(icon, context, 1.0f /* scale */);
+    }
+
+    /**
+     * @param scale the scale to apply before drawing {@param icon} on the canvas
+     */
+    public static Bitmap createIconBitmap(Drawable icon, Context context, float scale) {
         synchronized (sCanvas) {
             final int iconBitmapSize = getIconBitmapSize();
 
@@ -196,7 +253,7 @@ public final class Utilities {
                 // Ensure the bitmap has a density.
                 BitmapDrawable bitmapDrawable = (BitmapDrawable) icon;
                 Bitmap bitmap = bitmapDrawable.getBitmap();
-                if (bitmap.getDensity() == Bitmap.DENSITY_NONE) {
+                if (bitmap != null && bitmap.getDensity() == Bitmap.DENSITY_NONE) {
                     bitmapDrawable.setTargetDensity(context.getResources().getDisplayMetrics());
                 }
             }
@@ -237,7 +294,10 @@ public final class Utilities {
 
             sOldBounds.set(icon.getBounds());
             icon.setBounds(left, top, left+width, top+height);
+            canvas.save(Canvas.MATRIX_SAVE_FLAG);
+            canvas.scale(scale, scale, textureWidth / 2, textureHeight / 2);
             icon.draw(canvas);
+            canvas.restore();
             icon.setBounds(sOldBounds);
             canvas.setBitmap(null);
 
@@ -294,7 +354,7 @@ public final class Utilities {
     }
 
     /**
-     * Inverse of {@link #getDescendantCoordRelativeToSelf(View, int[])}.
+     * Inverse of {@link #getDescendantCoordRelativeToParent(View, View, int[], boolean)}.
      */
     public static float mapCoordInSelfToDescendent(View descendant, View root,
                                                    int[] coord) {
@@ -737,5 +797,64 @@ public final class Utilities {
 
     public static boolean isLmpOrAbove() {
         return Build.VERSION.SDK_INT >= 21;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static CharSequence wrapForTts(CharSequence msg, String ttsMsg) {
+        if (Utilities.ATLEAST_LOLLIPOP) {
+            SpannableString spanned = new SpannableString(msg);
+            spanned.setSpan(new TtsSpan.TextBuilder(ttsMsg).build(),
+                    0, spanned.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            return spanned;
+        } else {
+            return msg;
+        }
+    }
+
+    /**
+     * Replacement for Long.compare() which was added in API level 19.
+     */
+    public static int longCompare(long lhs, long rhs) {
+        return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
+    }
+
+    public static SharedPreferences getPrefs(Context context) {
+        return context.getSharedPreferences(
+                LauncherFiles.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static boolean isPowerSaverOn(Context context) {
+        PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        return ATLEAST_LOLLIPOP && powerManager.isPowerSaveMode();
+    }
+
+    public static boolean isWallapaperAllowed(Context context) {
+        if (ATLEAST_N) {
+            return context.getSystemService(WallpaperManager.class).isSetWallpaperAllowed();
+        }
+        return true;
+    }
+
+    /**
+     * An extension of {@link BitmapDrawable} which returns the bitmap pixel size as intrinsic size.
+     * This allows the badging to be done based on the action bitmap size rather than
+     * the scaled bitmap size.
+     */
+    private static class FixedSizeBitmapDrawable extends BitmapDrawable {
+
+        public FixedSizeBitmapDrawable(Bitmap bitmap) {
+            super(null, bitmap);
+        }
+
+        @Override
+        public int getIntrinsicHeight() {
+            return getBitmap().getWidth();
+        }
+
+        @Override
+        public int getIntrinsicWidth() {
+            return getBitmap().getWidth();
+        }
     }
 }

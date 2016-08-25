@@ -31,6 +31,8 @@
 
         <com.klinker.android.launcher.launcher3.DragLayer
             android:id="@+id/drag_layer"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -98,12 +100,9 @@
             android:layout="@layout/launcher_overlay" />
     </com.klinker.android.launcher.launcher3.LauncherRootView>
 
-
     <include layout="@layout/launcher_drawer_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left"/>
 
 </com.klinker.android.launcher.addons.view.LauncherDrawerLayout>
-
-

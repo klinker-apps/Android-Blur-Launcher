@@ -20,12 +20,15 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.UserManager;
 import android.util.Log;
 
 import com.klinker.android.launcher.launcher3.accessibility.LauncherAccessibilityDelegate;
 import com.klinker.android.launcher.launcher3.compat.LauncherAppsCompat;
 import com.klinker.android.launcher.launcher3.compat.PackageInstallerCompat;
+import com.klinker.android.launcher.launcher3.compat.UserManagerCompat;
+import com.klinker.android.launcher.launcher3.config.FeatureFlags;
+import com.klinker.android.launcher.launcher3.util.ConfigMonitor;
+import com.klinker.android.launcher.launcher3.util.TestingUtils;
 import com.klinker.android.launcher.launcher3.util.Thunk;
 
 import com.klinker.android.launcher.R;
@@ -35,7 +38,6 @@ import java.lang.ref.WeakReference;
 public class LauncherAppState {
 
     private final AppFilter mAppFilter;
-    private final BuildInfo mBuildInfo;
     @Thunk final LauncherModel mModel;
     private final IconCache mIconCache;
     private final WidgetPreviewLoader mWidgetCache;
@@ -80,8 +82,8 @@ public class LauncherAppState {
 
         Log.v(Launcher.TAG, "LauncherAppState inited");
 
-        if (sContext.getResources().getBoolean(R.bool.debug_memory_enabled)) {
-            MemoryTracker.startTrackingMe(sContext, "L");
+        if (TestingUtils.MEMORY_DUMP_ENABLED) {
+            TestingUtils.startTrackingMemory(sContext);
         }
 
         mInvariantDeviceProfile = new InvariantDeviceProfile(sContext);
@@ -89,7 +91,6 @@ public class LauncherAppState {
         mWidgetCache = new WidgetPreviewLoader(sContext, mIconCache);
 
         mAppFilter = AppFilter.loadByName(sContext.getString(R.string.app_filter_class));
-        mBuildInfo = BuildInfo.loadByName(sContext.getString(R.string.build_info_class));
         mModel = new LauncherModel(this, mIconCache, mAppFilter);
 
         LauncherAppsCompat.getInstance(sContext).addOnAppsChangedCallback(mModel);
@@ -101,10 +102,17 @@ public class LauncherAppState {
         // For handling managed profiles
         filter.addAction(LauncherAppsCompat.ACTION_MANAGED_PROFILE_ADDED);
         filter.addAction(LauncherAppsCompat.ACTION_MANAGED_PROFILE_REMOVED);
+        filter.addAction(LauncherAppsCompat.ACTION_MANAGED_PROFILE_AVAILABLE);
+        filter.addAction(LauncherAppsCompat.ACTION_MANAGED_PROFILE_UNAVAILABLE);
 
         sContext.registerReceiver(mModel, filter);
-
         Utilities.generateTypeface(getContext());
+
+        UserManagerCompat.getInstance(sContext).enableAndResetCache();
+        new ConfigMonitor(sContext).register();
+
+        sContext.registerReceiver(
+                new WallpaperChangedReceiver(), new IntentFilter(Intent.ACTION_WALLPAPER_CHANGED));
     }
 
     /**
@@ -154,14 +162,10 @@ public class LauncherAppState {
         return sLauncherProvider.get();
     }
 
-    public static String getSharedPreferencesKey() {
-        return LauncherFiles.SHARED_PREFERENCES_KEY;
-    }
-
     public WidgetPreviewLoader getWidgetCache() {
         return mWidgetCache;
     }
-    
+
     public void onWallpaperChanged() {
         mWallpaperChangedSinceLastCheck = true;
     }
@@ -177,6 +181,6 @@ public class LauncherAppState {
     }
 
     public static boolean isDogfoodBuild() {
-        return getInstance().mBuildInfo.isDogfoodBuild();
+        return FeatureFlags.IS_ALPHA_BUILD || FeatureFlags.IS_DEV_BUILD;
     }
 }

@@ -37,6 +37,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.klinker.android.launcher.R;
 
 import com.klinker.android.launcher.launcher3.util.Thunk;
+import com.klinker.android.launcher.launcher3.accessibility.DragViewStateAnnouncer;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -147,8 +148,6 @@ public class DragController {
     
     /**
      * Used to create a new DragLayer from XML.
-     *
-     * @param context The application's context.
      */
     public DragController(Launcher launcher) {
         Resources r = launcher.getResources();
@@ -177,8 +176,6 @@ public class DragController {
      * @param dragAction The drag action: either {@link #DRAG_ACTION_MOVE} or
      *        {@link #DRAG_ACTION_COPY}
      * @param viewImageBounds the position of the image inside the view
-     * @param dragRegion Coordinates within the bitmap b for the position of item being dragged.
-     *          Makes dragging feel more precise, e.g. you can clip out a transparent border
      */
     public void startDrag(View v, Bitmap bmp, DragSource source, Object dragInfo,
             Rect viewImageBounds, int dragAction, float initialDragViewScale) {
@@ -241,6 +238,9 @@ public class DragController {
 
         mDragObject = new DropTarget.DragObject();
 
+        final DragView dragView = mDragObject.dragView = new DragView(mLauncher, b, registrationX,
+                registrationY, 0, 0, b.getWidth(), b.getHeight(), initialDragViewScale);
+
         mDragObject.dragComplete = false;
         if (mIsAccessibleDrag) {
             // For an accessible drag, we assume the view is being dragged from the center.
@@ -250,13 +250,11 @@ public class DragController {
         } else {
             mDragObject.xOffset = mMotionDownX - (dragLayerX + dragRegionLeft);
             mDragObject.yOffset = mMotionDownY - (dragLayerY + dragRegionTop);
+            mDragObject.stateAnnouncer = DragViewStateAnnouncer.createFor(dragView);
         }
 
         mDragObject.dragSource = source;
         mDragObject.dragInfo = dragInfo;
-
-        final DragView dragView = mDragObject.dragView = new DragView(mLauncher, b, registrationX,
-                registrationY, 0, 0, b.getWidth(), b.getHeight(), initialDragViewScale);
 
         if (dragOffset != null) {
             dragView.setDragVisualizeOffset(new Point(dragOffset));
@@ -342,15 +340,15 @@ public class DragController {
         }
         endDrag();
     }
-    public void onAppsRemoved(final ArrayList<String> packageNames, HashSet<ComponentName> cns) {
+
+    public void onAppsRemoved(final HashSet<String> packageNames, HashSet<ComponentName> cns) {
         // Cancel the current drag if we are removing an app that we are dragging
         if (mDragObject != null) {
             Object rawDragInfo = mDragObject.dragInfo;
             if (rawDragInfo instanceof ShortcutInfo) {
                 ShortcutInfo dragInfo = (ShortcutInfo) rawDragInfo;
                 for (ComponentName componentName : cns) {
-                    // Added null checks to prevent NPE we've seen in the wild
-                    if (dragInfo != null && dragInfo.intent != null) {
+                    if (dragInfo.intent != null) {
                         ComponentName cn = dragInfo.intent.getComponent();
                         boolean isSameComponent = cn != null && (cn.equals(componentName) ||
                                 packageNames.contains(cn.getPackageName()));

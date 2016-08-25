@@ -21,10 +21,11 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.UserHandle;
 import com.klinker.android.launcher.launcher3.LauncherAppState;
+import com.klinker.android.launcher.launcher3.Utilities;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,11 +58,6 @@ public class UserManagerCompatVL extends UserManagerCompatV17 {
     }
 
     @Override
-    public Drawable getBadgedDrawableForUser(Drawable unbadged, UserHandleCompat user) {
-        return mPm.getUserBadgedIcon(unbadged, user.getUser());
-    }
-
-    @Override
     public CharSequence getBadgedLabelForUser(CharSequence label, UserHandleCompat user) {
         if (user == null) {
             return label;
@@ -71,9 +67,11 @@ public class UserManagerCompatVL extends UserManagerCompatV17 {
 
     @Override
     public long getUserCreationTime(UserHandleCompat user) {
-        // TODO: Use system API once available.
-        SharedPreferences prefs = mContext.getSharedPreferences(
-                LauncherAppState.getSharedPreferencesKey(), Context.MODE_PRIVATE);
+        if (Utilities.ATLEAST_MARSHMALLOW) {
+            return mUserManager.getUserCreationTime(user.getUser());
+        }
+
+        SharedPreferences prefs = Utilities.getPrefs(mContext);
         String key = USER_CREATION_TIME_KEY + getSerialNumberForUser(user);
         if (!prefs.contains(key)) {
             prefs.edit().putLong(key, System.currentTimeMillis()).apply();

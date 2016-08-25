@@ -6,7 +6,6 @@ This is Blur Launcher, Klinker Apps one stop shop for the most powerful launcher
 
 This is built from the latest [Launcher3](https://github.com/klinker24/launcher3/) code from Google.
 
-
 ## Features
 
 As the apps feature-set continues to be merged into this new fork, I will continue to add to this repository.

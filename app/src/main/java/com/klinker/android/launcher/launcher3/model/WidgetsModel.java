@@ -1,13 +1,18 @@
 
 package com.klinker.android.launcher.launcher3.model;
 
+import android.appwidget.AppWidgetProviderInfo;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.os.DeadObjectException;
+import android.os.TransactionTooLargeException;
 import android.util.Log;
 
 import com.klinker.android.launcher.launcher3.AppFilter;
 import com.klinker.android.launcher.launcher3.IconCache;
+import com.klinker.android.launcher.launcher3.LauncherAppState;
 import com.klinker.android.launcher.launcher3.LauncherAppWidgetProviderInfo;
 import com.klinker.android.launcher.launcher3.Utilities;
 import com.klinker.android.launcher.launcher3.compat.AlphabeticIndexCompat;
@@ -31,19 +36,19 @@ public class WidgetsModel {
     private static final boolean DEBUG = false;
 
     /* List of packages that is tracked by this model. */
-    private ArrayList<PackageItemInfo> mPackageItemInfos = new ArrayList<>();
+    private final ArrayList<PackageItemInfo> mPackageItemInfos;
 
     /* Map of widgets and shortcuts that are tracked per package. */
-    private HashMap<PackageItemInfo, ArrayList<Object>> mWidgetsList = new HashMap<>();
-
-    private ArrayList<Object> mRawList;
+    private final HashMap<PackageItemInfo, ArrayList<Object>> mWidgetsList;
 
     private final AppWidgetManagerCompat mAppWidgetMgr;
     private final Comparator mWidgetAndShortcutNameComparator;
     private final Comparator mAppNameComparator;
     private final IconCache mIconCache;
     private final AppFilter mAppFilter;
-    private AlphabeticIndexCompat mIndexer;
+    private final AlphabeticIndexCompat mIndexer;
+
+    private ArrayList<Object> mRawList;
 
     public WidgetsModel(Context context,  IconCache iconCache, AppFilter appFilter) {
         mAppWidgetMgr = AppWidgetManagerCompat.getInstance(context);
@@ -52,24 +57,26 @@ public class WidgetsModel {
         mIconCache = iconCache;
         mAppFilter = appFilter;
         mIndexer = new AlphabeticIndexCompat(context);
+        mPackageItemInfos = new ArrayList<>();
+        mWidgetsList = new HashMap<>();
+
+        mRawList = new ArrayList<>();
     }
 
     private WidgetsModel(WidgetsModel model) {
         mAppWidgetMgr = model.mAppWidgetMgr;
         mPackageItemInfos = (ArrayList<PackageItemInfo>) model.mPackageItemInfos.clone();
         mWidgetsList = (HashMap<PackageItemInfo, ArrayList<Object>>) model.mWidgetsList.clone();
-        mRawList = (ArrayList<Object>) model.mRawList.clone();
         mWidgetAndShortcutNameComparator = model.mWidgetAndShortcutNameComparator;
         mAppNameComparator = model.mAppNameComparator;
         mIconCache = model.mIconCache;
         mAppFilter = model.mAppFilter;
+        mIndexer = model.mIndexer;
+        mRawList = (ArrayList<Object>) model.mRawList.clone();
     }
 
     // Access methods that may be deleted if the private fields are made package-private.
     public int getPackageSize() {
-        if (mPackageItemInfos == null) {
-            return 0;
-        }
         return mPackageItemInfos.size();
     }
 
@@ -89,8 +96,41 @@ public class WidgetsModel {
         return mRawList;
     }
 
-    public void setWidgetsAndShortcuts(ArrayList<Object> rawWidgetsShortcuts) {
+    public boolean isEmpty() {
+        return mRawList.isEmpty();
+    }
+
+    public WidgetsModel updateAndClone(Context context) {
         Utilities.assertWorkerThread();
+
+        try {
+            final ArrayList<Object> widgetsAndShortcuts = new ArrayList<>();
+            // Widgets
+            for (AppWidgetProviderInfo widgetInfo :
+                    AppWidgetManagerCompat.getInstance(context).getAllProviders()) {
+                widgetsAndShortcuts.add(LauncherAppWidgetProviderInfo
+                        .fromProviderInfo(context, widgetInfo));
+            }
+            // Shortcuts
+            widgetsAndShortcuts.addAll(context.getPackageManager().queryIntentActivities(
+                    new Intent(Intent.ACTION_CREATE_SHORTCUT), 0));
+            setWidgetsAndShortcuts(widgetsAndShortcuts);
+        } catch (Exception e) {
+            if (!LauncherAppState.isDogfoodBuild() &&
+                    (e.getCause() instanceof TransactionTooLargeException ||
+                            e.getCause() instanceof DeadObjectException)) {
+                // the returned value may be incomplete and will not be refreshed until the next
+                // time Launcher starts.
+                // TODO: after figuring out a repro step, introduce a dirty bit to check when
+                // onResume is called to refresh the widget provider list.
+            } else {
+                throw e;
+            }
+        }
+        return clone();
+    }
+
+    private void setWidgetsAndShortcuts(ArrayList<Object> rawWidgetsShortcuts) {
         mRawList = rawWidgetsShortcuts;
         if (DEBUG) {
             Log.d(TAG, "addWidgetsAndShortcuts, widgetsShortcuts#=" + rawWidgetsShortcuts.size());

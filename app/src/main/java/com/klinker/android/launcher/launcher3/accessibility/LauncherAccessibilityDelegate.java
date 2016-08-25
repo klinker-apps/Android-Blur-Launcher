@@ -118,7 +118,9 @@ public class LauncherAccessibilityDelegate extends AccessibilityDelegate impleme
                     info.addAction(mActions.get(RESIZE));
                 }
             }
-        } if ((item instanceof AppInfo) || (item instanceof PendingAddItemInfo)) {
+        }
+
+        if ((item instanceof AppInfo) || (item instanceof PendingAddItemInfo)) {
             info.addAction(mActions.get(ADD_TO_WORKSPACE));
         }
     }
@@ -134,11 +136,8 @@ public class LauncherAccessibilityDelegate extends AccessibilityDelegate impleme
 
     public boolean performAction(final View host, final ItemInfo item, int action) {
         if (action == REMOVE) {
-            if (DeleteDropTarget.removeWorkspaceOrFolderItem(mLauncher, item, host)) {
-                announceConfirmation(R.string.item_removed);
-                return true;
-            }
-            return false;
+            DeleteDropTarget.removeWorkspaceOrFolderItem(mLauncher, item, host);
+            return true;
         } else if (action == INFO) {
             InfoDropTarget.startDetailsActivityForInfo(item, mLauncher);
             return true;
@@ -175,7 +174,7 @@ public class LauncherAccessibilityDelegate extends AccessibilityDelegate impleme
             return true;
         } else if (action == MOVE_TO_WORKSPACE) {
             Folder folder = mLauncher.getWorkspace().getOpenFolder();
-            mLauncher.closeFolder(folder);
+            mLauncher.closeFolder(folder, true);
             ShortcutInfo info = (ShortcutInfo) item;
             folder.getInfo().remove(info);
 

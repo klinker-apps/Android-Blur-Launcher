@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 
 import com.klinker.android.launcher.launcher3.util.Thunk;
+import com.klinker.android.launcher.launcher3.util.PackageManagerHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +114,7 @@ public class LauncherAppsCompatV16 extends LauncherAppsCompat {
     }
 
     public boolean isPackageEnabledForProfile(String packageName, UserHandleCompat user) {
-        return isAppEnabled(mPm, packageName, 0);
+        return PackageManagerHelper.isAppEnabled(mPm, packageName);
     }
 
     public boolean isActivityEnabledForProfile(ComponentName component, UserHandleCompat user) {
@@ -123,6 +124,10 @@ public class LauncherAppsCompatV16 extends LauncherAppsCompat {
         } catch (NameNotFoundException e) {
             return false;
         }
+    }
+
+    public boolean isPackageSuspendedForProfile(String packageName, UserHandleCompat user) {
+        return false;
     }
 
     private void unregisterForPackageIntents() {

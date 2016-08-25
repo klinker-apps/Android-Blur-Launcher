@@ -16,7 +16,7 @@
 
 package com.klinker.android.launcher.launcher3;
 
-import android.Manifest.permission;
+import android.Manifest;
 import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -31,20 +31,23 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BitmapRegionDecoder;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.Manifest;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Pair;
 import android.view.ActionMode;
@@ -82,16 +85,21 @@ import com.klinker.android.launcher.photos.views.TiledImageRenderer.TileSource;
 
 import com.klinker.android.launcher.R;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class WallpaperPickerActivity extends WallpaperCropActivity {
-    static final String TAG = "Launcher.WallpaperPickerActivity";
+    static final String TAG = "WallpaperPickerActivity";
 
     public static final int IMAGE_PICK = 5;
     public static final int PICK_WALLPAPER_THIRD_PARTY_ACTIVITY = 6;
+    /** An Intent extra used when opening the wallpaper picker from the workspace overlay. */
+    public static final String EXTRA_WALLPAPER_OFFSET = "com.android.launcher3.WALLPAPER_OFFSET";
     private static final String TEMP_WALLPAPER_TILES = "TEMP_WALLPAPER_TILES";
     private static final String SELECTED_INDEX = "SELECTED_INDEX";
     private static final int FLAG_POST_DELAY_MILLIS = 200;
@@ -112,6 +120,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
     ArrayList<Uri> mTempWallpaperTiles = new ArrayList<Uri>();
     private SavedWallpaperImages mSavedImages;
     @Thunk int mSelectedIndex = -1;
+    private float mWallpaperParallaxOffset;
 
     public static abstract class WallpaperTileInfo {
         protected View mView;
@@ -173,15 +182,49 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         public void onSave(final WallpaperPickerActivity a) {
             boolean finishActivityWhenDone = true;
             BitmapCropTask.OnBitmapCroppedHandler h = new BitmapCropTask.OnBitmapCroppedHandler() {
-                public void onBitmapCropped(byte[] imageBytes) {
+                @Override
+                public void onBitmapCropped(byte[] imageBytes, Rect hint) {
+                    Bitmap thumb = null;
                     Point thumbSize = getDefaultThumbnailSize(a.getResources());
-                    // rotation is set to 0 since imageBytes has already been correctly rotated
-                    Bitmap thumb = createThumbnail(
-                            thumbSize, null, null, imageBytes, null, 0, 0, true);
-                    a.getSavedImages().writeImage(thumb, imageBytes);
+                    if (imageBytes != null) {
+                        // rotation is set to 0 since imageBytes has already been correctly rotated
+                        thumb = createThumbnail(
+                                thumbSize, null, null, imageBytes, null, 0, 0, true);
+                        a.getSavedImages().writeImage(thumb, imageBytes);
+                    } else {
+                        try {
+                            // Generate thumb
+                            Point size = getDefaultThumbnailSize(a.getResources());
+                            Rect finalCropped = new Rect();
+                            Utils.getMaxCropRect(hint.width(), hint.height(), size.x, size.y, false)
+                                    .roundOut(finalCropped);
+                            finalCropped.offset(hint.left, hint.top);
+
+                            InputStream in = a.getContentResolver().openInputStream(mUri);
+                            BitmapRegionDecoder decoder = BitmapRegionDecoder.newInstance(in, true);
+
+                            BitmapFactory.Options options = new BitmapFactory.Options();
+                            options.inSampleSize = finalCropped.width() / size.x;
+                            thumb = decoder.decodeRegion(finalCropped, options);
+                            decoder.recycle();
+                            Utils.closeSilently(in);
+                            if (thumb != null) {
+                                thumb = Bitmap.createScaledBitmap(thumb, size.x, size.y, true);
+                            }
+                        } catch (IOException e) { }
+                        PointF center = a.mCropView.getCenter();
+
+                        Float[] extras = new Float[] {
+                                a.mCropView.getScale(),
+                                center.x,
+                                center.y
+                        };
+                        a.getSavedImages().writeImage(thumb, mUri, extras);
+                    }
                 }
             };
-            a.cropImageAndSetWallpaper(mUri, h, finishActivityWhenDone);
+            boolean shouldFadeOutOnFinish = a.getWallpaperParallaxOffset() == 0f;
+            a.cropImageAndSetWallpaper(mUri, h, finishActivityWhenDone, shouldFadeOutOnFinish);
         }
         @Override
         public boolean isSelectable() {
@@ -194,7 +237,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
     }
 
     public static class FileWallpaperInfo extends WallpaperTileInfo {
-        private File mFile;
+        protected File mFile;
 
         public FileWallpaperInfo(File target, Drawable thumb) {
             mFile = target;
@@ -205,19 +248,26 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             a.setWallpaperButtonEnabled(false);
             final BitmapRegionTileSource.UriBitmapSource bitmapSource =
                     new BitmapRegionTileSource.UriBitmapSource(a.getContext(), Uri.fromFile(mFile));
-            a.setCropViewTileSource(bitmapSource, false, true, null, new Runnable() {
+            a.setCropViewTileSource(bitmapSource, false, true, getCropViewScaleAndOffsetProvider(),
+                    new Runnable() {
 
                 @Override
                 public void run() {
-                    if (bitmapSource.getLoadingState() == BitmapSource.State.LOADED) { 
+                    if (bitmapSource.getLoadingState() == BitmapSource.State.LOADED) {
                         a.setWallpaperButtonEnabled(true);
                     }
                 }
             });
         }
+
+        protected CropViewScaleAndOffsetProvider getCropViewScaleAndOffsetProvider() {
+            return null;
+        }
+
         @Override
         public void onSave(WallpaperPickerActivity a) {
-            a.setWallpaper(Uri.fromFile(mFile), true);
+            boolean shouldFadeOutOnFinish = a.getWallpaperParallaxOffset() == 0f;
+            a.setWallpaper(Uri.fromFile(mFile), true, shouldFadeOutOnFinish);
         }
         @Override
         public boolean isSelectable() {
@@ -243,16 +293,16 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             a.setWallpaperButtonEnabled(false);
             final BitmapRegionTileSource.ResourceBitmapSource bitmapSource =
                     new BitmapRegionTileSource.ResourceBitmapSource(mResources, mResId);
-            a.setCropViewTileSource(bitmapSource, false, false, new CropViewScaleProvider() {
+            a.setCropViewTileSource(bitmapSource, false, false, new CropViewScaleAndOffsetProvider() {
 
                 @Override
-                public float getScale(TileSource src) {
-                    Point wallpaperSize = WallpaperUtils.getDefaultWallpaperSize(
-                            a.getResources(), a.getWindowManager());
-                    RectF crop = Utils.getMaxCropRect(
-                            src.getImageWidth(), src.getImageHeight(),
-                            wallpaperSize.x, wallpaperSize.y, false);
-                    return wallpaperSize.x / crop.width();
+                public float getScale(Point wallpaperSize, RectF crop) {
+                    return wallpaperSize.x /crop.width();
+                }
+
+                @Override
+                public float getParallaxOffset() {
+                    return a.getWallpaperParallaxOffset();
                 }
             }, new Runnable() {
 
@@ -267,7 +317,9 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
         @Override
         public void onSave(WallpaperPickerActivity a) {
             boolean finishActivityWhenDone = true;
-            a.cropImageAndSetWallpaper(mResources, mResId, finishActivityWhenDone);
+            boolean shouldFadeOutOnFinish = true;
+            a.cropImageAndSetWallpaper(mResources, mResId, finishActivityWhenDone,
+                    shouldFadeOutOnFinish);
         }
         @Override
         public boolean isSelectable() {
@@ -298,27 +350,81 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             LoadRequest req = new LoadRequest();
             req.moveToLeft = false;
             req.touchEnabled = false;
-            req.scaleProvider = new CropViewScaleProvider() {
-
-                @Override
-                public float getScale(TileSource src) {
-                    return 1f;
-                }
-            };
+            req.scaleAndOffsetProvider = new CropViewScaleAndOffsetProvider();
             req.result = new DrawableTileSource(a.getContext(),
                     defaultWallpaper, DrawableTileSource.MAX_PREVIEW_SIZE);
             a.onLoadRequestComplete(req, true);
         }
         @Override
-        public void onSave(WallpaperPickerActivity a) {
-            try {
-                WallpaperManager.getInstance(a.getContext()).clear();
-                a.setResult(Activity.RESULT_OK);
-            } catch (IOException e) {
-                Log.w("Setting wallpaper to default threw exception", e);
+        public void onSave(final WallpaperPickerActivity a) {
+            if (!Utilities.ATLEAST_N) {
+                try {
+                    WallpaperManager.getInstance(a.getContext()).clear();
+                    a.setResult(Activity.RESULT_OK);
+                } catch (IOException e) {
+                    Log.e(TAG, "Setting wallpaper to default threw exception", e);
+                } catch (SecurityException e) {
+                    Log.w(TAG, "Setting wallpaper to default threw exception", e);
+                    // In this case, clearing worked; the exception was thrown afterwards.
+                    a.setResult(Activity.RESULT_OK);
+                }
+                a.finish();
+            } else {
+                BitmapCropTask.OnEndCropHandler onEndCropHandler
+                        = new BitmapCropTask.OnEndCropHandler() {
+                    @Override
+                    public void run(boolean cropSucceeded) {
+                        if (cropSucceeded) {
+                            a.setResult(Activity.RESULT_OK);
+                        }
+                        a.finish();
+                    }
+                };
+                BitmapCropTask setWallpaperTask = getDefaultWallpaperCropTask(a, onEndCropHandler);
+
+                NycWallpaperUtils.executeCropTaskAfterPrompt(a, setWallpaperTask,
+                        a.getOnDialogCancelListener());
             }
-            a.finish();
         }
+
+        @NonNull
+        private BitmapCropTask getDefaultWallpaperCropTask(final WallpaperPickerActivity a,
+                final BitmapCropTask.OnEndCropHandler onEndCropHandler) {
+            return new BitmapCropTask(a, null, null, -1, -1, -1,
+                    true, false, onEndCropHandler) {
+                @Override
+                protected Boolean doInBackground(Integer... params) {
+                    int whichWallpaper = params[0];
+                    boolean succeeded = true;
+                    try {
+                        if (whichWallpaper == WallpaperManager.FLAG_LOCK) {
+                            Bitmap defaultWallpaper = ((BitmapDrawable) WallpaperManager
+                                    .getInstance(a.getApplicationContext()).getBuiltInDrawable())
+                                    .getBitmap();
+                            ByteArrayOutputStream tmpOut = new ByteArrayOutputStream(2048);
+                            if (defaultWallpaper.compress(Bitmap.CompressFormat.PNG, 100,
+                                    tmpOut)) {
+                                byte[] outByteArray = tmpOut.toByteArray();
+                                NycWallpaperUtils.setStream(a.getApplicationContext(),
+                                        new ByteArrayInputStream(outByteArray), null, true,
+                                        WallpaperManager.FLAG_LOCK);
+                            }
+                        } else {
+                            NycWallpaperUtils.clear(a, whichWallpaper);
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Setting wallpaper to default threw exception", e);
+                        succeeded = false;
+                    } catch (SecurityException e) {
+                        Log.w(TAG, "Setting wallpaper to default threw exception", e);
+                        // In this case, clearing worked; the exception was thrown afterwards.
+                        succeeded = true;
+                    }
+                    return succeeded;
+                }
+            };
+        }
+
         @Override
         public boolean isSelectable() {
             return true;
@@ -435,10 +541,10 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
                     }
                     return;
                 }
-                setWallpaperButtonEnabled(true);
                 WallpaperTileInfo info = (WallpaperTileInfo) v.getTag();
                 if (info.isSelectable() && v.getVisibility() == View.VISIBLE) {
                     selectTile(v);
+                    setWallpaperButtonEnabled(true);
                 }
                 info.onClick(WallpaperPickerActivity.this);
             }
@@ -462,6 +568,8 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
                 return true;
             }
         };
+
+        mWallpaperParallaxOffset = getIntent().getFloatExtra(EXTRA_WALLPAPER_OFFSET, 0);
 
         // Populate the built-in wallpapers
         ArrayList<WallpaperTileInfo> wallpapers = findBundledWallpapers();
@@ -552,7 +660,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Ensure that a tile is slelected and loaded.
+                        // Ensure that a tile is selected and loaded.
                         if (mSelectedTile != null && mCropView.getTileSource() != null) {
                             // Prevent user from selecting any new tile.
                             mWallpaperStrip.setVisibility(View.GONE);
@@ -561,9 +669,9 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
                             WallpaperTileInfo info = (WallpaperTileInfo) mSelectedTile.getTag();
                             info.onSave(WallpaperPickerActivity.this);
                         } else {
-                            // no tile was selected, so we just finish the activity and go back
-                            setResult(Activity.RESULT_OK);
-                            finish();
+                            // This case shouldn't be possible, since "Set wallpaper" is disabled
+                            // until user clicks on a title.
+                            Log.w(TAG, "\"Set wallpaper\" was clicked when no tile was selected");
                         }
                     }
                 });
@@ -661,6 +769,10 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
 
     public void setWallpaperButtonEnabled(boolean enabled) {
         mSetWallpaperButton.setEnabled(enabled);
+    }
+
+    public float getWallpaperParallaxOffset() {
+        return mWallpaperParallaxOffset;
     }
 
     @Thunk void selectTile(View v) {
@@ -836,7 +948,7 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
                 (int) rotatedBounds[0], (int) rotatedBounds[1], width, height, leftAligned);
         cropTask.setCropBounds(cropRect);
 
-        if (cropTask.cropBitmap()) {
+        if (cropTask.cropBitmap(WallpaperManager.FLAG_SYSTEM)) {
             return cropTask.getCroppedBitmap();
         } else {
             return null;
@@ -844,12 +956,31 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
     }
 
     private void addTemporaryWallpaperTile(final Uri uri, boolean fromRestore) {
-        mTempWallpaperTiles.add(uri);
-        // Add a tile for the image picked from Gallery
-        final FrameLayout pickedImageThumbnail = (FrameLayout) getLayoutInflater().
-                inflate(R.layout.wallpaper_picker_item, mWallpapersView, false);
-        pickedImageThumbnail.setVisibility(View.GONE);
-        mWallpapersView.addView(pickedImageThumbnail, 0);
+        // Add a tile for the image picked from Gallery, reusing the existing tile if there is one.
+        FrameLayout existingImageThumbnail = null;
+        int indexOfExistingTile = 0;
+        for (; indexOfExistingTile < mWallpapersView.getChildCount(); indexOfExistingTile++) {
+            FrameLayout thumbnail = (FrameLayout) mWallpapersView.getChildAt(indexOfExistingTile);
+            Object tag = thumbnail.getTag();
+            if (tag instanceof UriWallpaperInfo && ((UriWallpaperInfo) tag).mUri.equals(uri)) {
+                existingImageThumbnail = thumbnail;
+                break;
+            }
+        }
+        final FrameLayout pickedImageThumbnail;
+        if (existingImageThumbnail != null) {
+            pickedImageThumbnail = existingImageThumbnail;
+            // Always move the existing wallpaper to the front so user can see it without scrolling.
+            mWallpapersView.removeViewAt(indexOfExistingTile);
+            mWallpapersView.addView(existingImageThumbnail, 0);
+        } else {
+            // This is the first time this temporary wallpaper has been added
+            pickedImageThumbnail = (FrameLayout) getLayoutInflater()
+                    .inflate(R.layout.wallpaper_picker_item, mWallpapersView, false);
+            pickedImageThumbnail.setVisibility(View.GONE);
+            mWallpapersView.addView(pickedImageThumbnail, 0);
+            mTempWallpaperTiles.add(uri);
+        }
 
         // Load the thumbnail
         final ImageView image = (ImageView) pickedImageThumbnail.findViewById(R.id.wallpaper_image);
@@ -859,7 +990,8 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
             protected Bitmap doInBackground(Void...args) {
                 try {
                     int rotation = BitmapUtils.getRotationFromExif(context, uri);
-                    return createThumbnail(defaultSize, context, uri, null, null, 0, rotation, false);
+                    return createThumbnail(defaultSize, context, uri, null, null, 0, rotation,
+                            false);
                 } catch (SecurityException securityException) {
                     if (isActivityDestroyed()) {
                         // Temporarily granted permissions are revoked when the activity
@@ -1162,11 +1294,6 @@ public class WallpaperPickerActivity extends WallpaperCropActivity {
 
     @Override
     public boolean enableRotation() {
-        // Check if rotation is enabled for this device.
-        if (Utilities.isRotationAllowedForDevice(getContext()))
-            return true;
-
-        // Check if the user has specifically enabled rotation via preferences.
-        return Utilities.isAllowRotationPrefEnabled(getApplicationContext(), true);
+        return true;
     }
 }
