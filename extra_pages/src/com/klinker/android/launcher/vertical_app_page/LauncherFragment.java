@@ -52,7 +52,10 @@ import java.util.List;
 
 /**
  * Fragment to display all of the info cards that are created and implemented by library
+ *
+ * The launcher has a vertical scrolling app drawer by default.
  */
+@Deprecated
 public class LauncherFragment extends BaseLauncherPage {
 
     public Context context;

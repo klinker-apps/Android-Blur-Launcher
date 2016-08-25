@@ -30,6 +30,8 @@ import android.widget.*;
 
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.launcher.api.ResourceHelper;
+import com.klinker.android.launcher.extra_pages.R;
+
 import org.javia.arity.SyntaxException;
 
 /**
@@ -38,7 +40,6 @@ import org.javia.arity.SyntaxException;
 public class LauncherFragment extends BaseLauncherPage {
 
     public Context context;
-    private ResourceHelper resHelper;
 
     private String syntaxError;
 
@@ -63,21 +64,14 @@ public class LauncherFragment extends BaseLauncherPage {
      */
     @Override
     public View[] getBackground() {
-        return new View[] {rootView.findViewById(resHelper.getId("background"))};
+        return new View[] {rootView.findViewById(R.id.background)};
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
-
-        // initialize our resource helper so that we can get layouts, drawables, ect. This is required
-        // so that the launcher can get resources from different packages, using R.string.example or
-        // R.drawable.example won't work correctly because it will try to grab the resource that the launcher
-        // holds at that position, not the resource that this package holds.
-        resHelper = new ResourceHelper(getActivity(), Utils.PACKAGE_NAME);
-
-        syntaxError = resHelper.getString("syntax_error");
+        syntaxError = getString(R.string.syntax_error);
     }
 
     @Override
@@ -85,9 +79,9 @@ public class LauncherFragment extends BaseLauncherPage {
         super.onCreateView(inflater, container, savedInstanceState);
 
         // inflate our view to be displayed with the helper
-        rootView = (RelativeLayout) resHelper.getLayout("calc_page_layout");
-        content = (LinearLayout) rootView.findViewById(resHelper.getId("content"));
-        equation = (TextView) rootView.findViewById(resHelper.getId("calculations"));
+        rootView = (RelativeLayout) inflater.inflate(R.layout.calc_page_layout, container, false);
+        content = (LinearLayout) rootView.findViewById(R.id.content);
+        equation = (TextView) rootView.findViewById(R.id.calculations);
 
         // Add padding at the bottom of the list if the navigation bar is showing and translucent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Utils.hasNavBar(context)) {
@@ -112,16 +106,16 @@ public class LauncherFragment extends BaseLauncherPage {
      */
     public void setUpLayout(View content) {
 
-        String[] names = new String[] {
-                "button1", "button2", "button3",
-                "button4", "button5", "button6",
-                "button7", "button8", "button9",
-                "button0", "buttonDecimal", "buttonAdd",
-                "buttonSubtract", "buttonMultiply", "buttonDivide"
+        int[] names = new int[] {
+                R.id.button1, R.id.button2, R.id.button3,
+                R.id.button4, R.id.button5, R.id.button6,
+                R.id.button7, R.id.button8, R.id.button9,
+                R.id.button0, R.id.buttonDecimal, R.id.buttonAdd,
+                R.id.buttonSubtract, R.id.buttonMultiply, R.id.buttonDivide
         };
 
         // Equals button
-        Button solve = (Button) content.findViewById(resHelper.getId("buttonEquals"));
+        Button solve = (Button) content.findViewById(R.id.buttonEquals);
         solve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,7 +132,7 @@ public class LauncherFragment extends BaseLauncherPage {
 
         // buttons that insert text
         for (int i = 0; i < names.length; i++) {
-            Button btn = (Button) content.findViewById(resHelper.getId(names[i]));
+            Button btn = (Button) content.findViewById(names[i]);
             if (btn != null) {
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -159,7 +153,7 @@ public class LauncherFragment extends BaseLauncherPage {
         }
 
         // clear button
-        Button clear = (Button) content.findViewById(resHelper.getId("clear"));
+        Button clear = (Button) content.findViewById(R.id.clear);
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,7 +162,7 @@ public class LauncherFragment extends BaseLauncherPage {
         });
 
         // delete button
-        ImageButton delete = (ImageButton) content.findViewById(resHelper.getId("delete"));
+        ImageButton delete = (ImageButton) content.findViewById(R.id.delete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

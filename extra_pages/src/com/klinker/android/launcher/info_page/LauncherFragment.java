@@ -59,8 +59,13 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
- * Fragment to display all of the info cards that are created and implemented by library
+ * Fragment to display all of the info cards that are created and implemented by library.
+ *
+ * This fragment is no longer used. It is an example of the legacy ResourceHelper though.
+ *
+ * It was too difficult to maintain and no other support came from other developers.
  */
+@Deprecated
 public class LauncherFragment extends BaseLauncherPage {
 
     private static final int SEARCH_HEADER_PX = 180;
