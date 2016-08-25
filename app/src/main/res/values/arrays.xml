@@ -159,12 +159,14 @@
 
     <string-array name="klinker_apps">
         <item>@string/talon_for_twitter</item>
+        <item>@string/messenger</item>
         <item>@string/evolve_sms</item>
         <item>@string/source</item>
     </string-array>
 
     <string-array name="klinker_apps_links">
         <item>https://play.google.com/store/apps/details?id=com.klinker.android.twitter_l</item>
+        <item>https://play.google.com/store/apps/details?id=xyz.klinker.messenger</item>
         <item>https://play.google.com/store/apps/details?id=com.klinker.android.evolve_sms</item>
         <item>https://play.google.com/store/apps/details?id=com.klinker.android.reader</item>
     </string-array>
