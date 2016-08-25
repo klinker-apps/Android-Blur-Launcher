@@ -269,12 +269,12 @@ public class DeviceProfile {
 
         // Hotseat
         if (settings.showDock) {
-            hotseatBarHeightPx = iconSizePx + 4 * edgeMarginPx;
+            normalHotseatBarHeightPx = iconSizePx + 4 * edgeMarginPx;
             shortHotseatBarHeightPx = iconSizePx + 2 * edgeMarginPx;
             hotseatCellWidthPx = iconSizePx;
             hotseatCellHeightPx = iconSizePx;
         } else {
-            hotseatBarHeightPx = 0;
+            normalHotseatBarHeightPx = 0;
             shortHotseatBarHeightPx = 0;
             hotseatCellWidthPx = 0;
             hotseatCellHeightPx = 0;
