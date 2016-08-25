@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.klinker.android.launcher.R;
 import com.klinker.android.launcher.addons.settings.SettingsActivity;
+import com.klinker.android.launcher.addons.utils.BlurPagesUtils;
 import com.klinker.android.launcher.addons.utils.Item;
 import com.klinker.android.launcher.addons.utils.Utils;
 import com.klinker.android.launcher.api.BaseLauncherPage;
@@ -122,16 +123,7 @@ public class ChooserFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                final Item[] items = Utils.getPackageItems(context);
-
-                if (items.length == 0) {
-                    Toast.makeText(context, R.string.nothing_to_add, Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    for (Item item : items) {
-                        Log.v("LauncherItems", item.classPath + "  " + item.packageName + "  " + item.text);
-                    }
-                }
+                final Item[] items = BlurPagesUtils.getAvailablePages(context);
 
                 ListAdapter adapter = Utils.getPackagesAdapter(context, items);
 

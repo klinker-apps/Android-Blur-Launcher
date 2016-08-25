@@ -106,6 +106,7 @@ import com.klinker.android.launcher.addons.pages.PagesFragmentAdapter;
 import com.klinker.android.launcher.addons.settings.*;
 import com.klinker.android.launcher.addons.settings.SettingsActivity;
 import com.klinker.android.launcher.addons.utils.GestureUtils;
+import com.klinker.android.launcher.addons.utils.UpdateUtils;
 import com.klinker.android.launcher.addons.view.LauncherDrawerLayout;
 import com.klinker.android.launcher.api.BaseLauncherPage;
 import com.klinker.android.launcher.launcher3.DropTarget.DragObject;
@@ -437,6 +438,7 @@ public class Launcher extends Activity
             super.onCreate(new Bundle());
         }
 
+        UpdateUtils.checkUpdate(this);
         LauncherAppState app = LauncherAppState.getInstance();
 
         // Load configuration-specific DeviceProfile

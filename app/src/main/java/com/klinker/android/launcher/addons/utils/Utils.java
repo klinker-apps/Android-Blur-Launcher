@@ -51,6 +51,8 @@ public class Utils {
     private static final int NUM_INTERNAL_PAGES = 3;
     private static final int NUM_INTERNAL_CARDS = 3;
 
+    // Use BlurPageUtils.getPages instead
+    @Deprecated
     public static Item[] getPackageItems(Context context) {
 
         ArrayList<String> currentPackages = new ArrayList<String>();
@@ -163,6 +165,7 @@ public class Utils {
         };
     }
 
+    @Deprecated
     public static Card[] getPackageCards(Context context, ArrayList<Card> current) {
         // we don't want to include the current cards in our search here
         ArrayList<String> currentPackages = new ArrayList<String>();
@@ -271,6 +274,8 @@ public class Utils {
             }
         };
     }
+
+
 
     public static boolean isPackageInstalled(Context context, String targetPackage){
         List<ApplicationInfo> packages;
