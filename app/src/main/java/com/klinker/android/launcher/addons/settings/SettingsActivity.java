@@ -268,8 +268,8 @@ public class SettingsActivity extends Activity {
         final PopupMenu menu = new PopupMenu(context, v);
         menu.getMenu().add(Menu.NONE, EXP_SETTINGS, Menu.NONE, context.getString(R.string.experimental_settings));
         menu.getMenu().add(Menu.NONE, BACKUP, Menu.NONE, context.getString(R.string.backup_and_restore));
-        menu.getMenu().add(Menu.NONE, FIND_PAGES, Menu.NONE, context.getString(R.string.find_pages));
-        menu.getMenu().add(Menu.NONE, FIND_CARDS, Menu.NONE, context.getString(R.string.find_cards));
+        //menu.getMenu().add(Menu.NONE, FIND_PAGES, Menu.NONE, context.getString(R.string.find_pages));
+        //menu.getMenu().add(Menu.NONE, FIND_CARDS, Menu.NONE, context.getString(R.string.find_cards));
         //menu.getMenu().add(Menu.NONE, ABOUT_US, Menu.NONE, context.getString(R.string.about));
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
