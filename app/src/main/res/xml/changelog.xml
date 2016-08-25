@@ -1,5 +1,14 @@
 <changelog>
 
+    <version name="2.2.0">
+        <text>Update to the latest Launcher3 code from Google</text>
+        <text>Set the lockscreen wallpaper in Nougat</text>
+        <text>Icon normalization</text>
+        <text>Improved app drawer</text>
+        <text>Improved searching</text>
+        <text>Plus way more</text>
+    </version>
+
     <version name="2.1.5">
         <text>Added a link to our privacy policy (http://privacy.klinkerapps.com)</text>
     </version>
