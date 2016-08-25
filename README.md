@@ -47,6 +47,14 @@ Please fork this repository and contribute back using [pull requests](https://gi
 
 The full changelog for the app can be found [here](https://raw.githubusercontent.com/klinker24/Android-Blur-Launcher/master/app/src/main/res/xml/changelog.xml).
 
+## To sync with Google's Launcher3
+
+```
+$ git remote add upstream https://github.com/klinker24/launcher3
+$ git fetch upstream
+$ git checkout master
+$ git merge upstream/master
+```
 
 ---
 
