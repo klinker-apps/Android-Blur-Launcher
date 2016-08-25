@@ -8,6 +8,8 @@ import com.klinker.android.launcher.R;
 public class BlurPagesUtils {
 
     public static Page[] PAGES = new Page[] {
+            new Page(".weather_page.LauncherFragment", R.string.weather_page),
+            new Page(".calendar_page.LauncherFragment", R.string.calendar_page),
             new Page(".calc_page.LauncherFragment", R.string.calculator_page)
     };
 

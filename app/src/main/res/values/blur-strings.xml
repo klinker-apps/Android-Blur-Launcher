@@ -29,6 +29,8 @@
     <string name="hidden_apps">Hidden Apps</string>
     <string name="info_page">Blur Info</string>
     <string name="calculator_page">Simple Calculator</string>
+    <string name="weather_page">Weather</string>
+    <string name="calendar_page">Calendar</string>
     <string name="vertical_app_drawer">Vertical App Drawer</string>
     <string name="ok">OK</string>
     <string name="launcher_is_running">Launcher is running.</string>
