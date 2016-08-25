@@ -32,6 +32,8 @@ class TransformedImageDrawable {
     private float mXPercent;
     private float mYPercent;
     private int mGravity;
+    private int mAlpha;
+
     /**
      * @param gravity If one of the Gravity center values, the x and y offset will take the width
      *                and height of the image into account to center the image to the offset.
@@ -45,9 +47,10 @@ class TransformedImageDrawable {
     }
     public void setAlpha(int alpha) {
         mImage.setAlpha(alpha);
+        mAlpha = alpha;
     }
     public int getAlpha() {
-        return mImage.getAlpha();
+        return mAlpha;
     }
     public void updateBounds(Rect bounds) {
         int width = mImage.getIntrinsicWidth();

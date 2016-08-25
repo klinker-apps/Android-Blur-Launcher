@@ -26,6 +26,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 
 public class LauncherActivityInfoCompatV16 extends LauncherActivityInfoCompat {
@@ -51,7 +52,12 @@ public class LauncherActivityInfoCompatV16 extends LauncherActivityInfoCompat {
     }
 
     public CharSequence getLabel() {
-        return mResolveInfo.loadLabel(mPm);
+        try {
+            return mResolveInfo.loadLabel(mPm);
+        } catch (SecurityException e) {
+            Log.e("LAInfoCompat", "Failed to extract app display name from resolve info", e);
+            return "";
+        }
     }
 
     public Drawable getIcon(int density) {
@@ -92,9 +98,5 @@ public class LauncherActivityInfoCompatV16 extends LauncherActivityInfoCompat {
 
     public String getName() {
         return mActivityInfo.name;
-    }
-
-    public Drawable getBadgedIcon(int density) {
-        return getIcon(density);
     }
 }

@@ -57,6 +57,7 @@ import com.android.launcher3.FolderInfo.FolderListener;
 import com.android.launcher3.UninstallDropTarget.UninstallSource;
 import com.android.launcher3.Workspace.ItemOperator;
 import com.android.launcher3.accessibility.LauncherAccessibilityDelegate.AccessibilityDragSource;
+import com.android.launcher3.config.FeatureFlags;
 import com.android.launcher3.util.Thunk;
 import com.android.launcher3.util.UiThreadCircularReveal;
 
@@ -199,17 +200,36 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         mFolderName = (ExtendedEditText) findViewById(R.id.folder_name);
         mFolderName.setOnBackKeyListener(new ExtendedEditText.OnBackKeyListener() {
             @Override
-            public void onBackKey() {
+            public boolean onBackKey() {
                 // Close the activity on back key press
                 doneEditingFolderName(true);
+                return false;
             }
         });
         mFolderName.setOnFocusChangeListener(this);
         mFolderName.setFocusable(true);
         mFolderName.setFocusableInTouchMode(true);
 
-        // We disable action mode for now since it messes up the view on phones
-        mFolderName.setCustomSelectionActionModeCallback(mActionModeCallback);
+        if (!Utilities.ATLEAST_MARSHMALLOW) {
+            // We disable action mode in older OSes where floating selection menu is not yet
+            // available.
+            mFolderName.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+                public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                    return false;
+                }
+
+                public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                    return false;
+                }
+
+                public void onDestroyActionMode(ActionMode mode) {
+                }
+
+                public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                    return false;
+                }
+            });
+        }
         mFolderName.setOnEditorActionListener(this);
         mFolderName.setSelectAllOnFocus(true);
         mFolderName.setInputType(mFolderName.getInputType() |
@@ -223,23 +243,6 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         mFooter.measure(measureSpec, measureSpec);
         mFooterHeight = mFooter.getMeasuredHeight();
     }
-
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            return false;
-        }
-
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        public void onDestroyActionMode(ActionMode mode) {
-        }
-
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-    };
 
     public void onClick(View v) {
         Object tag = v.getTag();
@@ -319,9 +322,10 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             sendCustomAccessibilityEvent(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED,
                     String.format(getContext().getString(R.string.folder_renamed), newTitle));
         }
-        // In order to clear the focus from the text field, we set the focus on ourself. This
-        // ensures that every time the field is clicked, focus is gained, giving reliable behavior.
-        requestFocus();
+
+        // This ensures that focus is gained every time the field is clicked, which selects all
+        // the text and brings up the soft keyboard if necessary.
+        mFolderName.clearFocus();
 
         Selection.setSelection((Spannable) mFolderName.getText(), 0, 0);
         mIsEditingName = false;
@@ -415,13 +419,15 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
     /**
      * Creates a new UserFolder, inflated from R.layout.user_folder.
      *
-     * @param context The application's context.
+     * @param launcher The main activity.
      *
      * @return A new UserFolder.
      */
     @SuppressLint("InflateParams")
     static Folder fromXml(Launcher launcher) {
-        return (Folder) launcher.getLayoutInflater().inflate(R.layout.user_folder, null);
+        return (Folder) launcher.getLayoutInflater().inflate(
+                FeatureFlags.LAUNCHER3_ICON_NORMALIZATION
+                        ? R.layout.user_folder_icon_normalized : R.layout.user_folder, null);
     }
 
     /**
@@ -451,6 +457,11 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             // Open on the first page.
             mContent.snapToPageImmediately(0);
         }
+
+        // This is set to true in close(), but isn't reset to false until onDropCompleted(). This
+        // leads to an consistent state if you drag out of the folder and drag back in without
+        // dropping. One resulting issue is that replaceFolderWithFinalItem() can be called twice.
+        mDeleteFolderOnDropCompleted = false;
 
         Animator openFolderAnim = null;
         final Runnable onCompleteRunnable;
@@ -542,10 +553,7 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             public void onAnimationEnd(Animator animation) {
                 mState = STATE_OPEN;
 
-                if (onCompleteRunnable != null) {
-                    onCompleteRunnable.run();
-                }
-
+                onCompleteRunnable.run();
                 mContent.setFocusOnFirstChild();
             }
         });
@@ -640,9 +648,8 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         oa.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                onCloseComplete();
                 setLayerType(LAYER_TYPE_NONE, null);
-                mState = STATE_SMALL;
+                close(true);
             }
             @Override
             public void onAnimationStart(Animator animation) {
@@ -654,6 +661,34 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         oa.setDuration(mExpandDuration);
         setLayerType(LAYER_TYPE_HARDWARE, null);
         oa.start();
+    }
+
+    public void close(boolean wasAnimated) {
+        // TODO: Clear all active animations.
+        DragLayer parent = (DragLayer) getParent();
+        if (parent != null) {
+            parent.removeView(this);
+        }
+        mDragController.removeDropTarget(this);
+        clearFocus();
+        if (wasAnimated) {
+            mFolderIcon.requestFocus();
+        }
+
+        if (mRearrangeOnClose) {
+            rearrangeChildren();
+            mRearrangeOnClose = false;
+        }
+        if (getItemCount() <= 1) {
+            if (!mDragInProgress && !mSuppressFolderDeletion) {
+                replaceFolderWithFinalItem();
+            } else if (mDragInProgress) {
+                mDeleteFolderOnDropCompleted = true;
+            }
+        }
+        mSuppressFolderDeletion = false;
+        clearDragInfo();
+        mState = STATE_SMALL;
     }
 
     public boolean acceptDrop(DragObject d) {
@@ -707,6 +742,11 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             mReorderAlarm.setOnAlarmListener(mReorderAlarmListener);
             mReorderAlarm.setAlarm(REORDER_DELAY);
             mPrevTargetRank = mTargetRank;
+
+            if (d.stateAnnouncer != null) {
+                d.stateAnnouncer.announce(getContext().getString(R.string.move_to_position,
+                        mTargetRank + 1));
+            }
         }
 
         float x = r[0];
@@ -868,7 +908,6 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             // Show the animation, next time something is added to the folder.
             mInfo.setOption(FolderInfo.FLAG_MULTI_PAGE_ANIMATION, false, mLauncher);
         }
-
     }
 
     @Override
@@ -1083,63 +1122,42 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         return mContent.getItemCount();
     }
 
-    @Thunk void onCloseComplete() {
-        DragLayer parent = (DragLayer) getParent();
-        if (parent != null) {
-            parent.removeView(this);
-        }
-        mDragController.removeDropTarget((DropTarget) this);
-        clearFocus();
-        mFolderIcon.requestFocus();
-
-        if (mRearrangeOnClose) {
-            rearrangeChildren();
-            mRearrangeOnClose = false;
-        }
-        if (getItemCount() <= 1) {
-            if (!mDragInProgress && !mSuppressFolderDeletion) {
-                replaceFolderWithFinalItem();
-            } else if (mDragInProgress) {
-                mDeleteFolderOnDropCompleted = true;
-            }
-        }
-        mSuppressFolderDeletion = false;
-        clearDragInfo();
-    }
-
     @Thunk void replaceFolderWithFinalItem() {
         // Add the last remaining child to the workspace in place of the folder
         Runnable onCompleteRunnable = new Runnable() {
             @Override
             public void run() {
-                CellLayout cellLayout = mLauncher.getCellLayout(mInfo.container, mInfo.screenId);
+                int itemCount = mInfo.contents.size();
+                if (itemCount <= 1) {
+                    View newIcon = null;
 
-                View child = null;
-                // Move the item from the folder to the workspace, in the position of the folder
-                if (getItemCount() == 1) {
-                    ShortcutInfo finalItem = mInfo.contents.get(0);
-                    child = mLauncher.createShortcut(cellLayout, finalItem);
-                    LauncherModel.addOrMoveItemInDatabase(mLauncher, finalItem, mInfo.container,
-                            mInfo.screenId, mInfo.cellX, mInfo.cellY);
-                }
-                if (getItemCount() <= 1) {
-                    // Remove the folder
-                    LauncherModel.deleteItemFromDatabase(mLauncher, mInfo);
-                    if (cellLayout != null) {
-                        // b/12446428 -- sometimes the cell layout has already gone away?
-                        cellLayout.removeView(mFolderIcon);
+                    if (itemCount == 1) {
+                        // Move the item from the folder to the workspace, in the position of the
+                        // folder
+                        CellLayout cellLayout = mLauncher.getCellLayout(mInfo.container,
+                                mInfo.screenId);
+                        ShortcutInfo finalItem = mInfo.contents.remove(0);
+                        newIcon = mLauncher.createShortcut(cellLayout, finalItem);
+                        LauncherModel.addOrMoveItemInDatabase(mLauncher, finalItem, mInfo.container,
+                                mInfo.screenId, mInfo.cellX, mInfo.cellY);
                     }
+
+                    // Remove the folder
+                    mLauncher.removeItem(mFolderIcon, mInfo, true /* deleteFromDb */);
                     if (mFolderIcon instanceof DropTarget) {
                         mDragController.removeDropTarget((DropTarget) mFolderIcon);
                     }
-                    mLauncher.removeFolder(mInfo);
-                }
-                // We add the child after removing the folder to prevent both from existing at
-                // the same time in the CellLayout.  We need to add the new item with addInScreenFromBind()
-                // to ensure that hotseat items are placed correctly.
-                if (child != null) {
-                    mLauncher.getWorkspace().addInScreenFromBind(child, mInfo.container, mInfo.screenId,
-                            mInfo.cellX, mInfo.cellY, mInfo.spanX, mInfo.spanY);
+
+                    if (newIcon != null) {
+                        // We add the child after removing the folder to prevent both from existing
+                        // at the same time in the CellLayout.  We need to add the new item with
+                        // addInScreenFromBind() to ensure that hotseat items are placed correctly.
+                        mLauncher.getWorkspace().addInScreenFromBind(newIcon, mInfo.container,
+                                mInfo.screenId, mInfo.cellX, mInfo.cellY, mInfo.spanX, mInfo.spanY);
+
+                        // Focus the newly created child
+                        newIcon.requestFocus();
+                    }
                 }
             }
         };
@@ -1156,15 +1174,37 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
         return mDestroyed;
     }
 
-    // This method keeps track of the last item in the folder for the purposes
+    // This method keeps track of the first and last item in the folder for the purposes
     // of keyboard focus
     public void updateTextViewFocus() {
-        View lastChild = mContent.getLastItem();
-        if (lastChild != null) {
+        final View firstChild = mContent.getFirstItem();
+        final View lastChild = mContent.getLastItem();
+        if (firstChild != null && lastChild != null) {
             mFolderName.setNextFocusDownId(lastChild.getId());
             mFolderName.setNextFocusRightId(lastChild.getId());
             mFolderName.setNextFocusLeftId(lastChild.getId());
             mFolderName.setNextFocusUpId(lastChild.getId());
+            // Hitting TAB from the folder name wraps around to the first item on the current
+            // folder page, and hitting SHIFT+TAB from that item wraps back to the folder name.
+            mFolderName.setNextFocusForwardId(firstChild.getId());
+            // When clicking off the folder when editing the name, this Folder gains focus. When
+            // pressing an arrow key from that state, give the focus to the first item.
+            this.setNextFocusDownId(firstChild.getId());
+            this.setNextFocusRightId(firstChild.getId());
+            this.setNextFocusLeftId(firstChild.getId());
+            this.setNextFocusUpId(firstChild.getId());
+            // When pressing shift+tab in the above state, give the focus to the last item.
+            setOnKeyListener(new OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    boolean isShiftPlusTab = keyCode == KeyEvent.KEYCODE_TAB &&
+                            event.hasModifiers(KeyEvent.META_SHIFT_ON);
+                    if (isShiftPlusTab && Folder.this.isFocused()) {
+                        return lastChild.requestFocus();
+                    }
+                    return false;
+                }
+            });
         }
     }
 
@@ -1285,7 +1325,11 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
             rearrangeChildren();
         }
         if (getItemCount() <= 1) {
-            replaceFolderWithFinalItem();
+            if (mInfo.opened) {
+                mLauncher.closeFolder(this, true);
+            } else {
+                replaceFolderWithFinalItem();
+            }
         }
     }
 
@@ -1327,8 +1371,12 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
     }
 
     public void onFocusChange(View v, boolean hasFocus) {
-        if (v == mFolderName && hasFocus) {
-            startEditingFolderName();
+        if (v == mFolderName) {
+            if (hasFocus) {
+                startEditingFolderName();
+            } else {
+                dismissEditingName();
+            }
         }
     }
 
@@ -1340,7 +1388,7 @@ public class Folder extends LinearLayout implements DragSource, View.OnClickList
     }
 
     @Override
-    public void fillInLaunchSourceData(Bundle sourceData) {
+    public void fillInLaunchSourceData(View v, Bundle sourceData) {
         // Fill in from the folder icon's launch source provider first
         Stats.LaunchSourceUtils.populateSourceDataFromAncestorProvider(mFolderIcon, sourceData);
         sourceData.putString(Stats.SOURCE_EXTRA_SUB_CONTAINER, Stats.SUB_CONTAINER_FOLDER);

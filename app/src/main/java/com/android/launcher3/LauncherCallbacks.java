@@ -43,6 +43,8 @@ public interface LauncherCallbacks {
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
             int[] grantResults);
     public void onWindowFocusChanged(boolean hasFocus);
+    public void onAttachedToWindow();
+    public void onDetachedFromWindow();
     public boolean onPrepareOptionsMenu(Menu menu);
     public void dump(String prefix, FileDescriptor fd, PrintWriter w, String[] args);
     public void onHomeIntent();
@@ -69,20 +71,15 @@ public interface LauncherCallbacks {
     public void onInteractionBegin();
     public void onInteractionEnd();
 
-    /*
-     * Extension points for replacing the search experience
-     */
-    @Deprecated
-    public boolean forceDisableVoiceButtonProxy();
     public boolean providesSearch();
     public boolean startSearch(String initialQuery, boolean selectInitialQuery,
             Bundle appSearchData, Rect sourceBounds);
-    public boolean startSearchFromAllApps(String query);
     @Deprecated
-    public void startVoice();
+    public boolean startSearchFromAllApps(String query);
     public boolean hasCustomContentToLeft();
     public void populateCustomContentContainer();
     public View getQsbBar();
+    public Bundle getAdditionalSearchWidgetOptions();
 
     /*
      * Extensions points for adding / replacing some other aspects of the Launcher experience.
@@ -93,30 +90,13 @@ public interface LauncherCallbacks {
     public View getIntroScreen();
     public boolean shouldMoveToDefaultScreenOnHomeIntent();
     public boolean hasSettings();
-    @Deprecated
-    public ComponentName getWallpaperPickerComponent();
     public boolean overrideWallpaperDimensions();
     public boolean isLauncherPreinstalled();
     public AllAppsSearchBarController getAllAppsSearchBarController();
     public List<ComponentKey> getPredictedApps();
-
-    /**
-     * Returning true will immediately result in a call to {@link #setLauncherOverlayView(ViewGroup,
-     * com.android.launcher3.Launcher.LauncherOverlayCallbacks)}.
-     *
-     * @return true if this launcher extension will provide an overlay
-     */
-    public boolean hasLauncherOverlay();
-
-    /**
-     * Handshake to establish an overlay relationship
-     *
-     * @param container Full screen overlay ViewGroup into which custom views can be placed.
-     * @param callbacks A set of callbacks provided by Launcher in relation to the overlay
-     * @return an interface used to make requests and notify the Launcher in relation to the overlay
-     */
-    public Launcher.LauncherOverlay setLauncherOverlayView(InsettableFrameLayout container,
-            Launcher.LauncherOverlayCallbacks callbacks);
+    public static final int SEARCH_BAR_HEIGHT_NORMAL = 0, SEARCH_BAR_HEIGHT_TALL = 1;
+    /** Must return one of {@link #SEARCH_BAR_HEIGHT_NORMAL} or {@link #SEARCH_BAR_HEIGHT_TALL} */
+    public int getSearchBarHeight();
 
     /**
      * Sets the callbacks to allow reacting the actions of search overlays of the launcher.

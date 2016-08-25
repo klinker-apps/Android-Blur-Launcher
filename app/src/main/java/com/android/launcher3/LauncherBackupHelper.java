@@ -63,7 +63,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.zip.CRC32;
 
@@ -585,6 +584,7 @@ public class LauncherBackupHelper implements BackupHelper {
                 final long id = cursor.getLong(ID_INDEX);
                 final String providerName = cursor.getString(APPWIDGET_PROVIDER_INDEX);
                 final ComponentName provider = ComponentName.unflattenFromString(providerName);
+
                 Key key = null;
                 String backupKey = null;
                 if (provider != null) {
@@ -603,11 +603,13 @@ public class LauncherBackupHelper implements BackupHelper {
                 } else if (backupKey != null) {
                     if (DEBUG) Log.d(TAG, "I can count this high: " + backupWidgetCount);
                     if (backupWidgetCount < MAX_WIDGETS_PER_PASS) {
-                        if (DEBUG) Log.d(TAG, "saving widget " + backupKey);
-                        UserHandleCompat user = UserHandleCompat.myUserHandle();
-                        writeRowToBackup(key, packWidget(dpi, provider, user), data);
-                        mKeys.add(key);
-                        backupWidgetCount ++;
+                        LauncherAppWidgetProviderInfo widgetInfo = null;
+                        if (widgetInfo != null) {
+                            if (DEBUG) Log.d(TAG, "saving widget " + backupKey);
+                            writeRowToBackup(key, packWidget(dpi, widgetInfo), data);
+                            mKeys.add(key);
+                            backupWidgetCount ++;
+                        }
                     } else {
                         if (VERBOSE) Log.v(TAG, "deferring widget backup " + backupKey);
                         // too many widgets for this pass, request another.
@@ -686,13 +688,10 @@ public class LauncherBackupHelper implements BackupHelper {
         try {
             Key key = Key.parseFrom(Base64.decode(backupKey, Base64.DEFAULT));
             if (key.checksum != checkKey(key)) {
-                key = null;
                 throw new InvalidBackupException("invalid key read from stream" + backupKey);
             }
             return key;
-        } catch (InvalidProtocolBufferNanoException e) {
-            throw new InvalidBackupException(e);
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidProtocolBufferNanoException | IllegalArgumentException e) {
             throw new InvalidBackupException(e);
         }
     }
@@ -889,16 +888,14 @@ public class LauncherBackupHelper implements BackupHelper {
     }
 
     /** Serialize a widget for persistence, including a checksum wrapper. */
-    private Widget packWidget(int dpi, ComponentName provider, UserHandleCompat user) {
-        final LauncherAppWidgetProviderInfo info =
-                LauncherModel.getProviderInfo(mContext, provider, user);
+    private Widget packWidget(int dpi, LauncherAppWidgetProviderInfo info) {
         Widget widget = new Widget();
-        widget.provider = provider.flattenToShortString();
+        widget.provider = info.provider.flattenToShortString();
         widget.label = info.label;
         widget.configure = info.configure != null;
         if (info.icon != 0) {
             widget.icon = new Resource();
-            Drawable fullResIcon = mIconCache.getFullResIcon(provider.getPackageName(), info.icon);
+            Drawable fullResIcon = mIconCache.getFullResIcon(info.provider.getPackageName(), info.icon);
             Bitmap icon = Utilities.createIconBitmap(fullResIcon, mContext);
             widget.icon.data = Utilities.flattenBitmap(icon);
             widget.icon.dpi = dpi;
@@ -980,12 +977,6 @@ public class LauncherBackupHelper implements BackupHelper {
             }
         } catch (IOException e) {
             Log.w(TAG, "failed to close the journal", e);
-        } finally {
-            try {
-                inStream.close();
-            } catch (IOException e) {
-                Log.w(TAG, "failed to close the journal", e);
-            }
         }
         return journal;
     }
@@ -1014,12 +1005,10 @@ public class LauncherBackupHelper implements BackupHelper {
      * @param journal a Journal protocol buffer
      */
     private void writeJournal(ParcelFileDescriptor newState, Journal journal) {
-        FileOutputStream outStream = null;
         try {
-            outStream = new FileOutputStream(newState.getFileDescriptor());
+            FileOutputStream outStream = new FileOutputStream(newState.getFileDescriptor());
             final byte[] journalBytes = writeCheckedBytes(journal);
             outStream.write(journalBytes);
-            outStream.close();
             if (VERBOSE) Log.v(TAG, "wrote " + journalBytes.length + " bytes of journal");
         } catch (IOException e) {
             Log.w(TAG, "failed to write backup journal", e);

@@ -30,7 +30,7 @@ public class ExtendedEditText extends EditText {
      * Implemented by listeners of the back key.
      */
     public interface OnBackKeyListener {
-        public void onBackKey();
+        public boolean onBackKey();
     }
 
     private OnBackKeyListener mBackKeyListener;
