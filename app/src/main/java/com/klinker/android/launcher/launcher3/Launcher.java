@@ -3697,7 +3697,7 @@ public class Launcher extends Activity
             Point searchDimens = portraitProfile.getSearchBarDimensForWidgetOpts(getResources());
             int maxHeight = (int) (searchDimens.y / density);
             int minHeight = maxHeight;
-            int maxWidth = (int) (searchDimens.x / density);
+            int maxWidth = (int) ((searchDimens.x / density) / 5) * 3;
             int minWidth = maxWidth;
             if (!landscapeProfile.isVerticalBarLayout()) {
                 searchDimens = landscapeProfile.getSearchBarDimensForWidgetOpts(getResources());
@@ -3746,7 +3746,17 @@ public class Launcher extends Activity
                 mQsb = mAppWidgetHost.createView(this, widgetId, searchProvider);
                 mQsb.setId(R.id.qsb_widget);
                 mQsb.updateAppWidgetOptions(opts);
-                mQsb.setPadding(0, 0, 0, 0);
+
+                // on tablets, we don't need this widget taking up the whole screen. It looks better
+                // with some padding on the sides
+                if (getResources().getBoolean(R.bool.is_large_tablet)) {
+                    int width = (int) (maxWidth / 5 * 1.5);
+                    int padding = (maxWidth - width) / 2;
+                    mQsb.setPadding(padding, 0, padding, 0);
+                } else {
+                    mQsb.setPadding(0, 0, 0, 0);
+                }
+
                 mSearchDropTargetBar.addView(mQsb);
                 mSearchDropTargetBar.setQsbSearchBar(mQsb);
 
