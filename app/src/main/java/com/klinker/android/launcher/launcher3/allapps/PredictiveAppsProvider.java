@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.klinker.android.launcher.addons.settings.AppSettings;
 import com.klinker.android.launcher.launcher3.compat.UserHandleCompat;
 import com.klinker.android.launcher.launcher3.util.ComponentKey;
 
@@ -96,7 +97,7 @@ public class PredictiveAppsProvider {
 
     public List<ComponentKey> getPredictions() {
         String predictions = sharedPreferences.getString(TOP_PREDICTIVE_APPS_KEY, "");
-        if (predictions.isEmpty()) {
+        if (predictions.isEmpty() || !AppSettings.getInstance(context).showPredictedApps) {
             return new ArrayList<>();
         }
 

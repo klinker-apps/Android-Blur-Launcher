@@ -57,6 +57,7 @@ public class AppSettings {
     public boolean showIconNames;
     public boolean shouldPersist;
     public boolean useUnread;
+    public boolean showPredictedApps;
 
     public int colCount;
     public int rowCount;
@@ -77,6 +78,7 @@ public class AppSettings {
 
         this.showDock = sharedPrefs.getBoolean("show_dock", true);
         this.showPageIndicators = sharedPrefs.getBoolean("show_page_indicator", true);
+        this.showPredictedApps = sharedPrefs.getBoolean("show_predicted_apps", true);
         this.showSearchBar = sharedPrefs.getBoolean("show_search_bar", true);
         this.showIconNames = sharedPrefs.getBoolean("show_icon_names", true);
         this.shouldPersist = sharedPrefs.getBoolean("keep_running", false);

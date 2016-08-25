@@ -101,6 +101,7 @@
     <string name="screen_orientation">Screen Orientation</string>
     <string name="portrait">Portrait</string>
     <string name="landscape">Landscape</string>
+    <string name="show_predicted_apps">Show Most Used Apps in Drawer</string>
 
     <!-- Visuals Settings -->
     <string name="show_dock">Show Dock</string>
