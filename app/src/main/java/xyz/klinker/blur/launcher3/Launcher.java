@@ -3748,9 +3748,10 @@ public class Launcher extends Activity
                 // on tablets, we don't need this widget taking up the whole screen. It looks better
                 // with some padding on the sides
                 if (getResources().getBoolean(R.bool.reduce_search_width)) {
-                    int width = (int) (maxWidth / 5 * 1.5);
-                    int padding = (maxWidth - width) / 2;
-                    mQsb.setPadding(padding, 0, padding, 0);
+                    Display display = getWindowManager().getDefaultDisplay();
+                    Point size = new Point();
+                    display.getSize(size);
+                    mQsb.setPadding(size.x / 8, 0, size.x / 8, 0);
                 } else {
                     mQsb.setPadding(0, 0, 0, 0);
                 }
