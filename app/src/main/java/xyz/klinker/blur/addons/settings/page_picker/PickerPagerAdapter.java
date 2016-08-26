@@ -22,10 +22,11 @@ import android.content.Context;
 
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.addons.pages.FragmentStatePagerAdapter;
+import xyz.klinker.blur.addons.utils.BlurPagesUtils;
 
 public class PickerPagerAdapter extends FragmentStatePagerAdapter {
 
-    public static final int NUM_PAGES = 5; // change to 6 to be able to add the extra page on the left
+    public static final int NUM_PAGES = BlurPagesUtils.getNumPages();
 
     public PickerPagerAdapter(FragmentManager manager, Context context) {
         super(manager, context);
@@ -47,10 +48,6 @@ public class PickerPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position < 5) {
-            return " " + context.getResources().getString(R.string.page) + " " + (NUM_PAGES - position - 1) + " ";
-        } else {
-            return context.getString(R.string.extra_page);
-        }
+        return " " + context.getResources().getString(R.string.page) + " " + (NUM_PAGES - position) + " ";
     }
 }

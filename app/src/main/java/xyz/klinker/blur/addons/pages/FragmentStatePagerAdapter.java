@@ -164,7 +164,11 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
                     state = new Bundle();
                 }
                 String key = "f" + i;
-                mFragmentManager.putFragment(state, key, f);
+                try {
+                    mFragmentManager.putFragment(state, key, f);
+                } catch (Exception e) {
+
+                }
             }
         }
         return state;

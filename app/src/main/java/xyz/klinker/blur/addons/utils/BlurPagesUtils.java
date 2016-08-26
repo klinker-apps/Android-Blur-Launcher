@@ -14,7 +14,7 @@ public class BlurPagesUtils {
     };
 
     public static Item[] getAvailablePages(Context context) {
-        final Item[] items = new Item[PAGES.length];
+        final Item[] items = new Item[getNumPages()];
 
         for (int i = 0; i < items.length; i++) {
             items[i] = new Item(context.getString(PAGES[i].nameRes),
@@ -24,6 +24,10 @@ public class BlurPagesUtils {
         }
 
         return items;
+    }
+
+    public static int getNumPages() {
+        return PAGES.length;
     }
 
     private static class Page {
