@@ -2,6 +2,11 @@ package xyz.klinker.blur.addons.utils;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import xyz.klinker.blur.R;
 
@@ -24,6 +29,24 @@ public class BlurPagesUtils {
         }
 
         return items;
+    }
+
+    public static ListAdapter getPackagesAdapter(final Context context, final Item[] items) {
+        return new ArrayAdapter<Item>(
+                context,
+                android.R.layout.select_dialog_item,
+                android.R.id.text1,
+                items) {
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                TextView tv = (TextView) v.findViewById(android.R.id.text1);
+                tv.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.picker_background));
+                tv.setCompoundDrawablesWithIntrinsicBounds(items[position].actualIcon, null, null, null);
+                tv.setCompoundDrawablePadding((int) (5 * context.getResources().getDisplayMetrics().density + 0.5f));
+                tv.setText(items[position].text);
+                return v;
+            }
+        };
     }
 
     public static int getNumPages() {

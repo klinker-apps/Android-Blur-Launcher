@@ -123,8 +123,7 @@ public class ChooserFragment extends Fragment {
             public void onClick(View view) {
 
                 final Item[] items = BlurPagesUtils.getAvailablePages(context);
-
-                ListAdapter adapter = Utils.getPackagesAdapter(context, items);
+                ListAdapter adapter = BlurPagesUtils.getPackagesAdapter(context, items);
 
                 AlertDialog.Builder attachBuilder = new AlertDialog.Builder(context, AlertDialog.THEME_HOLO_DARK);
                 attachBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {

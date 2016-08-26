@@ -29,7 +29,6 @@ import android.view.*;
 import android.widget.*;
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.addons.settings.bubble_tutorial.TutorialActivity;
-import xyz.klinker.blur.addons.settings.card_picker.CardPickerActivity;
 import xyz.klinker.blur.addons.settings.page_picker.PagePickerActivity;
 import xyz.klinker.blur.addons.utils.Utils;
 import xyz.klinker.blur.launcher3.Utilities;
@@ -90,7 +89,6 @@ public class SettingsActivity extends Activity {
     public TextView visuals;
     public TextView dock;
     public TextView chooseFrag;
-    public TextView chooseCard;
     public TextView help;
     public TextView donate;
     public TextView klinkerApps;
@@ -103,7 +101,6 @@ public class SettingsActivity extends Activity {
         visuals = (TextView) findViewById(R.id.visuals_button);
         dock = (TextView) findViewById(R.id.dock_button);
         chooseFrag = (TextView) findViewById(R.id.choose_fragments_button);
-        chooseCard = (TextView) findViewById(R.id.choose_cards_button);
         help = (TextView) findViewById(R.id.help_button);
         donate = (TextView) findViewById(R.id.donate_button);
         klinkerApps = (TextView) findViewById(R.id.our_apps_button);
@@ -115,7 +112,6 @@ public class SettingsActivity extends Activity {
         Utilities.applyTypeface(visuals);
         Utilities.applyTypeface(dock);
         Utilities.applyTypeface(chooseFrag);
-        Utilities.applyTypeface(chooseCard);
         Utilities.applyTypeface(help);
         Utilities.applyTypeface(donate);
         Utilities.applyTypeface(klinkerApps);
@@ -148,7 +144,6 @@ public class SettingsActivity extends Activity {
         visuals.setOnTouchListener(mHapticFeedbackTouchListener);
         dock.setOnTouchListener(mHapticFeedbackTouchListener);
         chooseFrag.setOnTouchListener(mHapticFeedbackTouchListener);
-        chooseCard.setOnTouchListener(mHapticFeedbackTouchListener);
         help.setOnTouchListener(mHapticFeedbackTouchListener);
         donate.setOnTouchListener(mHapticFeedbackTouchListener);
         klinkerApps.setOnTouchListener(mHapticFeedbackTouchListener);
@@ -196,14 +191,6 @@ public class SettingsActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent picker = new Intent(context, PagePickerActivity.class);
-                startActivity(picker);
-            }
-        });
-
-        chooseCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent picker = new Intent(context, CardPickerActivity.class);
                 startActivity(picker);
             }
         });
@@ -340,33 +327,5 @@ public class SettingsActivity extends Activity {
                 .create()
                 .show();
     }
-
-    /**
-     * Used to view all the packages with launcher extensions.
-     * We don't have a use for this anymore
-     */
-    /*public void viewAll() {
-        final Item[] items = Utils.getPackageItems(context);
-
-        ListAdapter adapter = Utils.getPackagesAdapter(context, items);
-
-        AlertDialog.Builder attachBuilder = new AlertDialog.Builder(context);
-        attachBuilder.setTitle(getString(R.string.pages) + ":");
-        attachBuilder.setAdapter(adapter, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int i) {
-                String data = "http://play.google.com/store/apps/details?id=" + items[i].packageName;
-                Uri weburi = Uri.parse(data);
-                Intent launchBrowser = new Intent(Intent.ACTION_VIEW, weburi);
-                launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(launchBrowser);
-
-                dialog.dismiss();
-            }
-
-        });
-
-        attachBuilder.create().show();
-    }*/
 
 }
