@@ -217,7 +217,7 @@ public class AlphabeticalAppsList {
         }
 
         // add blur to the hidden apps
-        ComponentName cmp = ComponentName.unflattenFromString("xyz.klinker.blur/Launcher");
+        ComponentName cmp = ComponentName.unflattenFromString("xyz.klinker.blur/xyz.klinker.blur.launcher3.Launcher");
         mHiddenApps.add(cmp);
         mHiddenPackages.add(cmp.getPackageName());
     }
