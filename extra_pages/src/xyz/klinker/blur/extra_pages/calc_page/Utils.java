@@ -19,9 +19,15 @@ package xyz.klinker.blur.extra_pages.calc_page;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Point;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Display;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+
+import xyz.klinker.blur.extra_pages.R;
 
 /**
  * Commonly used utilities
@@ -53,15 +59,35 @@ public class Utils {
      * @return true if nav bar is on the screen
      */
     public static boolean hasNavBar(Context context) {
-        Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        Point realSize = new Point();
-        display.getSize(size);
-        display.getRealSize(realSize);
+        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+        boolean hasHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
 
-        return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y) &&
-                (context.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) &&
-                !isInImmersiveMode(context);
+        if (hasBackKey && hasHomeKey) {
+            // no navigation bar, unless it is enabled in the settings
+            Display display = ((Activity)context).getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            Point realSize = new Point();
+            display.getSize(size);
+            display.getRealSize(realSize);
+
+            if (Build.MANUFACTURER.toLowerCase().contains("samsung") && !Build.MODEL.toLowerCase().contains("nexus")) {
+                return false;
+            }
+
+            try {
+                return Math.max(size.x, size.y) < Math.max(realSize.x, realSize.y) || (context.getResources().getBoolean(R.bool.isTablet) && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
+            } catch (Exception e) {
+                Resources resources = context.getResources();
+                int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
+                if (id > 0) {
+                    return resources.getBoolean(id);
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            return true;
+        }
     }
 
     /**
