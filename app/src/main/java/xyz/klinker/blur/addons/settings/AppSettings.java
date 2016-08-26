@@ -89,7 +89,7 @@ public class AppSettings {
 
         this.colCount = Integer.parseInt(sharedPrefs.getString("col_count", context.getResources().getInteger(R.integer.default_col_count) + ""));
         this.rowCount = Integer.parseInt(sharedPrefs.getString("row_count", context.getResources().getInteger(R.integer.default_row_count) + ""));
-        this.colCountAllApps = Integer.parseInt(sharedPrefs.getString("col_count_all_apps", context.getResources().getInteger(R.integer.default_col_count) + ""));
+        this.colCountAllApps = Integer.parseInt(sharedPrefs.getString("col_count_all_apps", context.getResources().getInteger(R.integer.default_all_app_col_count) + ""));
         this.widthMargin = sharedPrefs.getInt("width_margin", 0);
         this.heightMargin = sharedPrefs.getInt("height_margin", 0);
         this.dockItems = Integer.parseInt(sharedPrefs.getString("dock_count", context.getResources().getInteger(R.integer.default_dock_items) + ""));

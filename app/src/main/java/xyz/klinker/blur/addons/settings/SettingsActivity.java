@@ -65,7 +65,7 @@ public class SettingsActivity extends Activity {
         getViews();
         setFeedback();
         setClicks();
-        startTutorial();
+        //startTutorial();
     }
 
     public int adjustAlpha(int color, float factor) {

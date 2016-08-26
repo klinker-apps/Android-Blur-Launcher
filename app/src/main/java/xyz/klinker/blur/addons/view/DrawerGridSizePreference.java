@@ -30,7 +30,7 @@ public class DrawerGridSizePreference extends DialogPreference {
         widthPicker.setMinValue(3);
         widthPicker.setValue(Integer.parseInt(
                         sharedPrefs.getString("col_count_all_apps",
-                                getContext().getResources().getInteger(R.integer.default_col_count) + ""))
+                                getContext().getResources().getInteger(R.integer.default_all_app_col_count) + ""))
         );
         widthPicker.setWrapSelectorWheel(false);
 
