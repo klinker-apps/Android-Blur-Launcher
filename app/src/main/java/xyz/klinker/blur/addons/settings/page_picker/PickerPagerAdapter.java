@@ -34,16 +34,12 @@ public class PickerPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        if (i < 5) {
-            return (new ChooserFragment()).getFragment(i);
-        } else {
-            return new ExtraPageFragment();
-        }
+        return (new ChooserFragment()).getFragment(i);
     }
 
     @Override
     public int getCount() {
-        return NUM_PAGES;
+        return NUM_PAGES <= 5 ? NUM_PAGES : 5;
     }
 
     @Override
