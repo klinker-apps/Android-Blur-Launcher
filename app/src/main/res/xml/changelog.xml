@@ -2,6 +2,7 @@
 
     <version name="2.2.1">
         <text>Fix bug preventing icon drop targets from displaying when search bar is disabled</text>
+        <text>Improve search bar on landscape tablets</text>
     </version>
 
     <version name="2.2.0">
