@@ -3671,10 +3671,6 @@ public class Launcher extends Activity
     }
 
     public View getOrCreateQsbBar() {
-        if (!AppSettings.getInstance(this).showSearchBar) {
-            return null;
-        }
-
         if (launcherCallbacksProvidesSearch()) {
             return mLauncherCallbacks.getQsbBar();
         }
@@ -3760,7 +3756,11 @@ public class Launcher extends Activity
                 mSearchDropTargetBar.addView(mQsb);
                 mSearchDropTargetBar.setQsbSearchBar(mQsb);
 
-                createClickableSearch(1);
+                if (AppSettings.getInstance(this).showSearchBar) {
+                    createClickableSearch(1);
+                } else {
+                    mQsb.getLayoutParams().width = 0;
+                }
             }
         }
         return mQsb;
