@@ -7,11 +7,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.View;
 
+/**
+ * A Fragment that provides callbacks for when the drawer is opened and closed.
+ */
 public abstract class BaseLauncherPage extends Fragment {
 
     public static final String POSITION = "position";
-    public static final String DRAWER_OPENED = "com.klinker.android.launcher.FRAGMENTS_OPENED";
-    public static final String DRAWER_CLOSED = "com.klinker.android.launcher.FRAGMENTS_CLOSED";
+    public static final String DRAWER_OPENED = "xyz.klinker.blur.FRAGMENTS_OPENED";
+    public static final String DRAWER_CLOSED = "xyz.klinker.blur.FRAGMENTS_CLOSED";
 
     public abstract BaseLauncherPage getFragment(int position);
     public abstract View[] getBackground();

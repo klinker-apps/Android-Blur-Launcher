@@ -5158,6 +5158,24 @@ public class Launcher extends Activity
                 }
 
                 sendBroadcast(new Intent("xyz.klinker.blur.FRAGMENTS_OPENED"));
+
+                if (Utilities.ATLEAST_MARSHMALLOW) {
+                    drawerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                }
+
+                if (Utilities.ATLEAST_LOLLIPOP) {
+                    ValueAnimator animator = ValueAnimator.ofArgb(Color.TRANSPARENT, Color.parseColor("#22000000"));
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            int color = (Integer) valueAnimator.getAnimatedValue();
+                            getWindow().setNavigationBarColor(color);
+                            getWindow().setStatusBarColor(color);
+                        }
+                    });
+                    animator.setDuration(300);
+                    animator.start();
+                }
             }
 
             @Override
@@ -5168,6 +5186,25 @@ public class Launcher extends Activity
                 InputMethodManager imm = (InputMethodManager) getSystemService(
                         Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mLauncherDrawer.getWindowToken(), 0);
+
+                if (Utilities.ATLEAST_MARSHMALLOW) {
+                    drawerView.setSystemUiVisibility(drawerView.getSystemUiVisibility() &
+                            ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                }
+
+                if (Utilities.ATLEAST_LOLLIPOP) {
+                    ValueAnimator animator = ValueAnimator.ofArgb(Color.parseColor("#22000000"), Color.TRANSPARENT);
+                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                            int color = (Integer) valueAnimator.getAnimatedValue();
+                            getWindow().setNavigationBarColor(color);
+                            getWindow().setStatusBarColor(color);
+                        }
+                    });
+                    animator.setDuration(300);
+                    animator.start();
+                }
             }
 
             @Override
