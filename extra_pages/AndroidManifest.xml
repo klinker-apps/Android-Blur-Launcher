@@ -17,7 +17,7 @@ limitations under the License.
 -->
         
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.klinker.android.launcher.extra_pages">
+          package="xyz.klinker.blur.extra_pages">
 
     <application android:theme="@android:style/Theme.Holo.Light.DarkActionBar" >
 

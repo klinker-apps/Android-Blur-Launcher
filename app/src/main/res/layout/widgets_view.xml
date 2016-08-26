@@ -16,7 +16,7 @@
 <!-- The top and bottom paddings are defined in this container, but since we want
      the list view to span the full width (for touch interception purposes), we
      will bake the left/right padding into that view's background itself. -->
-<com.klinker.android.launcher.launcher3.widget.WidgetsContainerView
+<xyz.klinker.blur.launcher3.widget.WidgetsContainerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
     android:id="@+id/widgets_view"
@@ -43,11 +43,11 @@
         android:layout_height="match_parent">
 
         <!-- DO NOT CHANGE THE ID -->
-        <com.klinker.android.launcher.launcher3.widget.WidgetsRecyclerView
+        <xyz.klinker.blur.launcher3.widget.WidgetsRecyclerView
             android:id="@+id/widgets_list_view"
             android:theme="@style/Theme.Dark.CustomOverscroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
 
-</com.klinker.android.launcher.launcher3.widget.WidgetsContainerView>
+</xyz.klinker.blur.launcher3.widget.WidgetsContainerView>

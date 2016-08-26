@@ -14,7 +14,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<com.klinker.android.launcher.launcher3.Folder xmlns:android="http://schemas.android.com/apk/res/android"
+<xyz.klinker.blur.launcher3.Folder xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -29,12 +29,12 @@
 
         <!-- Actual size of the indicator doesn't matter as it is scaled to match the view size -->
 
-        <com.klinker.android.launcher.launcher3.FocusIndicatorView
+        <xyz.klinker.blur.launcher3.FocusIndicatorView
             android:id="@+id/focus_indicator"
             android:layout_width="20dp"
             android:layout_height="20dp" />
 
-        <com.klinker.android.launcher.launcher3.FolderPagedView
+        <xyz.klinker.blur.launcher3.FolderPagedView
             android:id="@+id/folder_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -53,7 +53,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp" >
 
-        <com.klinker.android.launcher.launcher3.ExtendedEditText
+        <xyz.klinker.blur.launcher3.ExtendedEditText
             android:id="@+id/folder_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -82,4 +82,4 @@
 
     </LinearLayout>
 
-</com.klinker.android.launcher.launcher3.Folder>
+</xyz.klinker.blur.launcher3.Folder>

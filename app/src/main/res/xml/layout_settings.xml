@@ -2,10 +2,10 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.klinker.android.launcher.addons.view.GridSizePreference
+    <xyz.klinker.blur.addons.view.GridSizePreference
         android:title="@string/icon_grid"/>
 
-    <com.klinker.android.launcher.addons.view.DrawerGridSizePreference
+    <xyz.klinker.blur.addons.view.DrawerGridSizePreference
             android:title="@string/all_apps_grid"/>
 
     <CheckBoxPreference
@@ -17,14 +17,14 @@
     <PreferenceCategory
         android:title="@string/padding">
 
-        <com.klinker.android.launcher.addons.view.SeekBarPreference
+        <xyz.klinker.blur.addons.view.SeekBarPreference
             android:key="width_margin"
             android:title="@string/width_padding"
             android:defaultValue="0"
             android:max="200"
             />
 
-        <com.klinker.android.launcher.addons.view.SeekBarPreference
+        <xyz.klinker.blur.addons.view.SeekBarPreference
             android:key="height_margin"
             android:title="@string/height_padding"
             android:defaultValue="0"

@@ -15,7 +15,7 @@
 -->
 
 <!-- Full screen view projects under the status bar and contains the background -->
-<com.klinker.android.launcher.addons.view.LauncherDrawerLayout
+<xyz.klinker.blur.addons.view.LauncherDrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
 
@@ -23,33 +23,33 @@
     android:layout_height="match_parent"
     android:id="@+id/launcher_drawer" >
 
-    <com.klinker.android.launcher.launcher3.LauncherRootView
+    <xyz.klinker.blur.launcher3.LauncherRootView
         android:id="@+id/launcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <com.klinker.android.launcher.launcher3.DragLayer
+        <xyz.klinker.blur.launcher3.DragLayer
             android:id="@+id/drag_layer"
             android:clipChildren="false"
             android:clipToPadding="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.klinker.android.launcher.launcher3.FocusIndicatorView
+            <xyz.klinker.blur.launcher3.FocusIndicatorView
                 android:id="@+id/focus_indicator"
                 android:layout_width="52dp"
                 android:layout_height="52dp" />
 
             <!-- The workspace contains 5 screens of cells -->
             <!-- DO NOT CHANGE THE ID -->
-            <com.klinker.android.launcher.launcher3.Workspace
+            <xyz.klinker.blur.launcher3.Workspace
                 android:id="@+id/workspace"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 launcher:defaultScreen="@integer/config_workspaceDefaultScreen"
                 launcher:pageIndicator="@+id/page_indicator">
-            </com.klinker.android.launcher.launcher3.Workspace>
+            </xyz.klinker.blur.launcher3.Workspace>
 
             <!-- DO NOT CHANGE THE ID -->
             <include layout="@layout/hotseat"
@@ -90,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="invisible" />
-        </com.klinker.android.launcher.launcher3.DragLayer>
+        </xyz.klinker.blur.launcher3.DragLayer>
 
         <ViewStub
             android:id="@+id/launcher_overlay_stub"
@@ -98,11 +98,11 @@
             android:layout_height="match_parent"
             android:inflatedId="@+id/launcher_overlay"
             android:layout="@layout/launcher_overlay" />
-    </com.klinker.android.launcher.launcher3.LauncherRootView>
+    </xyz.klinker.blur.launcher3.LauncherRootView>
 
     <include layout="@layout/launcher_drawer_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left"/>
 
-</com.klinker.android.launcher.addons.view.LauncherDrawerLayout>
+</xyz.klinker.blur.addons.view.LauncherDrawerLayout>

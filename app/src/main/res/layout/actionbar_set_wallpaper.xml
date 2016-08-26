@@ -18,7 +18,7 @@
 */
 -->
 
-<com.klinker.android.launcher.launcher3.AlphaDisableableButton
+<xyz.klinker.blur.launcher3.AlphaDisableableButton
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/ActionBarSetWallpaperStyle"
     android:id="@+id/set_wallpaper_button"
@@ -30,4 +30,4 @@
     android:gravity="start|center_vertical"
     android:text="@string/wallpaper_instructions"
     android:enabled="false">
-</com.klinker.android.launcher.launcher3.AlphaDisableableButton>
+</xyz.klinker.blur.launcher3.AlphaDisableableButton>

@@ -16,7 +16,7 @@
 <!-- The top and bottom paddings are defined in this container, but since we want
      the list view to span the full width (for touch interception purposes), we
      will bake the left/right padding into that view's background itself. -->
-<com.klinker.android.launcher.launcher3.allapps.AllAppsContainerView
+<xyz.klinker.blur.launcher3.allapps.AllAppsContainerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
     android:id="@+id/apps_view"
@@ -35,7 +35,7 @@
         android:visibility="invisible" />
 
 
-    <com.klinker.android.launcher.launcher3.allapps.AllAppsRecyclerViewContainerView
+    <xyz.klinker.blur.launcher3.allapps.AllAppsRecyclerViewContainerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/main_content"
@@ -47,7 +47,7 @@
         android:elevation="15dp" >
 
         <!-- DO NOT CHANGE THE ID -->
-        <com.klinker.android.launcher.launcher3.allapps.AllAppsRecyclerView
+        <xyz.klinker.blur.launcher3.allapps.AllAppsRecyclerView
             android:id="@+id/apps_list_view"
             android:theme="@style/Theme.Light.CustomOverscroll"
             android:layout_width="match_parent"
@@ -67,7 +67,7 @@
             android:orientation="horizontal"
             android:background="@drawable/all_apps_search_bg" >
 
-            <com.klinker.android.launcher.launcher3.ExtendedEditText
+            <xyz.klinker.blur.launcher3.ExtendedEditText
                 android:id="@+id/search_box_input"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -87,5 +87,5 @@
                 android:textSize="16sp" />
         </LinearLayout>
 
-    </com.klinker.android.launcher.launcher3.allapps.AllAppsRecyclerViewContainerView>
-</com.klinker.android.launcher.launcher3.allapps.AllAppsContainerView>
+    </xyz.klinker.blur.launcher3.allapps.AllAppsRecyclerViewContainerView>
+</xyz.klinker.blur.launcher3.allapps.AllAppsContainerView>

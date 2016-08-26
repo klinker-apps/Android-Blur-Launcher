@@ -19,32 +19,32 @@
 -->
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.klinker.android.launcher">
+    package="xyz.klinker.blur">
 
     <permission
-        android:name="com.klinker.android.launcher.launcher.permission.INSTALL_SHORTCUT"
+        android:name="xyz.klinker.blur.launcher.permission.INSTALL_SHORTCUT"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
         android:protectionLevel="dangerous"
         android:label="@string/permlab_install_shortcut"
         android:description="@string/permdesc_install_shortcut" />
     <permission
-        android:name="com.klinker.android.launcher.launcher3.permission.READ_SETTINGS"
+        android:name="xyz.klinker.blur.launcher3.permission.READ_SETTINGS"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
         android:protectionLevel="normal"
         android:label="@string/permlab_read_settings"
         android:description="@string/permdesc_read_settings"/>
     <permission
-        android:name="com.klinker.android.launcher.launcher3.permission.WRITE_SETTINGS"
+        android:name="xyz.klinker.blur.launcher3.permission.WRITE_SETTINGS"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
         android:protectionLevel="signatureOrSystem"
         android:label="@string/permlab_write_settings"
         android:description="@string/permdesc_write_settings"/>
     <permission
-        android:name="com.klinker.android.launcher.launcher3.permission.RECEIVE_LAUNCH_BROADCASTS"
+        android:name="xyz.klinker.blur.launcher3.permission.RECEIVE_LAUNCH_BROADCASTS"
         android:protectionLevel="signature"
         />
     <permission
-        android:name="com.klinker.android.launcher.launcher3.permission.RECEIVE_FIRST_LOAD_BROADCAST"
+        android:name="xyz.klinker.blur.launcher3.permission.RECEIVE_FIRST_LOAD_BROADCAST"
         android:protectionLevel="signatureOrSystem" />
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -55,12 +55,12 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="com.klinker.android.launcher.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="com.klinker.android.launcher.launcher.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="com.klinker.android.launcher.launcher3.permission.READ_SETTINGS" />
-    <uses-permission android:name="com.klinker.android.launcher.launcher3.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="com.klinker.android.launcher.launcher3.permission.RECEIVE_LAUNCH_BROADCASTS" />
-    <uses-permission android:name="com.klinker.android.launcher.launcher3.permission.RECEIVE_FIRST_LOAD_BROADCAST" />
+    <uses-permission android:name="xyz.klinker.blur.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="xyz.klinker.blur.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="xyz.klinker.blur.launcher3.permission.READ_SETTINGS" />
+    <uses-permission android:name="xyz.klinker.blur.launcher3.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="xyz.klinker.blur.launcher3.permission.RECEIVE_LAUNCH_BROADCASTS" />
+    <uses-permission android:name="xyz.klinker.blur.launcher3.permission.RECEIVE_FIRST_LOAD_BROADCAST" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -83,7 +83,7 @@
 
     <application
         android:allowBackup="@bool/enable_backup"
-        android:backupAgent="com.klinker.android.launcher.launcher3.LauncherBackupAgentHelper"
+        android:backupAgent=".launcher3.LauncherBackupAgentHelper"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher_home"
         android:label="@string/app_name"
@@ -92,7 +92,7 @@
         android:supportsRtl="true">
 
         <activity
-            android:name="com.klinker.android.launcher.launcher3.Launcher"
+            android:name=".launcher3.Launcher"
             android:launchMode="singleTask"
             android:clearTaskOnLaunch="true"
             android:stateNotNeeded="true"
@@ -113,7 +113,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".addons.settings.SettingsActivity"
+        <activity android:name="xyz.klinker.blur.addons.settings.SettingsActivity"
             android:theme="@style/Theme"
             android:label="@string/settings_button_text"
             android:icon="@mipmap/ic_launcher_wallpaper"
@@ -121,10 +121,10 @@
             android:launchMode="singleTop"
             />
 
-        <activity android:name=".addons.settings.bubble_tutorial.TutorialActivity"
+        <activity android:name="xyz.klinker.blur.addons.settings.bubble_tutorial.TutorialActivity"
             android:theme="@style/Theme.Tutorial"/>
 
-        <activity android:name=".addons.settings.IconPickerActivity"
+        <activity android:name="xyz.klinker.blur.addons.settings.IconPickerActivity"
             android:theme="@style/Theme.Popup"
             android:label="@string/icon_picker"
             android:icon="@drawable/setting_button"
@@ -132,7 +132,7 @@
             android:launchMode="singleTop"
             />
 
-        <activity android:name=".addons.settings.HiddenAppsActivity"
+        <activity android:name="xyz.klinker.blur.addons.settings.HiddenAppsActivity"
             android:theme="@style/Theme.Popup"
             android:label="@string/hidden_apps"
             android:icon="@drawable/setting_button"
@@ -140,14 +140,14 @@
             android:launchMode="singleTop"
             />
 
-        <activity android:name=".addons.settings.SettingsPopupActivity"
+        <activity android:name="xyz.klinker.blur.addons.settings.SettingsPopupActivity"
             android:configChanges="orientation|screenSize"
             android:icon="@drawable/setting_button"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:theme="@style/Theme.Popup" />
 
-        <activity android:name=".addons.settings.GetHelpActivity"
+        <activity android:name="xyz.klinker.blur.addons.settings.GetHelpActivity"
             android:configChanges="orientation|screenSize"
             android:icon="@drawable/btn_help"
             android:label="@string/help"
@@ -155,14 +155,14 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:theme="@style/Theme.Popup" />
 
-        <activity android:name=".addons.settings.ButtonsGesturesActivity"
+        <activity android:name="xyz.klinker.blur.addons.settings.ButtonsGesturesActivity"
             android:configChanges="orientation|screenSize"
             android:icon="@drawable/setting_button"
             android:label="@string/buttons_and_gestures"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:theme="@style/Theme.Popup" />
 
-        <activity android:name=".addons.settings.KlinkerAppsActivity"
+        <activity android:name="xyz.klinker.blur.addons.settings.KlinkerAppsActivity"
             android:configChanges="orientation|screenSize"
             android:icon="@drawable/btn_klinker_apps"
             android:label="@string/klinker_apps"
@@ -170,14 +170,14 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:theme="@style/Theme.Popup" />
 
-        <activity android:name=".addons.settings.page_picker.PagePickerActivity"
+        <activity android:name="xyz.klinker.blur.addons.settings.page_picker.PagePickerActivity"
             android:configChanges="orientation|screenSize"
             android:icon="@drawable/setting_button"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:theme="@style/Theme.Popup" />
 
-        <activity android:name=".addons.settings.card_picker.CardPickerActivity"
+        <activity android:name="xyz.klinker.blur.addons.settings.card_picker.CardPickerActivity"
             android:configChanges="orientation|screenSize"
             android:icon="@drawable/setting_button"
             android:launchMode="singleTop"
@@ -185,7 +185,7 @@
             android:theme="@style/Theme.Popup" />
 
         <activity
-            android:name="com.klinker.android.launcher.launcher3.WallpaperPickerActivity"
+            android:name=".launcher3.WallpaperPickerActivity"
             android:theme="@style/Theme.WallpaperPicker"
             android:label="@string/pick_wallpaper"
             android:icon="@mipmap/ic_launcher_wallpaper"
@@ -198,7 +198,7 @@
         </activity>
 
         <activity
-            android:name="com.klinker.android.launcher.launcher3.WallpaperCropActivity"
+            android:name=".launcher3.WallpaperCropActivity"
             android:theme="@style/Theme.WallpaperCropper"
             android:label="@string/crop_wallpaper"
             android:icon="@mipmap/ic_launcher_wallpaper"
@@ -212,7 +212,7 @@
         </activity>
 
         <activity
-            android:name="com.klinker.android.launcher.launcher3.SettingsActivity"
+            android:name=".launcher3.SettingsActivity"
             android:label="@string/settings_button_text"
             android:autoRemoveFromRecents="true"
             android:process=":settings_process">
@@ -220,21 +220,21 @@
 
         <!-- Intent received used to install shortcuts from other applications -->
         <receiver
-            android:name="com.klinker.android.launcher.launcher3.InstallShortcutReceiver"
-            android:permission="com.klinker.android.launcher.launcher.permission.INSTALL_SHORTCUT">
+            android:name=".launcher3.InstallShortcutReceiver"
+            android:permission="xyz.klinker.blur.launcher.permission.INSTALL_SHORTCUT">
             <intent-filter>
-                <action android:name="com.klinker.android.launcher.launcher.action.INSTALL_SHORTCUT" />
+                <action android:name="xyz.klinker.blur.launcher.action.INSTALL_SHORTCUT" />
             </intent-filter>
         </receiver>
 
         <!-- Intent received used to initialize a restored widget -->
-        <receiver android:name="com.klinker.android.launcher.launcher3.AppWidgetsRestoredReceiver" >
+        <receiver android:name=".launcher3.AppWidgetsRestoredReceiver" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_HOST_RESTORED"/>
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.klinker.android.launcher.launcher3.StartupReceiver" >
+        <receiver android:name=".launcher3.StartupReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -242,16 +242,16 @@
 
         <!-- The settings provider contains Home's data, like the workspace favorites -->
         <provider
-            android:name="com.klinker.android.launcher.launcher3.LauncherProvider"
-            android:authorities="com.klinker.android.launcher.launcher3.settings"
+            android:name=".launcher3.LauncherProvider"
+            android:authorities="xyz.klinker.blur.launcher3.settings"
             android:exported="true"
-            android:writePermission="com.klinker.android.launcher.launcher3.permission.WRITE_SETTINGS"
-            android:readPermission="com.klinker.android.launcher.launcher3.permission.READ_SETTINGS" />
+            android:writePermission="xyz.klinker.blur.launcher3.permission.WRITE_SETTINGS"
+            android:readPermission="xyz.klinker.blur.launcher3.permission.READ_SETTINGS" />
 
         <meta-data android:name="android.nfc.disable_beam_default"
                        android:value="true" />
 
-        <receiver android:name=".addons.receivers.AdminReceiver"
+        <receiver android:name="xyz.klinker.blur.addons.receivers.AdminReceiver"
             android:label="@string/app_name"
             android:description="@string/device_admin_description"
             android:permission="android.permission.BIND_DEVICE_ADMIN">
@@ -262,7 +262,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.klinker.android.launcher.addons.PersisterService" />
+        <service android:name=".addons.PersisterService" />
 
     </application>
 </manifest>

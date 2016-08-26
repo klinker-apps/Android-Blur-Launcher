@@ -30,8 +30,7 @@ android {
 
 dependencies {
     compile "com.android.support:support-v4:${project.ANDROID_SUPPORT_VERSION}"
-    compile 'com.google.android.gms:play-services:6.1.11' // TODO, this should be updated to the version defined in gradle.properties
-    compile 'com.klinkerapps:launcher-apis:1.1.1-SNAPSHOT@aar'
+    compile 'com.google.android.gms:play-services:6.1.11'
 
     compile files('lib/arity-2.1.6.jar')
 }

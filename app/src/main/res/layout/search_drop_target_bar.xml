@@ -14,7 +14,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<com.klinker.android.launcher.launcher3.SearchDropTargetBar xmlns:android="http://schemas.android.com/apk/res/android"
+<xyz.klinker.blur.launcher3.SearchDropTargetBar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -32,7 +32,7 @@
 
             <!-- Delete target -->
 
-            <com.klinker.android.launcher.launcher3.DeleteDropTarget
+            <xyz.klinker.blur.launcher3.DeleteDropTarget
                 android:id="@+id/delete_target_text"
                 style="@style/DropTargetButton"
                 android:text="@string/delete_target_label" />
@@ -44,7 +44,7 @@
 
             <!-- Info target -->
 
-            <com.klinker.android.launcher.launcher3.InfoDropTarget
+            <xyz.klinker.blur.launcher3.InfoDropTarget
                 android:id="@+id/info_target_text"
                 style="@style/DropTargetButton"
                 android:text="@string/info_target_label" />
@@ -56,11 +56,11 @@
 
             <!-- Uninstall target -->
 
-            <com.klinker.android.launcher.launcher3.UninstallDropTarget
+            <xyz.klinker.blur.launcher3.UninstallDropTarget
                 android:id="@+id/uninstall_target_text"
                 style="@style/DropTargetButton"
                 android:text="@string/delete_target_uninstall_label" />
         </FrameLayout>
     </LinearLayout>
 
-</com.klinker.android.launcher.launcher3.SearchDropTargetBar>
+</xyz.klinker.blur.launcher3.SearchDropTargetBar>

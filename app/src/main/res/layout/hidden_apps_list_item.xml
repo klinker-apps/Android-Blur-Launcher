@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.klinker.android.launcher.addons.view.CheckableLinearLayout
+<xyz.klinker.blur.addons.view.CheckableLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -30,9 +30,9 @@
         android:ellipsize="marquee"
         android:fadingEdge="horizontal" />
 
-    <com.klinker.android.launcher.addons.view.InertCheckBox
+    <xyz.klinker.blur.addons.view.InertCheckBox
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-</com.klinker.android.launcher.addons.view.CheckableLinearLayout>
+</xyz.klinker.blur.addons.view.CheckableLinearLayout>

@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<com.klinker.android.launcher.launcher3.CheckableFrameLayout
+<xyz.klinker.blur.launcher3.CheckableFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/wallpaperThumbnailWidth"
     android:layout_height="@dimen/wallpaperThumbnailHeight"
@@ -45,4 +45,4 @@
         android:layout_gravity="bottom"
         android:background="@color/wallpaper_picker_translucent_gray"
         android:textColor="@android:color/white"/>
-</com.klinker.android.launcher.launcher3.CheckableFrameLayout>
+</xyz.klinker.blur.launcher3.CheckableFrameLayout>

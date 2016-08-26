@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:gravity="center_vertical">
 
-    <com.klinker.android.launcher.addons.settings.card_picker.DragGripView
+    <xyz.klinker.blur.addons.settings.card_picker.DragGripView
         android:id="@+id/drag_handle"
         android:layout_width="48dp"
         android:layout_height="match_parent"
