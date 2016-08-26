@@ -345,10 +345,6 @@ public class DeviceProfile {
             }
         }
 
-        if (!settings.showSearchBar) {
-            bounds = new Rect();
-        }
-
         return bounds;
     }
 

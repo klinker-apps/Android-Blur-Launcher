@@ -9,7 +9,11 @@
         <text>Remove support for the card picker</text>
         <text>Remove vertical app drawer, since this is always the case in the app drawer</text>
     </version>
-    
+
+    <version name="2.2.1">
+        <text>Fix bug preventing icon drop targets from displaying when search bar is disabled</text>
+    </version>
+
     <version name="2.2.0">
         <text>Update to the latest Launcher3 code from Google</text>
         <text>Icon normalization</text>
