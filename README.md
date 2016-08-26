@@ -2,7 +2,7 @@
 
 ![Promo](https://raw.githubusercontent.com/klinker24/Android-Blur-Launcher/ef68298c73f2c678996d7921b263b6f4e50843c0/promo/images/Feature%20Graphic%202.png)
 
-This is Blur Launcher, Klinker Apps one stop shop for the most powerful launcher around.
+This is Blur Launcher, Klinker Apps one-stop-shop for the most powerful launcher around.
 
 This is built from the latest [Launcher3](https://github.com/klinker24/launcher3/) code from Google.
 
@@ -10,12 +10,13 @@ This is built from the latest [Launcher3](https://github.com/klinker24/launcher3
 
 As the apps feature-set continues to be merged into this new fork, I will continue to add to this repository.
 
-- Support for Blur Pages and Card
-- Built from Marshmallow's Launcher3 code, with the latest improvements and Material Design in mind
+- Support for `Blur Pages`
+- Built from Nougats's Launcher3 code, with the latest improvements and `Material Design` in mind
 - Blur puts app predictions at the top of the app drawer
 - quick scroll through the app drawer
 - hidden apps (still show up when searching in the all apps drawer though, by design)
 - revamped settings menu
+- Rotation support for tablets
 - gesture support
 - menu when you drop an icon in the original location on the workspace
 - configure homescreen and all apps grid
@@ -25,6 +26,7 @@ As the apps feature-set continues to be merged into this new fork, I will contin
 - dock is optional
 - page indicators are optional
 - search bar is optional
+- improved style for tablet search bar
 - icon names on the homescreen are optional
 - Blur can turn off your screen
 - backup and restore app settings
@@ -35,7 +37,7 @@ As the apps feature-set continues to be merged into this new fork, I will contin
 The project is built with gradle, so maintenence and compilation is very straightforward. 
 
 ```
-$ ./gradlew assembleDebug
+$ ./gradlew build
 ```
 
 ## Contributing
@@ -60,7 +62,7 @@ $ git merge upstream/master
 ## License
 
 ```
-Copyright 2015 Luke Klinker
+Copyright 2016 Luke Klinker
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
