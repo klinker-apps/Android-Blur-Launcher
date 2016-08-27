@@ -40,7 +40,7 @@ public class LauncherFragment extends BaseLauncherPage {
     private String syntaxError;
 
     // root view of the fragment
-    private RelativeLayout rootView;
+    private FrameLayout rootView;
     private LinearLayout content;
     protected TextView equation;
 
@@ -75,7 +75,7 @@ public class LauncherFragment extends BaseLauncherPage {
         super.onCreateView(inflater, container, savedInstanceState);
 
         // inflate our view to be displayed with the helper
-        rootView = (RelativeLayout) inflater.inflate(R.layout.calc_page_layout, container, false);
+        rootView = (FrameLayout) inflater.inflate(R.layout.calc_page_layout, container, false);
         content = (LinearLayout) rootView.findViewById(R.id.content);
         equation = (TextView) rootView.findViewById(R.id.calculations);
 
