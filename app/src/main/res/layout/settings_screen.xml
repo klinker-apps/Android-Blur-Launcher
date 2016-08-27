@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:minWidth="300dp">
@@ -251,14 +251,4 @@
         </ScrollView>
     </LinearLayout>
 
-    <ImageButton android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:id="@+id/overflow_button"
-        android:scaleType="centerInside"
-        android:minHeight="48dp" android:maxHeight="48dp"
-        android:minWidth="48dp" android:maxWidth="48dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_action_circle_overflow_dark"
-        android:layout_alignParentRight="true" />
-
-</RelativeLayout>
+</FrameLayout>
