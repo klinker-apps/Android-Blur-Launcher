@@ -32,8 +32,9 @@ android {
 
 dependencies {
     compile "com.android.support:appcompat-v7:${project.ANDROID_SUPPORT_VERSION}"
-    compile "com.android.support:support-v4:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:support-v13:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.google.android.gms:play-services-location:${GOOGLE_PLAY_SERVICES_VERSION}"
 
+    compile 'com.prolificinteractive:material-calendarview:1.4.0'
     compile files('lib/arity-2.1.6.jar')
 }

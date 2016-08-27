@@ -17,7 +17,9 @@ public class LauncherFragment extends BaseLauncherPage {
 
     @Override
     public View[] getBackground() {
-        return new View[0];
+        return new View[] {
+                root.findViewById(R.id.background)
+        };
     }
 
     @Override
