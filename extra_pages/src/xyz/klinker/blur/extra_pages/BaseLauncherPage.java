@@ -5,33 +5,68 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * A Fragment that provides callbacks for when the drawer is opened and closed.
  */
 public abstract class BaseLauncherPage extends Fragment {
 
-    public static final String POSITION = "position";
-    public static final String DRAWER_OPENED = "xyz.klinker.blur.FRAGMENTS_OPENED";
-    public static final String DRAWER_CLOSED = "xyz.klinker.blur.FRAGMENTS_CLOSED";
+    public static final String ARG_POSITION = "arg_position";
 
-    public abstract BaseLauncherPage getFragment(int position);
+    /**
+     * Get a new instance of the fragment for the pages adapter. Accessed via reflection.
+     *
+     * @param position the position in the adapter
+     * @return the fragment to display.
+     */
+    public final BaseLauncherPage getFragment(int position) {
+        Bundle args = new Bundle();
+        args.putInt(ARG_POSITION, position);
+
+        BaseLauncherPage page = getNewInstance();
+        page.setArguments(args);
+        return page;
+    }
+
+    /**
+     * New-up an instance of the subclass.
+     */
+    public abstract BaseLauncherPage getNewInstance();
+
+    /**
+     * Creates a View array which will be faded in and out as the page
+     * is opened and closed from the main launcher
+     *
+     * @return an array of all the views to be faded in and out
+     */
     public abstract View[] getBackground();
 
-    private BroadcastReceiver drawerOpened = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            onFragmentsOpened();
-        }
-    };
+    /**
+     * Get the layout to inflate.
+     *
+     * @return layout resource (R.layout.calculator_page)
+     */
+    public abstract int getLayoutRes();
 
-    private BroadcastReceiver drawerClosed = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            onFragmentsClosed();
-        }
-    };
+    /**
+     * Initialize the layout's views.
+     *
+     * @param inflated
+     */
+    public abstract void initLayout(View inflated);
+
+    public View root;
+
+    @Override
+    public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        root = inflater.inflate(getLayoutRes(), container, false);
+        initLayout(root);
+        return root;
+    }
 
     /**
      * This is something that can be overridden on the fragments side,
@@ -53,32 +88,12 @@ public abstract class BaseLauncherPage extends Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        Context context = getActivity();
-
-        if (context != null) {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(DRAWER_OPENED);
-            getActivity().registerReceiver(drawerOpened, filter);
-
-            filter = new IntentFilter();
-            filter.addAction(DRAWER_CLOSED);
-            getActivity().registerReceiver(drawerClosed, filter);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        Context context = getActivity();
-
-        if (context != null) {
-            getActivity().unregisterReceiver(drawerOpened);
-            getActivity().unregisterReceiver(drawerClosed);
-        }
-
-        super.onPause();
+    /**
+     * Method to get the position of this page on the adapter, in case it is ever needed.
+     *
+     * @return page number in the adapter. 0 - ...
+     */
+    public int getPagePosition() {
+        return getArguments().getInt(ARG_POSITION);
     }
 }

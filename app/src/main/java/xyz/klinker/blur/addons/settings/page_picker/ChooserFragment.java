@@ -74,7 +74,7 @@ public class ChooserFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.position = getArguments().getInt(BaseLauncherPage.POSITION);
+        this.position = getArguments().getInt(BaseLauncherPage.ARG_POSITION);
 
         appTitle = sharedPrefs.getString("launcher_title_" + position, "None");
         packageName = sharedPrefs.getString("launcher_package_name_" + position, "");

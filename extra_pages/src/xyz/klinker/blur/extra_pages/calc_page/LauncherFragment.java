@@ -16,13 +16,9 @@
 
 package xyz.klinker.blur.extra_pages.calc_page;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.*;
 
 import xyz.klinker.blur.extra_pages.BaseLauncherPage;
@@ -36,48 +32,36 @@ import org.javia.arity.SyntaxException;
 public class LauncherFragment extends BaseLauncherPage {
 
     public Context context;
-
     private String syntaxError;
 
     // root view of the fragment
-    private FrameLayout rootView;
     private LinearLayout content;
     protected TextView equation;
 
-    /**
-     * Creates and instance of this fragment which is then returned to the pager adapter and displayed
-     * @param position the position on the pager of this page
-     * @return an instance of the LauncherFragment to be displayed
-     */
     @Override
-    public BaseLauncherPage getFragment(int position) {
+    public BaseLauncherPage getNewInstance() {
         return new LauncherFragment();
     }
 
-    /**
-     * Creates a View array which will be faded in and out as the page is opened and closed from the main launcher
-     * @return an array of all the views to be faded in and out
-     */
     @Override
     public View[] getBackground() {
-        return new View[] {rootView.findViewById(R.id.background)};
+        return new View[] {
+                root.findViewById(R.id.background)
+        };
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        context = activity;
+    public int getLayoutRes() {
+        return R.layout.calculator_page;
+    }
+
+    @Override
+    public void initLayout(View inflated) {
+        context = getActivity();
         syntaxError = getString(R.string.syntax_error);
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-
-        // inflate our view to be displayed with the helper
-        rootView = (FrameLayout) inflater.inflate(R.layout.calc_page_layout, container, false);
-        content = (LinearLayout) rootView.findViewById(R.id.content);
-        equation = (TextView) rootView.findViewById(R.id.calculations);
+        content = (LinearLayout) root.findViewById(R.id.content);
+        equation = (TextView) root.findViewById(R.id.calculations);
 
         // Add padding at the bottom of the list if the navigation bar is showing and translucent
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Utils.hasNavBar(context)) {
@@ -91,9 +75,8 @@ public class LauncherFragment extends BaseLauncherPage {
         }
 
         setUpLayout(content);
-
-        return rootView;
     }
+
 
     private boolean shouldClear = false;
 

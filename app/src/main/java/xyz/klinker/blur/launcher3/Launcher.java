@@ -71,6 +71,7 @@ import android.os.StrictMode;
 import android.os.SystemClock;
 import android.os.UserHandle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -1218,7 +1219,7 @@ public class Launcher extends Activity
         return mWorkspace.getPaddingTop();
     }
 
-    @Override
+    /*@Override
     public Object onRetainNonConfigurationInstance() {
         // Flag the loader to stop early before switching
         if (mModel.isCurrentCallbacks(this)) {
@@ -1227,7 +1228,7 @@ public class Launcher extends Activity
         //TODO(hyunyoungs): stop the widgets loader when there is a rotation.
 
         return Boolean.TRUE;
-    }
+    }*/
 
     // We can't hide the IME if it was forced open.  So don't bother
     @Override
@@ -5042,9 +5043,7 @@ public class Launcher extends Activity
     private LauncherDrawerLayout mLauncherDrawer;
     private ViewPager mDrawerPager;
 
-    private Fragment extraFragment;
     private PagesFragmentAdapter adapter;
-    private boolean adapterSetUp = false;
 
     public LauncherDrawerLayout getLauncherDrawer() {
         return mLauncherDrawer;
@@ -5066,32 +5065,10 @@ public class Launcher extends Activity
         mDrawerPager.setOffscreenPageLimit(4);
         mDrawerPager.setAdapter(adapter);
 
-        // Vertical App Drawer Fragment
-        /*extraFragment = null;
-        switch (AppSettings.getInstance(this).extraPage) {
-            case AppSettings.BLUR_INFO:
-                extraFragment = new LauncherFragment();
-                break;
-            case AppSettings.VERTICAL_DRAWER:
-                extraFragment = new LauncherFragment();
-                break;
-        }
-        if (extraFragment != null) {
-            getFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.right_page, extraFragment)
-                    .commit();
-        } else {
-            View right = findViewById(R.id.right_page);
-            mLauncherDrawer.removeView(right);
-        }*/
-
         // start us on the last page available
         mDrawerPager.setCurrentItem(adapter.getCount() - 1);
         mLauncherDrawer.setCurrentDrawerPage(adapter.getCount() - 1);
         mLauncherDrawer.setMaxDrawerPage(adapter.getCount() - 1);
-
-        adapterSetUp = true;
     }
 
     private void setupDrawer() {
@@ -5138,15 +5115,9 @@ public class Launcher extends Activity
         mLauncherDrawer.setDrawerListener(new LauncherDrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                if (drawerView == mDrawerPager) {
-                    mDragLayer.setTranslationX(getScreenWidth() * slideOffset);
-                    ((PagesFragmentAdapter) mDrawerPager.getAdapter()).adjustFragmentBackgroundAlpha(mDrawerPager.getCurrentItem(), slideOffset);
-                } else {
-                    mDragLayer.setTranslationX(getScreenWidth() * slideOffset * -1);
-                    for (View v : ((BaseLauncherPage) extraFragment).getBackground()) {
-                        v.setAlpha(slideOffset);
-                    }
-                }
+                mDragLayer.setTranslationX(getScreenWidth() * slideOffset);
+                ((PagesFragmentAdapter) mDrawerPager.getAdapter())
+                        .adjustFragmentBackgroundAlpha(mDrawerPager.getCurrentItem(), slideOffset);
             }
 
             @Override
@@ -5157,7 +5128,7 @@ public class Launcher extends Activity
                     mDragLayer.setTranslationX(getScreenWidth() * -1);
                 }
 
-                sendBroadcast(new Intent("xyz.klinker.blur.FRAGMENTS_OPENED"));
+                adapter.pagesOpened();
 
                 if (Utilities.ATLEAST_MARSHMALLOW) {
                     drawerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -5181,7 +5152,8 @@ public class Launcher extends Activity
             @Override
             public void onDrawerClosed(View drawerView) {
                 mDragLayer.setTranslationX(0);
-                sendBroadcast(new Intent("xyz.klinker.blur.FRAGMENTS_CLOSED"));
+
+                adapter.pagesClosed();
 
                 InputMethodManager imm = (InputMethodManager) getSystemService(
                         Context.INPUT_METHOD_SERVICE);

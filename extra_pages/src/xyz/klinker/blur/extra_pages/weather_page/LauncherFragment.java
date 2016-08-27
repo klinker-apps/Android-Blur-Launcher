@@ -10,10 +10,8 @@ import xyz.klinker.blur.extra_pages.R;
 
 public class LauncherFragment extends BaseLauncherPage {
 
-    private View root;
-
     @Override
-    public BaseLauncherPage getFragment(int i) {
+    public BaseLauncherPage getNewInstance() {
         return new LauncherFragment();
     }
 
@@ -25,8 +23,12 @@ public class LauncherFragment extends BaseLauncherPage {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        root = inflater.inflate(R.layout.weather_page, container, false);
-        return root;
+    public int getLayoutRes() {
+        return R.layout.weather_page;
+    }
+
+    @Override
+    public void initLayout(View inflated) {
+
     }
 }

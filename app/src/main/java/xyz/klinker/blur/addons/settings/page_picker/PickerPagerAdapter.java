@@ -19,17 +19,20 @@ package xyz.klinker.blur.addons.settings.page_picker;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.support.v13.app.FragmentStatePagerAdapter;
 
 import xyz.klinker.blur.R;
-import xyz.klinker.blur.addons.pages.FragmentStatePagerAdapter;
 import xyz.klinker.blur.addons.utils.BlurPagesUtils;
 
 public class PickerPagerAdapter extends FragmentStatePagerAdapter {
 
     public static final int NUM_PAGES = BlurPagesUtils.getNumPages();
 
+    private Context context;
+
     public PickerPagerAdapter(FragmentManager manager, Context context) {
-        super(manager, context);
+        super(manager);
+        this.context = context;
     }
 
     @Override

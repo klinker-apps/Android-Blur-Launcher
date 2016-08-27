@@ -6,22 +6,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import xyz.klinker.blur.extra_pages.BaseLauncherPage;
+import xyz.klinker.blur.extra_pages.R;
 
 public class LauncherFragment extends BaseLauncherPage {
+
     @Override
-    public BaseLauncherPage getFragment(int i) {
+    public BaseLauncherPage getNewInstance() {
         return new LauncherFragment();
     }
 
     @Override
     public View[] getBackground() {
-        return null;
+        return new View[0];
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+    public int getLayoutRes() {
+        return R.layout.calendar_page;
+    }
 
-        return new View(getActivity());
+    @Override
+    public void initLayout(View inflated) {
+
     }
 }

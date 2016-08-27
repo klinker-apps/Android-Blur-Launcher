@@ -123,7 +123,7 @@ public class SettingsActivity extends Activity {
 
         // set the margin for the status bar if they have transparent
         if (Build.VERSION.SDK_INT >= 19) {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) overflow.getLayoutParams();
+            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) overflow.getLayoutParams();
             params.setMargins(0, Utils.getStatusBarHeight(this), 0, 0); //substitute parameters for left, top, right, bottom
             overflow.setLayoutParams(params);
         }

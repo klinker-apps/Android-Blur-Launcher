@@ -34,37 +34,30 @@ import xyz.klinker.blur.extra_pages.BaseLauncherPage;
 
 public class HolderPage extends BaseLauncherPage {
 
-    private int position;
-    private View background;
-
     @Override
-    public BaseLauncherPage getFragment(int position) {
-        HolderPage fragment = new HolderPage();
-        Bundle args = new Bundle(1);
-        args.putInt(POSITION, position);
-        fragment.setArguments(args);
-        return fragment;
+    public BaseLauncherPage getNewInstance() {
+        return new HolderPage();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.position = getArguments().getInt(BaseLauncherPage.POSITION);
+    public View[] getBackground() {
+        return new View[] {
+                root.findViewById(R.id.holder_background)
+        };
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public int getLayoutRes() {
+        return R.layout.holder_fragment;
+    }
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.holder_fragment, container, false);
+    @Override
+    public void initLayout(View inflated) {
+        TextView fragmentLabel = (TextView) inflated.findViewById(R.id.page_number);
+        TextView settingsButton = (TextView) inflated.findViewById(R.id.settings_button);
+        TextView restartButton = (TextView) inflated.findViewById(R.id.restart_launcher_button);
 
-        background = rootView.findViewById(R.id.holder_background);
-        TextView fragmentLabel = (TextView) rootView.findViewById(R.id.page_number);
-        TextView settingsButton = (TextView) rootView.findViewById(R.id.settings_button);
-        TextView restartButton = (TextView) rootView.findViewById(R.id.restart_launcher_button);
-
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         int count = 0;
 
@@ -112,13 +105,10 @@ public class HolderPage extends BaseLauncherPage {
             });
             showAnimation(restartButton);
         }
-
-        return rootView;
     }
 
     private void showAnimation(final View v) {
         AnimationUtils.tada(v).start();
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -126,10 +116,4 @@ public class HolderPage extends BaseLauncherPage {
             }
         }, 4000);
     }
-
-    @Override
-    public View[] getBackground() {
-        return new View[] {this.background};
-    }
-
 }
