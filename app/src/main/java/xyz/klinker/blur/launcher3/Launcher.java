@@ -103,6 +103,7 @@ import android.widget.Toast;
 
 import xyz.klinker.blur.addons.PermissionModelUtil;
 import xyz.klinker.blur.addons.PersisterService;
+import xyz.klinker.blur.addons.pages.PageSlideTransformer;
 import xyz.klinker.blur.addons.pages.PagesFragmentAdapter;
 import xyz.klinker.blur.addons.settings.AppSettings;
 import xyz.klinker.blur.addons.settings.SettingsActivity;
@@ -110,6 +111,7 @@ import xyz.klinker.blur.addons.utils.GestureUtils;
 import xyz.klinker.blur.addons.utils.UpdateUtils;
 import xyz.klinker.blur.addons.view.LauncherDrawerLayout;
 import xyz.klinker.blur.extra_pages.BaseLauncherPage;
+import xyz.klinker.blur.extra_pages.calc_page.Utils;
 import xyz.klinker.blur.launcher3.DropTarget.DragObject;
 import xyz.klinker.blur.launcher3.PagedView.PageSwitchListener;
 import xyz.klinker.blur.launcher3.allapps.AllAppsContainerView;
@@ -5105,6 +5107,7 @@ public class Launcher extends Activity
             }
         });
 
+        mDrawerPager.setPageMargin(Utils.toDP(this, 15));
         mDrawerPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {

@@ -12,6 +12,7 @@ As the apps feature-set continues to be merged into this new fork, I will contin
 
 - Support for `Blur Pages`
 - Built from Nougats's Launcher3 code, with the latest improvements and `Material Design` in mind
+- Custom icon pack support
 - Blur puts app predictions at the top of the app drawer
 - quick scroll through the app drawer
 - hidden apps (still show up when searching in the all apps drawer though, by design)
