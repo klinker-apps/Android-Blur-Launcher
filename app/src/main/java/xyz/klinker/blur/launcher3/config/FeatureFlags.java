@@ -32,6 +32,6 @@ public final class FeatureFlags {
     public static boolean IS_RELEASE_BUILD = true;
 
     // Custom flags go below this
-    public static boolean LAUNCHER3_ICON_NORMALIZATION = false;
+    public static boolean LAUNCHER3_ICON_NORMALIZATION = true;
 
 }
