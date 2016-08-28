@@ -21,6 +21,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +34,7 @@ import java.util.List;
 import xyz.klinker.blur.addons.utils.BlurPagesUtils;
 import xyz.klinker.blur.extra_pages.BaseLauncherPage;
 
-public class PagesFragmentAdapter extends FragmentStatePagerAdapter {
+public class PagesFragmentAdapter extends FragmentPagerAdapter {
 
     private static final int MAX_PAGES = BlurPagesUtils.getNumPages();
 
