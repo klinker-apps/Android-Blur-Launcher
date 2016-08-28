@@ -38,9 +38,12 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import xyz.klinker.blur.addons.settings.AppSettings;
+import xyz.klinker.blur.addons.utils.IconPackHelper;
 import xyz.klinker.blur.launcher3.compat.LauncherActivityInfoCompat;
 import xyz.klinker.blur.launcher3.compat.LauncherAppsCompat;
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
@@ -75,7 +78,7 @@ public class IconCache {
 
     private static final boolean DEBUG = false;
 
-    private static final int LOW_RES_SCALE_FACTOR = 5;
+    private static final int LOW_RES_SCALE_FACTOR = 1;
 
     @Thunk
     static final Object ICON_UPDATE_TOKEN = new Object();
@@ -85,6 +88,7 @@ public class IconCache {
         public CharSequence title = "";
         public CharSequence contentDescription = "";
         public boolean isLowResIcon;
+        public boolean themed;
     }
 
     private final HashMap<UserHandleCompat, Bitmap> mDefaultIcons = new HashMap<>();
@@ -115,6 +119,8 @@ public class IconCache {
     private Canvas mLowResCanvas;
     private Paint mLowResPaint;
 
+    private IconPackHelper mIconPackHelper;
+
     public IconCache(Context context, InvariantDeviceProfile inv) {
         mContext = context;
         mPackageManager = context.getPackageManager();
@@ -132,6 +138,18 @@ public class IconCache {
         // automatically be loaded as ALPHA_8888.
         mLowResOptions.inPreferredConfig = Bitmap.Config.RGB_565;
         updateSystemStateString();
+
+        mIconPackHelper = new IconPackHelper(context);
+        loadIconPack();
+    }
+
+    private void loadIconPack() {
+        mIconPackHelper.unloadIconPack();
+        String iconPack = AppSettings.getInstance(mContext).iconPack;
+        if (!TextUtils.isEmpty(iconPack) && !mIconPackHelper.loadIconPack(iconPack)) {
+            PreferenceManager.getDefaultSharedPreferences(mContext)
+                    .edit().putString("icon_pack", "").commit();
+        }
     }
 
     private Drawable getFullResDefaultActivityIcon() {
@@ -173,7 +191,14 @@ public class IconCache {
             resources = null;
         }
         if (resources != null) {
-            int iconId = info.getIconResource();
+            int iconId = 0;
+            if (mIconPackHelper != null && mIconPackHelper.isIconPackLoaded()) {
+                iconId = mIconPackHelper.getResourceIdForActivityIcon(info);
+                if (iconId != 0) {
+                    return getFullResIcon(mIconPackHelper.getIconPackResources(), iconId);
+                }
+            }
+            iconId = info.getIconResource();
             if (iconId != 0) {
                 return getFullResIcon(resources, iconId);
             }
@@ -184,7 +209,7 @@ public class IconCache {
 
     private Bitmap makeDefaultIcon(UserHandleCompat user) {
         Drawable unbadged = getFullResDefaultActivityIcon();
-        return Utilities.createBadgedIconBitmap(unbadged, user, mContext);
+        return Utilities.createBadgedIconBitmap(unbadged, user, mContext, mIconPackHelper);
     }
 
     /**
@@ -383,8 +408,9 @@ public class IconCache {
         }
         if (entry == null) {
             entry = new CacheEntry();
+            Drawable icon = app.getIcon(mIconDpi, mIconPackHelper);
             entry.icon = Utilities.createBadgedIconBitmap(
-                    app.getIcon(mIconDpi), app.getUser(), mContext);
+                    icon, app.getUser(), mContext, app.isThemed() ? null : mIconPackHelper);
         }
         entry.title = app.getLabel();
         entry.contentDescription = mUserManager.getBadgedLabelForUser(entry.title, app.getUser());
@@ -546,8 +572,9 @@ public class IconCache {
             // Check the DB first.
             if (!getEntryFromDB(cacheKey, entry, useLowResIcon)) {
                 if (info != null) {
+                    Drawable icon = info.getIcon(mIconDpi, mIconPackHelper);
                     entry.icon = Utilities.createBadgedIconBitmap(
-                            info.getIcon(mIconDpi), info.getUser(), mContext);
+                            icon, info.getUser(), mContext, info.isThemed() ? null : mIconPackHelper);
                 } else {
                     if (usePackageIcon) {
                         CacheEntry packageEntry = getEntryForPackageLocked(
@@ -629,7 +656,7 @@ public class IconCache {
                         throw new NameNotFoundException("ApplicationInfo is null");
                     }
                     entry.icon = Utilities.createBadgedIconBitmap(
-                            appInfo.loadIcon(mPackageManager), user, mContext);
+                            appInfo.loadIcon(mPackageManager), user, mContext, mIconPackHelper);
                     entry.title = appInfo.loadLabel(mPackageManager);
                     entry.contentDescription = mUserManager.getBadgedLabelForUser(entry.title, user);
                     entry.isLowResIcon = false;

@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import xyz.klinker.blur.addons.utils.IconPackHelper;
+import xyz.klinker.blur.launcher3.IconCache;
+import xyz.klinker.blur.launcher3.InvariantDeviceProfile;
 
 import java.lang.ref.WeakReference;
 import java.util.*;
@@ -83,24 +86,26 @@ public class IconPickerActivity extends Activity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
+                Log.v("icon_helper", "grid click");
+
                 DrawableInfo d = (DrawableInfo) adapterView.getAdapter().getItem(position);
 
                 SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                String currentList = sharedPrefs.getString("launcher_custom_icon_names", "");
-                SharedPreferences.Editor e = sharedPrefs.edit();
+                Set<String> customIcons = sharedPrefs.getStringSet("custom_icons", new HashSet<String>());
 
-                List<String> customNames = Arrays.asList(sharedPrefs.getString("launcher_custom_icon_names", "").split(":|:"));
-                if (!customNames.contains(iconName)) {
-                    e.putString("launcher_custom_icon_names", currentList + iconName + ":|:");
-                }
+                customIcons.add(iconName);
+                sharedPrefs.edit().putStringSet("custom_icons", customIcons)
+                    .putString(iconName, d.resource_name)
+                    .commit();
 
-                e.putString(iconName, d.resource_name);
-                e.commit();
+                IconCache cache = new IconCache(IconPickerActivity.this, new InvariantDeviceProfile());
+                cache.updateDbIcons(new HashSet<String>());
 
                 // completely restart the Launcher
                 android.os.Process.killProcess(android.os.Process.myPid());
             }
         });
+
         setContentView(gridview);
     }
 

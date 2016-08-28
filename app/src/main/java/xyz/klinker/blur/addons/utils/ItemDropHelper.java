@@ -22,10 +22,14 @@ import android.widget.Toast;
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.addons.settings.IconPickerActivity;
 import xyz.klinker.blur.launcher3.BubbleTextView;
+import xyz.klinker.blur.launcher3.IconCache;
+import xyz.klinker.blur.launcher3.InvariantDeviceProfile;
 import xyz.klinker.blur.launcher3.ItemInfo;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ItemDropHelper {
     private Context context;
@@ -94,7 +98,7 @@ public class ItemDropHelper {
 
         final PopupMenu menu = new PopupMenu(context, icon);
         menu.getMenu().add(Menu.NONE, REMOVE_CUSTOMS, Menu.NONE, context.getString(R.string.restore_defaults));
-        //menu.getMenu().add(Menu.NONE, CHANGE_ICON, Menu.NONE, context.getString(R.string.custom_icon));
+        menu.getMenu().add(Menu.NONE, CHANGE_ICON, Menu.NONE, context.getString(R.string.custom_icon));
         menu.getMenu().add(Menu.NONE, CHANGE_NAME, Menu.NONE, context.getString(R.string.custom_name));
         menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -114,7 +118,7 @@ public class ItemDropHelper {
                             // here we will start the activity to choose the icon from the pack.
                             Intent picker = new Intent(context, IconPickerActivity.class);
                             picker.putExtra("package", pack);
-                            picker.putExtra("icon_name", info.packageName.toLowerCase() + "." + info.name.toLowerCase());
+                            picker.putExtra("icon_name", info.name.toLowerCase());
                             context.startActivity(picker);
                         }
                         break;
@@ -122,19 +126,22 @@ public class ItemDropHelper {
                         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                         SharedPreferences.Editor e = sharedPreferences.edit();
 
-                        e.remove(info.packageName.toLowerCase() + "." + info.name.toLowerCase());
+                        e.remove(info.name.toLowerCase());
                         e.remove(originalTitle);
 
                         String names = sharedPreferences.getString("launcher_custom_app_names", "");
                         names = names.replace(originalTitle + ":|:", "");
 
-                        String icons = sharedPreferences.getString("launcher_custom_icon_names", "");
-                        icons = icons.replace(info.packageName.toLowerCase() + "." + info.name.toLowerCase() + ":|:", "");
+                        Set<String> icons = sharedPreferences.getStringSet("custom_icons", new HashSet<String>());
+                        icons.remove(info.name.toLowerCase());
 
                         e.putString("launcher_custom_app_names", names);
-                        e.putString("launcher_custom_icon_names", icons);
+                        e.putStringSet("custom_icons", icons);
 
                         e.commit();
+
+                        IconCache cache = new IconCache(context, new InvariantDeviceProfile());
+                        cache.updateDbIcons(new HashSet<String>());
 
                         // completely restart the Launcher
                         android.os.Process.killProcess(android.os.Process.myPid());

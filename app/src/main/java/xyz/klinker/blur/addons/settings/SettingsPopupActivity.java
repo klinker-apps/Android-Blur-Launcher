@@ -89,7 +89,7 @@ public class SettingsPopupActivity extends PreferenceActivity implements SharedP
 
         // clear any custom icons when you switch packs
         if (s.equals("icon_pack")) {
-            sharedPreferences.edit().remove("launcher_custom_icon_names").commit();
+            sharedPreferences.edit().remove("custom_icons").commit();
         }
     }
 
@@ -180,14 +180,6 @@ public class SettingsPopupActivity extends PreferenceActivity implements SharedP
                 return false;
             }
         });
-
-        // remove the icon pack selection for now
-        ((PreferenceCategory) getPreferenceScreen().findPreference("icons")).removePreference(iconPack);
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            Preference wallScroll = findPreference("scroll_wallpaper");
-            ((PreferenceCategory) getPreferenceScreen().findPreference("other")).removePreference(wallScroll);
-        }
     }
 
     public void setUpExperimental() {

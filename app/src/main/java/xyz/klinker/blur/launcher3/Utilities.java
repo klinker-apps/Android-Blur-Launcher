@@ -41,6 +41,8 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
@@ -63,6 +65,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import xyz.klinker.blur.addons.settings.AppSettings;
+import xyz.klinker.blur.addons.utils.IconPackHelper;
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
 import xyz.klinker.blur.launcher3.config.FeatureFlags;
 import xyz.klinker.blur.launcher3.util.IconNormalizer;
@@ -209,10 +213,26 @@ public final class Utilities {
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static Bitmap createBadgedIconBitmap(
-            Drawable icon, UserHandleCompat user, Context context) {
+            Drawable icon, UserHandleCompat user, Context context, IconPackHelper helper) {
         float scale = FeatureFlags.LAUNCHER3_ICON_NORMALIZATION ?
                 IconNormalizer.getInstance().getScale(icon) : 1;
-        Bitmap bitmap = createIconBitmap(icon, context, scale);
+
+        // if there is an icon pack set up, then we want to use its scale, rather than the icon
+        // normalization scale.
+        // we can't depend on the icon pack helper to tell us, since the helper is nulled when
+        // there is a custom icon set for this drawable.
+        AppSettings settings = AppSettings.getInstance(context);
+        if (settings.iconPack != null && !settings.iconPack.isEmpty()) {
+            scale = 1;
+        }
+
+        Bitmap bitmap;
+        if (helper != null && helper.isIconPackLoaded()) {
+            bitmap = createIconBitmap(icon, context, helper.getIconBack(), helper.getIconMask(), helper.getIconUpon(), helper.getIconScale());
+        } else {
+            bitmap = createIconBitmap(icon, context, scale);
+        }
+
         if (Utilities.ATLEAST_LOLLIPOP && user != null
                 && !UserHandleCompat.myUserHandle().equals(user)) {
             BitmapDrawable drawable = new FixedSizeBitmapDrawable(bitmap);
@@ -235,10 +255,14 @@ public final class Utilities {
         return createIconBitmap(icon, context, 1.0f /* scale */);
     }
 
+    public static Bitmap createIconBitmap(Drawable icon, Context context, float scale) {
+        return createIconBitmap(icon, context, null, null, null, scale);
+    }
     /**
      * @param scale the scale to apply before drawing {@param icon} on the canvas
      */
-    public static Bitmap createIconBitmap(Drawable icon, Context context, float scale) {
+    public static Bitmap createIconBitmap(Drawable icon, Context context, Drawable iconBack,
+                                          Drawable iconMask, Drawable iconUpon, float scale) {
         synchronized (sCanvas) {
             final int iconBitmapSize = getIconBitmapSize();
 
@@ -273,7 +297,7 @@ public final class Utilities {
             int textureWidth = iconBitmapSize;
             int textureHeight = iconBitmapSize;
 
-            final Bitmap bitmap = Bitmap.createBitmap(textureWidth, textureHeight,
+            Bitmap bitmap = Bitmap.createBitmap(textureWidth, textureHeight,
                     Bitmap.Config.ARGB_8888);
             final Canvas canvas = sCanvas;
             canvas.setBitmap(bitmap);
@@ -295,9 +319,34 @@ public final class Utilities {
             sOldBounds.set(icon.getBounds());
             icon.setBounds(left, top, left+width, top+height);
             canvas.save(Canvas.MATRIX_SAVE_FLAG);
-            canvas.scale(scale, scale, textureWidth / 2, textureHeight / 2);
+
+            if (iconMask != null && iconBack != null) {
+                canvas.scale(scale, scale, width / 2, height/2);
+            } else {
+                canvas.scale(scale, scale, textureWidth / 2, textureHeight / 2);
+            }
+
             icon.draw(canvas);
             canvas.restore();
+
+            if (iconBack != null && iconMask != null) {
+                iconMask.setBounds(icon.getBounds());
+                ((BitmapDrawable) iconMask).getPaint().setXfermode(
+                        new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+                iconMask.draw(canvas);
+                canvas.setBitmap(null);
+                Bitmap finalBitmap = Bitmap.createBitmap(textureWidth, textureHeight,
+                        Bitmap.Config.ARGB_8888);
+                canvas.setBitmap(finalBitmap);
+                iconBack.setBounds(icon.getBounds());
+                iconBack.draw(canvas);
+                canvas.drawBitmap(bitmap, null, icon.getBounds(), null);
+                bitmap = finalBitmap;
+            }
+            if (iconUpon != null) {
+                iconUpon.draw(canvas);
+            }
+
             icon.setBounds(sOldBounds);
             canvas.setBitmap(null);
 

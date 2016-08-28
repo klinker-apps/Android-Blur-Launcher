@@ -28,12 +28,16 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import xyz.klinker.blur.R;
+import xyz.klinker.blur.addons.utils.IconPackHelper;
+
 
 public class LauncherActivityInfoCompatV16 extends LauncherActivityInfoCompat {
     private final ResolveInfo mResolveInfo;
     private final ActivityInfo mActivityInfo;
     private final ComponentName mComponentName;
     private final PackageManager mPm;
+    private boolean isThemed = false;
 
     LauncherActivityInfoCompatV16(Context context, ResolveInfo info) {
         super();
@@ -60,7 +64,15 @@ public class LauncherActivityInfoCompatV16 extends LauncherActivityInfoCompat {
         }
     }
 
-    public Drawable getIcon(int density) {
+    public Drawable getIcon(int density, IconPackHelper helper) {
+        if (helper != null && helper.isIconPackLoaded()) {
+            int iconId = helper.getResourceIdForActivityIcon(mActivityInfo);
+            if (iconId != 0) {
+                isThemed = true;
+                return helper.getIconPackResources().getDrawableForDensity(iconId, density);
+            }
+        }
+
         int iconRes = mResolveInfo.getIconResource();
         Resources resources = null;
         Drawable icon = null;
@@ -94,6 +106,11 @@ public class LauncherActivityInfoCompatV16 extends LauncherActivityInfoCompat {
         } catch (NameNotFoundException e) {
             return 0;
         }
+    }
+
+    @Override
+    public boolean isThemed() {
+        return isThemed;
     }
 
     public String getName() {

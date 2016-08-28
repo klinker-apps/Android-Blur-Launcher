@@ -22,6 +22,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 
+import xyz.klinker.blur.addons.utils.IconPackHelper;
+
 public abstract class LauncherActivityInfoCompat {
 
     LauncherActivityInfoCompat() {
@@ -30,9 +32,10 @@ public abstract class LauncherActivityInfoCompat {
     public abstract ComponentName getComponentName();
     public abstract UserHandleCompat getUser();
     public abstract CharSequence getLabel();
-    public abstract Drawable getIcon(int density);
+    public abstract Drawable getIcon(int density, IconPackHelper helper);
     public abstract ApplicationInfo getApplicationInfo();
     public abstract long getFirstInstallTime();
+    public abstract boolean isThemed();
 
     /**
      * Creates a LauncherActivityInfoCompat for the primary user.

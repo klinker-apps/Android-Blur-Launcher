@@ -49,6 +49,8 @@ import android.text.TextUtils;
 
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.addons.settings.AppSettings;
+import xyz.klinker.blur.launcher3.IconCache;
+import xyz.klinker.blur.launcher3.InvariantDeviceProfile;
 
 public class IconPackHelper {
 
@@ -77,6 +79,10 @@ public class IconPackHelper {
     private Drawable mIconUpon, mIconMask;
     private Drawable mAllApps;
     private float mIconScale;
+
+    public Context getContext() {
+        return mContext;
+    }
 
     public Drawable getIconBack() {
         int index = randInt(0, mIconBack.length - 1);
@@ -111,6 +117,9 @@ public class IconPackHelper {
     public IconPackHelper(Context context) {
         mContext = context;
         mIconPackResources = new HashMap<String, String>();
+
+        sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        customIcons = sharedPrefs.getStringSet("custom_icons", new HashSet<String>());
     }
 
     private Drawable getDrawableForName(String name) {
@@ -474,19 +483,23 @@ public class IconPackHelper {
         return mLoadedIconPackResource;
     }
 
-    private static SharedPreferences sharedPrefs = null;
-    private static List<String> customIcons = null;
+    private SharedPreferences sharedPrefs = null;
+    private Set<String> customIcons = null;
 
     public int getResourceIdForActivityIcon(ActivityInfo info) {
+        return getResourceIdForActivityIcon(info.packageName, info.name.toLowerCase());
+    }
 
-        String string = info.packageName.toLowerCase() + "." + info.name.toLowerCase();
+    public int getResourceIdForActivityIcon(String packageName, String component) {
 
-        if (sharedPrefs == null) {
-            sharedPrefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String string = component.toLowerCase();
+
+        String s = "";
+        for (String icon : customIcons) {
+            s += icon + ", ";
         }
-        if (customIcons == null) {
-            customIcons = Arrays.asList(sharedPrefs.getString("launcher_custom_icon_names", "").split(":|:"));
-        }
+
+        Log.v("icon_helper", "custom icons: " + s);
 
         if (customIcons.contains(string)) {
             return getResourceIdForDrawable(sharedPrefs.getString(string, ""));
@@ -495,7 +508,7 @@ public class IconPackHelper {
 
             if (drawable == null) {
                 // Icon pack doesn't have an icon for the activity, fallback to package icon
-                drawable = mIconPackResources.get(info.packageName.toLowerCase());
+                drawable = mIconPackResources.get(packageName.toLowerCase());
                 if (drawable == null) {
                     return 0;
                 }
@@ -612,6 +625,10 @@ public class IconPackHelper {
                             .putString("icon_pack", supportedPackages.get(selectedPackage).packageName)
                             .commit();
                 }
+
+                IconCache cache = new IconCache(context, new InvariantDeviceProfile());
+                cache.updateDbIcons(new HashSet<String>());
+
                 dialog.dismiss();
             }
         });

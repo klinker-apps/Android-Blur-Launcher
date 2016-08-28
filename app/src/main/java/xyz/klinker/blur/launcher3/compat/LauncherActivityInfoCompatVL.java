@@ -18,14 +18,21 @@ package xyz.klinker.blur.launcher3.compat;
 
 import android.annotation.TargetApi;
 import android.content.ComponentName;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.LauncherActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.util.Log;
+
+import xyz.klinker.blur.addons.utils.IconPackHelper;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class LauncherActivityInfoCompatVL extends LauncherActivityInfoCompat {
     private LauncherActivityInfo mLauncherActivityInfo;
+    private boolean isThemed;
 
     LauncherActivityInfoCompatVL(LauncherActivityInfo launcherActivityInfo) {
         super();
@@ -44,7 +51,16 @@ public class LauncherActivityInfoCompatVL extends LauncherActivityInfoCompat {
         return mLauncherActivityInfo.getLabel();
     }
 
-    public Drawable getIcon(int density) {
+    public Drawable getIcon(int density, IconPackHelper helper) {
+        if (helper != null && helper.isIconPackLoaded()) {
+            int iconId = helper.getResourceIdForActivityIcon(mLauncherActivityInfo.getComponentName().getPackageName(),
+                    mLauncherActivityInfo.getComponentName().getClassName());
+            if (iconId != 0) {
+                isThemed = true;
+                return helper.getIconPackResources().getDrawableForDensity(iconId, density);
+            }
+        }
+
         return mLauncherActivityInfo.getIcon(density);
     }
 
@@ -54,5 +70,10 @@ public class LauncherActivityInfoCompatVL extends LauncherActivityInfoCompat {
 
     public long getFirstInstallTime() {
         return mLauncherActivityInfo.getFirstInstallTime();
+    }
+
+    @Override
+    public boolean isThemed() {
+        return isThemed;
     }
 }
