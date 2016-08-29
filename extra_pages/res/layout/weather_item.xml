@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/icon"
+        app:srcCompat="@drawable/cloud"
+        android:layout_width="48dp"
+        android:layout_height="48dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/day_of_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Mon"/>
+
+        <TextView
+            android:id="@+id/temp"
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="56°F / 22°F"/>
+
+        <TextView
+            android:id="@+id/forecast_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cloudy"/>
+
+    </LinearLayout>
+
+</LinearLayout>

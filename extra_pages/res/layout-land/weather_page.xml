@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xyz.klinker.blur.extra_pages.LauncherPageLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <!-- Hosts todays weather info -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:id="@+id/today_icon"
+                    app:srcCompat="@drawable/sun"
+                    android:layout_width="210dp"
+                    android:layout_height="210dp"
+                    android:layout_marginEnd="36dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text="Today"/>
+
+                    <TextView
+                        android:id="@+id/today_temp"
+                        android:layout_marginTop="12dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="48°F / 36°F"/>
+
+                    <TextView
+                        android:id="@+id/today_forecast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sunny"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Hosts the weeks weather info -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="56dp"
+                android:orientation="vertical">
+
+                <xyz.klinker.blur.extra_pages.weather_page.WeatherItemLayout
+                    android:id="@+id/day_one"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"/>
+
+                <xyz.klinker.blur.extra_pages.weather_page.WeatherItemLayout
+                    android:id="@+id/day_two"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"/>
+
+                <xyz.klinker.blur.extra_pages.weather_page.WeatherItemLayout
+                    android:id="@+id/day_three"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"/>
+
+                <xyz.klinker.blur.extra_pages.weather_page.WeatherItemLayout
+                    android:id="@+id/day_four"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="0dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</xyz.klinker.blur.extra_pages.LauncherPageLayout>

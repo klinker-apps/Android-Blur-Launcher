@@ -59,7 +59,8 @@ public abstract class BaseLauncherPage extends Fragment {
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(getLayoutRes(), container, false);
-        background = root.findViewById(R.id.background);
+        background = root.findViewById(LauncherPageLayout.BACKGROUND_ID);
+
         initLayout(root);
         return root;
     }
