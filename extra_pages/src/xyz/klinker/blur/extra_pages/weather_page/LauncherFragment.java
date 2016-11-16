@@ -39,7 +39,7 @@ public class LauncherFragment extends BaseLauncherPage {
         dayThree = (WeatherItemLayout) inflated.findViewById(R.id.day_three);
         dayFour = (WeatherItemLayout) inflated.findViewById(R.id.day_four);
 
-        swipeRefreshLayout.setProgressViewOffset(false, Utils.toDP(getActivity(), 52) * -1, Utils.toDP(getActivity(), 32));
+        /*swipeRefreshLayout.setProgressViewOffset(false, Utils.toDP(getActivity(), 52) * -1, Utils.toDP(getActivity(), 32));
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
@@ -54,6 +54,6 @@ public class LauncherFragment extends BaseLauncherPage {
                     }
                 }, 3000);
             }
-        });
+        });*/
     }
 }
