@@ -6,6 +6,10 @@ This is Blur Launcher, Klinker Apps one-stop-shop for the most powerful launcher
 
 This is built from the latest [Launcher3](https://github.com/klinker24/launcher3/) code from Google.
 
+**Note:** I am currently working on redesigning Blur, but got pulled off into my new [Pulse](https://play.google.com/store/apps/details?id=xyz.klinker.messenger) app. Blur 3.0 will no longer work around the idea of apps creating custom pages. There just wasn't enough interest in this, and it wasn't worth supporting for the extremely low interest. The future of these pages will revolve around pages that I create and build directly into the app. Tons of other things have been added to Blur 3.0, but before it is released, I will need to create more custom pages, which is where we are currently at.
+
+If you would like to see how we supported the legacy page system, check out the `blur_2` branch. `master` will be where Blur 3.0 continues to live, in the future.
+
 ## Features
 
 As the apps feature-set continues to be merged into this new fork, I will continue to add to this repository.
