@@ -32,8 +32,12 @@ public abstract class UserManagerCompat {
     public static UserManagerCompat getInstance(Context context) {
         synchronized (sInstanceLock) {
             if (sInstance == null) {
-                if (Utilities.ATLEAST_N) {
+                if (Utilities.isNycMR1OrAbove()) {
+                    sInstance = new UserManagerCompatVNMr1(context.getApplicationContext());
+                } else if (Utilities.isNycOrAbove()) {
                     sInstance = new UserManagerCompatVN(context.getApplicationContext());
+                } else if (Utilities.ATLEAST_MARSHMALLOW) {
+                    sInstance = new UserManagerCompatVM(context.getApplicationContext());
                 } else if (Utilities.ATLEAST_LOLLIPOP) {
                     sInstance = new UserManagerCompatVL(context.getApplicationContext());
                 } else if (Utilities.ATLEAST_JB_MR1) {
@@ -57,4 +61,7 @@ public abstract class UserManagerCompat {
     public abstract CharSequence getBadgedLabelForUser(CharSequence label, UserHandleCompat user);
     public abstract long getUserCreationTime(UserHandleCompat user);
     public abstract boolean isQuietModeEnabled(UserHandleCompat user);
+    public abstract boolean isUserUnlocked(UserHandleCompat user);
+
+    public abstract boolean isDemoUser();
 }

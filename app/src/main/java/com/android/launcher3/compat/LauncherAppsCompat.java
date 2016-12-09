@@ -19,23 +19,17 @@ package com.android.launcher3.compat;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.LauncherApps;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import com.android.launcher3.Utilities;
+import com.android.launcher3.shortcuts.ShortcutInfoCompat;
 
 import java.util.List;
 
 public abstract class LauncherAppsCompat {
-
-    public static final String ACTION_MANAGED_PROFILE_ADDED =
-            "android.intent.action.MANAGED_PROFILE_ADDED";
-    public static final String ACTION_MANAGED_PROFILE_REMOVED =
-            "android.intent.action.MANAGED_PROFILE_REMOVED";
-    public static final String ACTION_MANAGED_PROFILE_AVAILABLE =
-            "android.intent.action.MANAGED_PROFILE_AVAILABLE";
-    public static final String ACTION_MANAGED_PROFILE_UNAVAILABLE =
-            "android.intent.action.MANAGED_PROFILE_UNAVAILABLE";
 
     public interface OnAppsChangedCallbackCompat {
         void onPackageRemoved(String packageName, UserHandleCompat user);
@@ -45,6 +39,8 @@ public abstract class LauncherAppsCompat {
         void onPackagesUnavailable(String[] packageNames, UserHandleCompat user, boolean replacing);
         void onPackagesSuspended(String[] packageNames, UserHandleCompat user);
         void onPackagesUnsuspended(String[] packageNames, UserHandleCompat user);
+        void onShortcutsChanged(String packageName, List<ShortcutInfoCompat> shortcuts,
+                UserHandleCompat user);
     }
 
     protected LauncherAppsCompat() {

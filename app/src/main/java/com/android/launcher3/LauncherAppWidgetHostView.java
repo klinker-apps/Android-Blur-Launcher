@@ -25,10 +25,12 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewDebug;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.RemoteViews;
 
-import com.android.launcher3.DragLayer.TouchCompleteListener;
+import com.android.launcher3.dragndrop.DragLayer.TouchCompleteListener;
 
 import java.util.ArrayList;
 
@@ -42,28 +44,29 @@ public class LauncherAppWidgetHostView extends AppWidgetHostView implements Touc
     private CheckLongPressHelper mLongPressHelper;
     private StylusEventHelper mStylusEventHelper;
     private Context mContext;
+    @ViewDebug.ExportedProperty(category = "launcher")
     private int mPreviousOrientation;
-    private DragLayer mDragLayer;
 
     private float mSlop;
 
+    @ViewDebug.ExportedProperty(category = "launcher")
     private boolean mChildrenFocused;
+
+    protected int mErrorViewId = R.layout.appwidget_error;
 
     public LauncherAppWidgetHostView(Context context) {
         super(context);
         mContext = context;
         mLongPressHelper = new CheckLongPressHelper(this);
-        mStylusEventHelper = new StylusEventHelper(this);
+        mStylusEventHelper = new StylusEventHelper(new SimpleOnStylusPressListener(this), this);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mDragLayer = ((Launcher) context).getDragLayer();
-        setAccessibilityDelegate(LauncherAppState.getInstance().getAccessibilityDelegate());
-
+        setAccessibilityDelegate(Launcher.getLauncher(context).getAccessibilityDelegate());
         setBackgroundResource(R.drawable.widget_internal_focus_bg);
     }
 
     @Override
     protected View getErrorView() {
-        return mInflater.inflate(R.layout.appwidget_error, this, false);
+        return mInflater.inflate(mErrorViewId, this, false);
     }
 
     public void updateLastInflationOrientation() {
@@ -101,7 +104,7 @@ public class LauncherAppWidgetHostView extends AppWidgetHostView implements Touc
 
         // Watch for longpress or stylus button press events at this level to
         // make sure users can always pick up this widget
-        if (mStylusEventHelper.checkAndPerformStylusEvent(ev)) {
+        if (mStylusEventHelper.onMotionEvent(ev)) {
             mLongPressHelper.cancelLongPress();
             return true;
         }
@@ -110,7 +113,7 @@ public class LauncherAppWidgetHostView extends AppWidgetHostView implements Touc
                 if (!mStylusEventHelper.inStylusButtonPressed()) {
                     mLongPressHelper.postCheckForLongPress();
                 }
-                mDragLayer.setTouchCompleteListener(this);
+                Launcher.getLauncher(getContext()).getDragLayer().setTouchCompleteListener(this);
                 break;
             }
 
@@ -286,5 +289,11 @@ public class LauncherAppWidgetHostView extends AppWidgetHostView implements Touc
                 }
             });
         }
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setClassName(getClass().getName());
     }
 }

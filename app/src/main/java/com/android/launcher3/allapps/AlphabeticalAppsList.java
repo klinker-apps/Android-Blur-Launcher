@@ -17,13 +17,13 @@ package com.android.launcher3.allapps;
 
 import android.content.ComponentName;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.Launcher;
-import com.android.launcher3.LauncherAppState;
 import com.android.launcher3.compat.AlphabeticIndexCompat;
 import com.android.launcher3.compat.UserHandleCompat;
+import com.android.launcher3.config.ProviderConfig;
 import com.android.launcher3.model.AppNameComparator;
 import com.android.launcher3.util.ComponentKey;
 
@@ -109,7 +109,7 @@ public class AlphabeticalAppsList {
 
         public static AdapterItem asSectionBreak(int pos, SectionInfo section) {
             AdapterItem item = new AdapterItem();
-            item.viewType = AllAppsGridAdapter.SECTION_BREAK_VIEW_TYPE;
+            item.viewType = AllAppsGridAdapter.VIEW_TYPE_SECTION_BREAK;
             item.position = pos;
             item.sectionInfo = section;
             section.sectionBreakItem = item;
@@ -119,14 +119,14 @@ public class AlphabeticalAppsList {
         public static AdapterItem asPredictedApp(int pos, SectionInfo section, String sectionName,
                 int sectionAppIndex, AppInfo appInfo, int appIndex) {
             AdapterItem item = asApp(pos, section, sectionName, sectionAppIndex, appInfo, appIndex);
-            item.viewType = AllAppsGridAdapter.PREDICTION_ICON_VIEW_TYPE;
+            item.viewType = AllAppsGridAdapter.VIEW_TYPE_PREDICTION_ICON;
             return item;
         }
 
         public static AdapterItem asApp(int pos, SectionInfo section, String sectionName,
                 int sectionAppIndex, AppInfo appInfo, int appIndex) {
             AdapterItem item = new AdapterItem();
-            item.viewType = AllAppsGridAdapter.ICON_VIEW_TYPE;
+            item.viewType = AllAppsGridAdapter.VIEW_TYPE_ICON;
             item.position = pos;
             item.sectionInfo = section;
             item.sectionName = sectionName;
@@ -138,21 +138,35 @@ public class AlphabeticalAppsList {
 
         public static AdapterItem asEmptySearch(int pos) {
             AdapterItem item = new AdapterItem();
-            item.viewType = AllAppsGridAdapter.EMPTY_SEARCH_VIEW_TYPE;
+            item.viewType = AllAppsGridAdapter.VIEW_TYPE_EMPTY_SEARCH;
             item.position = pos;
             return item;
         }
 
-        public static AdapterItem asDivider(int pos) {
+        public static AdapterItem asPredictionDivider(int pos) {
             AdapterItem item = new AdapterItem();
-            item.viewType = AllAppsGridAdapter.SEARCH_MARKET_DIVIDER_VIEW_TYPE;
+            item.viewType = AllAppsGridAdapter.VIEW_TYPE_PREDICTION_DIVIDER;
+            item.position = pos;
+            return item;
+        }
+
+        public static AdapterItem asSearchDivder(int pos) {
+            AdapterItem item = new AdapterItem();
+            item.viewType = AllAppsGridAdapter.VIEW_TYPE_SEARCH_DIVIDER;
+            item.position = pos;
+            return item;
+        }
+
+        public static AdapterItem asMarketDivider(int pos) {
+            AdapterItem item = new AdapterItem();
+            item.viewType = AllAppsGridAdapter.VIEW_TYPE_SEARCH_MARKET_DIVIDER;
             item.position = pos;
             return item;
         }
 
         public static AdapterItem asMarketSearch(int pos) {
             AdapterItem item = new AdapterItem();
-            item.viewType = AllAppsGridAdapter.SEARCH_MARKET_VIEW_TYPE;
+            item.viewType = AllAppsGridAdapter.VIEW_TYPE_SEARCH_MARKET;
             item.position = pos;
             return item;
         }
@@ -187,7 +201,7 @@ public class AlphabeticalAppsList {
     // The of ordered component names as a result of a search query
     private ArrayList<ComponentKey> mSearchResults;
     private HashMap<CharSequence, String> mCachedSectionNames = new HashMap<>();
-    private RecyclerView.Adapter mAdapter;
+    private AllAppsGridAdapter mAdapter;
     private AlphabeticIndexCompat mIndexer;
     private AppNameComparator mAppNameComparator;
     private MergeAlgorithm mMergeAlgorithm;
@@ -196,7 +210,7 @@ public class AlphabeticalAppsList {
     private int mNumAppRowsInAdapter;
 
     public AlphabeticalAppsList(Context context) {
-        mLauncher = (Launcher) context;
+        mLauncher = Launcher.getLauncher(context);
         mIndexer = new AlphabeticIndexCompat(context);
         mAppNameComparator = new AppNameComparator(context);
     }
@@ -216,7 +230,7 @@ public class AlphabeticalAppsList {
     /**
      * Sets the adapter to notify when this dataset changes.
      */
-    public void setAdapter(RecyclerView.Adapter adapter) {
+    public void setAdapter(AllAppsGridAdapter adapter) {
         mAdapter = adapter;
     }
 
@@ -274,10 +288,6 @@ public class AlphabeticalAppsList {
      */
     public boolean hasNoFilteredResults() {
         return (mSearchResults != null) && mFilteredApps.isEmpty();
-    }
-
-    public boolean hasPredictedComponents() {
-        return (mPredictedAppComponents != null && mPredictedAppComponents.size() > 0);
     }
 
     /**
@@ -419,6 +429,9 @@ public class AlphabeticalAppsList {
             }
         }
 
+        // Add the search divider
+        mAdapterItems.add(AdapterItem.asSearchDivder(position++));
+
         // Process the predicted app components
         mPredictedApps.clear();
         if (mPredictedAppComponents != null && !mPredictedAppComponents.isEmpty() && !hasFilter()) {
@@ -427,8 +440,8 @@ public class AlphabeticalAppsList {
                 if (info != null) {
                     mPredictedApps.add(info);
                 } else {
-                    if (LauncherAppState.isDogfoodBuild()) {
-                        Log.e(TAG, "Predicted app not found: " + ck.flattenToString(mLauncher));
+                    if (ProviderConfig.IS_DOGFOOD_BUILD) {
+                        Log.e(TAG, "Predicted app not found: " + ck);
                     }
                 }
                 // Stop at the number of predicted apps
@@ -457,6 +470,8 @@ public class AlphabeticalAppsList {
                     mAdapterItems.add(appItem);
                     mFilteredApps.add(info);
                 }
+
+                mAdapterItems.add(AdapterItem.asPredictionDivider(position++));
             }
         }
 
@@ -496,7 +511,7 @@ public class AlphabeticalAppsList {
             if (hasNoFilteredResults()) {
                 mAdapterItems.add(AdapterItem.asEmptySearch(position++));
             } else {
-                mAdapterItems.add(AdapterItem.asDivider(position++));
+                mAdapterItems.add(AdapterItem.asMarketDivider(position++));
             }
             mAdapterItems.add(AdapterItem.asMarketSearch(position++));
         }
@@ -512,10 +527,9 @@ public class AlphabeticalAppsList {
             int rowIndex = -1;
             for (AdapterItem item : mAdapterItems) {
                 item.rowIndex = 0;
-                if (item.viewType == AllAppsGridAdapter.SECTION_BREAK_VIEW_TYPE) {
+                if (AllAppsGridAdapter.isDividerViewType(item.viewType)) {
                     numAppsInSection = 0;
-                } else if (item.viewType == AllAppsGridAdapter.ICON_VIEW_TYPE ||
-                        item.viewType == AllAppsGridAdapter.PREDICTION_ICON_VIEW_TYPE) {
+                } else if (AllAppsGridAdapter.isIconViewType(item.viewType)) {
                     if (numAppsInSection % mNumAppsPerRow == 0) {
                         numAppsInRow = 0;
                         rowIndex++;
@@ -534,8 +548,7 @@ public class AlphabeticalAppsList {
                     float rowFraction = 1f / mNumAppRowsInAdapter;
                     for (FastScrollSectionInfo info : mFastScrollerSections) {
                         AdapterItem item = info.fastScrollToItem;
-                        if (item.viewType != AllAppsGridAdapter.ICON_VIEW_TYPE &&
-                                item.viewType != AllAppsGridAdapter.PREDICTION_ICON_VIEW_TYPE) {
+                        if (!AllAppsGridAdapter.isIconViewType(item.viewType)) {
                             info.touchFraction = 0f;
                             continue;
                         }
@@ -549,8 +562,7 @@ public class AlphabeticalAppsList {
                     float cumulativeTouchFraction = 0f;
                     for (FastScrollSectionInfo info : mFastScrollerSections) {
                         AdapterItem item = info.fastScrollToItem;
-                        if (item.viewType != AllAppsGridAdapter.ICON_VIEW_TYPE &&
-                                item.viewType != AllAppsGridAdapter.PREDICTION_ICON_VIEW_TYPE) {
+                        if (!AllAppsGridAdapter.isIconViewType(item.viewType)) {
                             info.touchFraction = 0f;
                             continue;
                         }

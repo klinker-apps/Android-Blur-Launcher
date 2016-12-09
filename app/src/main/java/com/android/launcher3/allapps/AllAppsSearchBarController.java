@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -45,10 +46,14 @@ public abstract class AllAppsSearchBarController
     protected AlphabeticalAppsList mApps;
     protected Callbacks mCb;
     protected ExtendedEditText mInput;
+    private String mQuery;
 
     protected DefaultAppSearchAlgorithm mSearchAlgorithm;
     protected InputMethodManager mInputMethodManager;
 
+    public void setVisibility(int visibility) {
+        mInput.setVisibility(visibility);
+    }
     /**
      * Sets the references to the apps model and the search result callback.
      */
@@ -87,14 +92,23 @@ public abstract class AllAppsSearchBarController
 
     @Override
     public void afterTextChanged(final Editable s) {
-        String query = s.toString();
-        if (query.isEmpty()) {
+        mQuery = s.toString();
+        if (mQuery.isEmpty()) {
             mSearchAlgorithm.cancel(true);
             mCb.clearSearchResult();
         } else {
             mSearchAlgorithm.cancel(false);
-            mSearchAlgorithm.doSearch(query, mCb);
+            mSearchAlgorithm.doSearch(mQuery, mCb);
         }
+    }
+
+    protected void refreshSearchResult() {
+        if (TextUtils.isEmpty(mQuery)) {
+            return;
+        }
+        // If play store continues auto updating an app, we want to show partial result.
+        mSearchAlgorithm.cancel(false);
+        mSearchAlgorithm.doSearch(mQuery, mCb);
     }
 
     @Override
@@ -113,10 +127,9 @@ public abstract class AllAppsSearchBarController
 
     @Override
     public boolean onBackKey() {
-        // Only hide the search field if there is no query, or if there
-        // are no filtered results
+        // Only hide the search field if there is no query
         String query = Utilities.trim(mInput.getEditableText().toString());
-        if (query.isEmpty() || mApps.hasNoFilteredResults()) {
+        if (query.isEmpty()) {
             reset();
             return true;
         }
@@ -130,6 +143,11 @@ public abstract class AllAppsSearchBarController
         unfocusSearchField();
         mCb.clearSearchResult();
         mInput.setText("");
+        mQuery = null;
+        hideKeyboard();
+    }
+
+    protected void hideKeyboard() {
         mInputMethodManager.hideSoftInputFromWindow(mInput.getWindowToken(), 0);
     }
 
@@ -144,8 +162,7 @@ public abstract class AllAppsSearchBarController
      * Focuses the search field to handle key events.
      */
     public void focusSearchField() {
-        mInput.requestFocus();
-        mInputMethodManager.showSoftInput(mInput, InputMethodManager.SHOW_IMPLICIT);
+        mInput.showKeyboard();
     }
 
     /**
@@ -175,6 +192,7 @@ public abstract class AllAppsSearchBarController
         /**
          * Called when the bounds of the search bar has changed.
          */
+        @Deprecated
         void onBoundsChanged(Rect newBounds);
 
         /**

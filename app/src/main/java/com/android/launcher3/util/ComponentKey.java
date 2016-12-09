@@ -18,6 +18,7 @@ package com.android.launcher3.util;
 
 import android.content.ComponentName;
 import android.content.Context;
+
 import com.android.launcher3.compat.UserHandleCompat;
 import com.android.launcher3.compat.UserManagerCompat;
 
@@ -31,8 +32,8 @@ public class ComponentKey {
     private final int mHashCode;
 
     public ComponentKey(ComponentName componentName, UserHandleCompat user) {
-        assert (componentName != null);
-        assert (user != null);
+        Preconditions.assertNotNull(componentName);
+        Preconditions.assertNotNull(user);
         this.componentName = componentName;
         this.user = user;
         mHashCode = Arrays.hashCode(new Object[] {componentName, user});
@@ -57,18 +58,9 @@ public class ComponentKey {
             componentName = ComponentName.unflattenFromString(componentKeyStr);
             user = UserHandleCompat.myUserHandle();
         }
+        Preconditions.assertNotNull(componentName);
+        Preconditions.assertNotNull(user);
         mHashCode = Arrays.hashCode(new Object[] {componentName, user});
-    }
-
-    /**
-     * Encodes a component key as a string of the form [flattenedComponentString#userId].
-     */
-    public String flattenToString(Context context) {
-        String flattened = componentName.flattenToString();
-        if (user != null) {
-            flattened += "#" + UserManagerCompat.getInstance(context).getSerialNumberForUser(user);
-        }
-        return flattened;
     }
 
     @Override
@@ -80,5 +72,13 @@ public class ComponentKey {
     public boolean equals(Object o) {
         ComponentKey other = (ComponentKey) o;
         return other.componentName.equals(componentName) && other.user.equals(user);
+    }
+
+    /**
+     * Encodes a component key as a string of the form [flattenedComponentString#userId].
+     */
+    @Override
+    public String toString() {
+        return componentName.flattenToString() + "#" + user;
     }
 }

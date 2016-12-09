@@ -20,6 +20,7 @@ import android.appwidget.AppWidgetHostView;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 
 import com.android.launcher3.compat.UserHandleCompat;
 
@@ -51,6 +52,18 @@ public class LauncherAppWidgetInfo extends ItemInfo {
     public static final int FLAG_RESTORE_STARTED = 8;
 
     /**
+     * Indicates that the widget has been allocated an Id. The id is still not valid, as it has
+     * not been bound yet.
+     */
+    public static final int FLAG_ID_ALLOCATED = 16;
+
+    /**
+     * Indicates that the widget does not need to show config activity, even if it has a
+     * configuration screen. It can also optionally have some extras which are sent during bind.
+     */
+    public static final int FLAG_DIRECT_CONFIG = 32;
+
+    /**
      * Indicates that the widget hasn't been instantiated yet.
      */
     static final int NO_ID = -1;
@@ -66,7 +79,7 @@ public class LauncherAppWidgetInfo extends ItemInfo {
      */
     int appWidgetId = NO_ID;
 
-    ComponentName providerName;
+    public ComponentName providerName;
 
     /**
      * Indicates the restore status of the widget.
@@ -78,13 +91,12 @@ public class LauncherAppWidgetInfo extends ItemInfo {
      */
     int installProgress = -1;
 
-    private boolean mHasNotifiedInitialWidgetSizeChanged;
-
     /**
-     * View that holds this widget after it's been created.  This view isn't created
-     * until Launcher knows it's needed.
+     * Optional extras sent during widget bind. See {@link #FLAG_DIRECT_CONFIG}.
      */
-    AppWidgetHostView hostView = null;
+    public Intent bindOptions;
+
+    private boolean mHasNotifiedInitialWidgetSizeChanged;
 
     LauncherAppWidgetInfo(int appWidgetId, ComponentName providerName) {
         if (appWidgetId == CUSTOM_WIDGET_ID) {
@@ -115,33 +127,29 @@ public class LauncherAppWidgetInfo extends ItemInfo {
         values.put(LauncherSettings.Favorites.APPWIDGET_ID, appWidgetId);
         values.put(LauncherSettings.Favorites.APPWIDGET_PROVIDER, providerName.flattenToString());
         values.put(LauncherSettings.Favorites.RESTORED, restoreStatus);
+        values.put(LauncherSettings.Favorites.INTENT,
+                bindOptions == null ? null : bindOptions.toUri(0));
     }
 
     /**
      * When we bind the widget, we should notify the widget that the size has changed if we have not
      * done so already (only really for default workspace widgets).
      */
-    void onBindAppWidget(Launcher launcher) {
+    void onBindAppWidget(Launcher launcher, AppWidgetHostView hostView) {
         if (!mHasNotifiedInitialWidgetSizeChanged) {
             AppWidgetResizeFrame.updateWidgetSizeRanges(hostView, launcher, spanX, spanY);
             mHasNotifiedInitialWidgetSizeChanged = true;
         }
     }
 
-
     @Override
-    public String toString() {
-        return "AppWidget(id=" + Integer.toString(appWidgetId) + ")";
+    protected String dumpProperties() {
+        return super.dumpProperties() + " appWidgetId=" + appWidgetId;
     }
 
-    @Override
-    void unbind() {
-        super.unbind();
-        hostView = null;
-    }
-
-    public final boolean isWidgetIdValid() {
-        return (restoreStatus & FLAG_ID_NOT_VALID) == 0;
+    public final boolean isWidgetIdAllocated() {
+        return (restoreStatus & FLAG_ID_NOT_VALID) == 0 ||
+                (restoreStatus & FLAG_ID_ALLOCATED) == FLAG_ID_ALLOCATED;
     }
 
     public final boolean hasRestoreFlag(int flag) {

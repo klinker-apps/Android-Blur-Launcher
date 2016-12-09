@@ -29,13 +29,11 @@ import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.PackageManagerHelper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Represents an app in AllAppsView.
  */
 public class AppInfo extends ItemInfo {
-    private static final String TAG = "Launcher3.AppInfo";
 
     /**
      * The intent used to start the application.
@@ -64,10 +62,11 @@ public class AppInfo extends ItemInfo {
      */
     int isDisabled = ShortcutInfo.DEFAULT;
 
-    AppInfo() {
+    public AppInfo() {
         itemType = LauncherSettings.BaseLauncherColumns.ITEM_TYPE_SHORTCUT;
     }
 
+    @Override
     public Intent getIntent() {
         return intent;
     }
@@ -126,12 +125,8 @@ public class AppInfo extends ItemInfo {
     }
 
     @Override
-    public String toString() {
-        return "ApplicationInfo(title=" + title + " id=" + this.id
-                + " type=" + this.itemType + " container=" + this.container
-                + " screen=" + screenId + " cellX=" + cellX + " cellY=" + cellY
-                + " spanX=" + spanX + " spanY=" + spanY + " dropPos=" + Arrays.toString(dropPos)
-                + " user=" + user + ")";
+    protected String dumpProperties() {
+        return super.dumpProperties() + " componentName=" + componentName;
     }
 
     /**
@@ -140,7 +135,7 @@ public class AppInfo extends ItemInfo {
     public static void dumpApplicationInfoList(String tag, String label, ArrayList<AppInfo> list) {
         Log.d(tag, label + " size=" + list.size());
         for (AppInfo info: list) {
-            Log.d(tag, "   title=\"" + info.title + "\" iconBitmap=" + info.iconBitmap 
+            Log.d(tag, "   title=\"" + info.title + "\" iconBitmap=" + info.iconBitmap
                     + " componentName=" + info.componentName.getPackageName());
         }
     }

@@ -22,7 +22,6 @@ import android.content.Context;
 import com.android.launcher3.compat.UserHandleCompat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Represents a folder containing shortcuts or apps.
@@ -49,7 +48,7 @@ public class FolderInfo extends ItemInfo {
     /**
      * Whether this folder has been opened
      */
-    boolean opened;
+    public boolean opened;
 
     public int options;
 
@@ -70,12 +69,12 @@ public class FolderInfo extends ItemInfo {
      *
      * @param item
      */
-    public void add(ShortcutInfo item) {
+    public void add(ShortcutInfo item, boolean animate) {
         contents.add(item);
         for (int i = 0; i < listeners.size(); i++) {
             listeners.get(i).onAdd(item);
         }
-        itemsChanged();
+        itemsChanged(animate);
     }
 
     /**
@@ -83,12 +82,12 @@ public class FolderInfo extends ItemInfo {
      *
      * @param item
      */
-    public void remove(ShortcutInfo item) {
+    public void remove(ShortcutInfo item, boolean animate) {
         contents.remove(item);
         for (int i = 0; i < listeners.size(); i++) {
             listeners.get(i).onRemove(item);
         }
-        itemsChanged();
+        itemsChanged(animate);
     }
 
     public void setTitle(CharSequence title) {
@@ -106,41 +105,25 @@ public class FolderInfo extends ItemInfo {
 
     }
 
-    void addListener(FolderListener listener) {
+    public void addListener(FolderListener listener) {
         listeners.add(listener);
     }
 
-    void removeListener(FolderListener listener) {
-        if (listeners.contains(listener)) {
-            listeners.remove(listener);
-        }
+    public void removeListener(FolderListener listener) {
+        listeners.remove(listener);
     }
 
-    void itemsChanged() {
+    public void itemsChanged(boolean animate) {
         for (int i = 0; i < listeners.size(); i++) {
-            listeners.get(i).onItemsChanged();
+            listeners.get(i).onItemsChanged(animate);
         }
     }
 
-    @Override
-    void unbind() {
-        super.unbind();
-        listeners.clear();
-    }
-
-    interface FolderListener {
+    public interface FolderListener {
         public void onAdd(ShortcutInfo item);
         public void onRemove(ShortcutInfo item);
         public void onTitleChanged(CharSequence title);
-        public void onItemsChanged();
-    }
-
-    @Override
-    public String toString() {
-        return "FolderInfo(id=" + this.id + " type=" + this.itemType
-                + " container=" + this.container + " screen=" + screenId
-                + " cellX=" + cellX + " cellY=" + cellY + " spanX=" + spanX
-                + " spanY=" + spanY + " dropPos=" + Arrays.toString(dropPos) + ")";
+        public void onItemsChanged(boolean animate);
     }
 
     public boolean hasOption(int optionFlag) {

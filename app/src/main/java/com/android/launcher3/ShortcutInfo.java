@@ -16,20 +16,22 @@
 
 package com.android.launcher3;
 
+import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.util.Log;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.text.TextUtils;
 
 import com.android.launcher3.LauncherSettings.Favorites;
 import com.android.launcher3.compat.LauncherActivityInfoCompat;
 import com.android.launcher3.compat.UserHandleCompat;
 import com.android.launcher3.compat.UserManagerCompat;
-
-import java.util.ArrayList;
-import java.util.Arrays;
+import com.android.launcher3.folder.FolderIcon;
+import com.android.launcher3.shortcuts.ShortcutInfoCompat;
 
 /**
  * Represents a launchable icon on the workspaces and in folders.
@@ -71,14 +73,7 @@ public class ShortcutInfo extends ItemInfo {
     /**
      * The intent used to start the application.
      */
-    Intent intent;
-
-    /**
-     * Indicates whether the icon comes from an application's resource (if false)
-     * or from a custom Bitmap (if true.)
-     * TODO: remove this flag
-     */
-    public boolean customIcon;
+    public Intent intent;
 
     /**
      * Indicates whether we're using the default fallback icon instead of something from the
@@ -105,28 +100,44 @@ public class ShortcutInfo extends ItemInfo {
     /**
      * Indicates that the icon is disabled due to safe mode restrictions.
      */
-    public static final int FLAG_DISABLED_SAFEMODE = 1;
+    public static final int FLAG_DISABLED_SAFEMODE = 1 << 0;
 
     /**
      * Indicates that the icon is disabled as the app is not available.
      */
-    public static final int FLAG_DISABLED_NOT_AVAILABLE = 2;
+    public static final int FLAG_DISABLED_NOT_AVAILABLE = 1 << 1;
 
     /**
      * Indicates that the icon is disabled as the app is suspended
      */
-    public static final int FLAG_DISABLED_SUSPENDED = 4;
+    public static final int FLAG_DISABLED_SUSPENDED = 1 << 2;
 
     /**
      * Indicates that the icon is disabled as the user is in quiet mode.
      */
-    public static final int FLAG_DISABLED_QUIET_USER = 8;
+    public static final int FLAG_DISABLED_QUIET_USER = 1 << 3;
+
+    /**
+     * Indicates that the icon is disabled as the publisher has disabled the actual shortcut.
+     */
+    public static final int FLAG_DISABLED_BY_PUBLISHER = 1 << 4;
+
+    /**
+     * Indicates that the icon is disabled as the user partition is currently locked.
+     */
+    public static final int FLAG_DISABLED_LOCKED_USER = 1 << 5;
 
     /**
      * Could be disabled, if the the app is installed but unavailable (eg. in safe mode or when
      * sd-card is not available).
      */
     int isDisabled = DEFAULT;
+
+    /**
+     * A message to display when the user tries to start a disabled shortcut.
+     * This is currently only used for deep shortcuts.
+     */
+    CharSequence disabledMessage;
 
     int status;
 
@@ -147,12 +158,18 @@ public class ShortcutInfo extends ItemInfo {
      */
     Intent promisedIntent;
 
-    ShortcutInfo() {
+    public ShortcutInfo() {
         itemType = LauncherSettings.BaseLauncherColumns.ITEM_TYPE_SHORTCUT;
     }
 
+    @Override
     public Intent getIntent() {
         return intent;
+    }
+
+    /** Returns {@link #promisedIntent}, or {@link #intent} if promisedIntent is null. */
+    public Intent getPromisedIntent() {
+        return promisedIntent != null ? promisedIntent : intent;
     }
 
     ShortcutInfo(Intent intent, CharSequence title, CharSequence contentDescription,
@@ -165,20 +182,17 @@ public class ShortcutInfo extends ItemInfo {
         this.user = user;
     }
 
-    public ShortcutInfo(Context context, ShortcutInfo info) {
+    public ShortcutInfo(ShortcutInfo info) {
         super(info);
-        title = Utilities.trim(info.title);
+        title = info.title;
         intent = new Intent(info.intent);
-        if (info.iconResource != null) {
-            iconResource = new Intent.ShortcutIconResource();
-            iconResource.packageName = info.iconResource.packageName;
-            iconResource.resourceName = info.iconResource.resourceName;
-        }
+        iconResource = info.iconResource;
         mIcon = info.mIcon; // TODO: should make a copy here.  maybe we don't need this ctor at all
-        customIcon = info.customIcon;
         flags = info.flags;
-        user = info.user;
         status = info.status;
+        mInstallProgress = info.mInstallProgress;
+        isDisabled = info.isDisabled;
+        usingFallbackIcon = info.usingFallbackIcon;
     }
 
     /** TODO: Remove this.  It's only called by ApplicationInfo.makeShortcut. */
@@ -186,9 +200,29 @@ public class ShortcutInfo extends ItemInfo {
         super(info);
         title = Utilities.trim(info.title);
         intent = new Intent(info.intent);
-        customIcon = false;
         flags = info.flags;
         isDisabled = info.isDisabled;
+    }
+
+    public ShortcutInfo(LauncherActivityInfoCompat info, Context context) {
+        user = info.getUser();
+        title = Utilities.trim(info.getLabel());
+        contentDescription = UserManagerCompat.getInstance(context)
+                .getBadgedLabelForUser(info.getLabel(), info.getUser());
+        intent = AppInfo.makeLaunchIntent(context, info, info.getUser());
+        itemType = LauncherSettings.Favorites.ITEM_TYPE_APPLICATION;
+        flags = AppInfo.initFlags(info);
+    }
+
+    /**
+     * Creates a {@link ShortcutInfo} from a {@link ShortcutInfoCompat}.
+     */
+    @TargetApi(Build.VERSION_CODES.N)
+    public ShortcutInfo(ShortcutInfoCompat shortcutInfo, Context context) {
+        user = shortcutInfo.getUserHandle();
+        itemType = LauncherSettings.Favorites.ITEM_TYPE_DEEP_SHORTCUT;
+        flags = 0;
+        updateFromDeepShortcutInfo(shortcutInfo, context);
     }
 
     public void setIcon(Bitmap b) {
@@ -225,39 +259,14 @@ public class ShortcutInfo extends ItemInfo {
         values.put(LauncherSettings.BaseLauncherColumns.INTENT, uri);
         values.put(LauncherSettings.Favorites.RESTORED, status);
 
-        if (customIcon) {
-            values.put(LauncherSettings.BaseLauncherColumns.ICON_TYPE,
-                    LauncherSettings.BaseLauncherColumns.ICON_TYPE_BITMAP);
+        if (!usingFallbackIcon && !usingLowResIcon) {
             writeBitmap(values, mIcon);
-        } else {
-            if (!usingFallbackIcon) {
-                writeBitmap(values, mIcon);
-            }
-            if (iconResource != null) {
-                values.put(LauncherSettings.BaseLauncherColumns.ICON_TYPE,
-                        LauncherSettings.BaseLauncherColumns.ICON_TYPE_RESOURCE);
-                values.put(LauncherSettings.BaseLauncherColumns.ICON_PACKAGE,
-                        iconResource.packageName);
-                values.put(LauncherSettings.BaseLauncherColumns.ICON_RESOURCE,
-                        iconResource.resourceName);
-            }
         }
-    }
-
-    @Override
-    public String toString() {
-        return "ShortcutInfo(title=" + title + "intent=" + intent + "id=" + this.id
-                + " type=" + this.itemType + " container=" + this.container + " screen=" + screenId
-                + " cellX=" + cellX + " cellY=" + cellY + " spanX=" + spanX + " spanY=" + spanY
-                + " dropPos=" + Arrays.toString(dropPos) + " user=" + user + ")";
-    }
-
-    public static void dumpShortcutInfoList(String tag, String label,
-            ArrayList<ShortcutInfo> list) {
-        Log.d(tag, label + " size=" + list.size());
-        for (ShortcutInfo info: list) {
-            Log.d(tag, "   title=\"" + info.title + " icon=" + info.mIcon
-                    + " customIcon=" + info.customIcon);
+        if (iconResource != null) {
+            values.put(LauncherSettings.BaseLauncherColumns.ICON_PACKAGE,
+                    iconResource.packageName);
+            values.put(LauncherSettings.BaseLauncherColumns.ICON_RESOURCE,
+                    iconResource.resourceName);
         }
     }
 
@@ -287,17 +296,57 @@ public class ShortcutInfo extends ItemInfo {
         return usingLowResIcon && container >= 0 && rank >= FolderIcon.NUM_ITEMS_IN_PREVIEW;
     }
 
-    public static ShortcutInfo fromActivityInfo(LauncherActivityInfoCompat info, Context context) {
-        final ShortcutInfo shortcut = new ShortcutInfo();
-        shortcut.user = info.getUser();
-        shortcut.title = Utilities.trim(info.getLabel());
-        shortcut.contentDescription = UserManagerCompat.getInstance(context)
-                .getBadgedLabelForUser(info.getLabel(), info.getUser());
-        shortcut.customIcon = false;
-        shortcut.intent = AppInfo.makeLaunchIntent(context, info, info.getUser());
-        shortcut.itemType = LauncherSettings.Favorites.ITEM_TYPE_APPLICATION;
-        shortcut.flags = AppInfo.initFlags(info);
-        return shortcut;
+    public void updateFromDeepShortcutInfo(ShortcutInfoCompat shortcutInfo, Context context) {
+        // {@link ShortcutInfoCompat#getActivity} can change during an update. Recreate the intent
+        intent = shortcutInfo.makeIntent(context);
+        title = shortcutInfo.getShortLabel();
+
+        CharSequence label = shortcutInfo.getLongLabel();
+        if (TextUtils.isEmpty(label)) {
+            label = shortcutInfo.getShortLabel();
+        }
+        contentDescription = UserManagerCompat.getInstance(context)
+                .getBadgedLabelForUser(label, user);
+        if (shortcutInfo.isEnabled()) {
+            isDisabled &= ~FLAG_DISABLED_BY_PUBLISHER;
+        } else {
+            isDisabled |= FLAG_DISABLED_BY_PUBLISHER;
+        }
+        disabledMessage = shortcutInfo.getDisabledMessage();
+
+        // TODO: Use cache for this
+        LauncherAppState launcherAppState = LauncherAppState.getInstance();
+        Drawable unbadgedDrawable = launcherAppState.getShortcutManager()
+                .getShortcutIconDrawable(shortcutInfo,
+                        launcherAppState.getInvariantDeviceProfile().fillResIconDpi);
+
+        IconCache cache = launcherAppState.getIconCache();
+        Bitmap unbadgedBitmap = unbadgedDrawable == null
+                ? cache.getDefaultIcon(UserHandleCompat.myUserHandle())
+                : Utilities.createScaledBitmapWithoutShadow(unbadgedDrawable, context);
+        setIcon(getBadgedIcon(unbadgedBitmap, shortcutInfo, cache, context));
+    }
+
+    protected Bitmap getBadgedIcon(Bitmap unbadgedBitmap, ShortcutInfoCompat shortcutInfo,
+            IconCache cache, Context context) {
+        unbadgedBitmap = Utilities.addShadowToIcon(unbadgedBitmap);
+        // Get the app info for the source activity.
+        AppInfo appInfo = new AppInfo();
+        appInfo.user = user;
+        appInfo.componentName = shortcutInfo.getActivity();
+        try {
+            cache.getTitleAndIcon(appInfo, shortcutInfo.getActivityInfo(context), false);
+        } catch (NullPointerException e) {
+            // This may happen when we fail to load the activity info. Worst case ignore badging.
+            return Utilities.badgeIconForUser(unbadgedBitmap, user, context);
+        }
+        return Utilities.badgeWithBitmap(unbadgedBitmap, appInfo.iconBitmap, context);
+    }
+
+    /** Returns the ShortcutInfo id associated with the deep shortcut. */
+    public String getDeepShortcutId() {
+        return itemType == Favorites.ITEM_TYPE_DEEP_SHORTCUT ?
+                getPromisedIntent().getStringExtra(ShortcutInfoCompat.EXTRA_SHORTCUT_ID) : null;
     }
 
     @Override
@@ -305,4 +354,3 @@ public class ShortcutInfo extends ItemInfo {
         return isDisabled != 0;
     }
 }
-

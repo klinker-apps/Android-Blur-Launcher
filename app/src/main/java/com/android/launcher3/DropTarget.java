@@ -16,6 +16,8 @@
 
 package com.android.launcher3;
 
+import com.android.launcher3.dragndrop.DragView;
+
 import android.graphics.PointF;
 import android.graphics.Rect;
 
@@ -27,9 +29,7 @@ import com.android.launcher3.accessibility.DragViewStateAnnouncer;
  */
 public interface DropTarget {
 
-    public static final String TAG = "DropTarget";
-
-    public static class DragObject {
+    class DragObject {
         public int x = -1;
         public int y = -1;
 
@@ -48,8 +48,11 @@ public interface DropTarget {
         /** The view that moves around while you drag.  */
         public DragView dragView = null;
 
-        /** The data associated with the object being dragged */
-        public Object dragInfo = null;
+        /** The data associated with the object, after item is dropped. */
+        public ItemInfo dragInfo = null;
+
+        /** The data associated with the object  being dragged */
+        public ItemInfo originalDragInfo = null;
 
         /** Where the drag originated */
         public DragSource dragSource = null;
@@ -152,7 +155,4 @@ public interface DropTarget {
 
     // These methods are implemented in Views
     void getHitRectRelativeToDragLayer(Rect outRect);
-    void getLocationInDragLayer(int[] loc);
-    int getLeft();
-    int getTop();
 }

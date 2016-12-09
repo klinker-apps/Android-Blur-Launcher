@@ -30,41 +30,56 @@ import com.android.launcher3.Utilities;
  * Utility class to load icon from a cursor.
  */
 public class CursorIconInfo {
-    public final int iconTypeIndex;
     public final int iconPackageIndex;
     public final int iconResourceIndex;
     public final int iconIndex;
 
-    public CursorIconInfo(Cursor c) {
-        iconTypeIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_TYPE);
+    public final int titleIndex;
+
+    private final Context mContext;
+
+    public CursorIconInfo(Context context, Cursor c) {
+        mContext = context;
+
         iconIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON);
         iconPackageIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_PACKAGE);
         iconResourceIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.ICON_RESOURCE);
+
+        titleIndex = c.getColumnIndexOrThrow(LauncherSettings.Favorites.TITLE);
     }
 
-    public Bitmap loadIcon(Cursor c, ShortcutInfo info, Context context) {
+    /**
+     * Loads the icon from the cursor and updates the {@param info} if the icon is an app resource.
+     */
+    public Bitmap loadIcon(Cursor c, ShortcutInfo info) {
         Bitmap icon = null;
-        int iconType = c.getInt(iconTypeIndex);
-        switch (iconType) {
-        case LauncherSettings.Favorites.ICON_TYPE_RESOURCE:
-            String packageName = c.getString(iconPackageIndex);
-            String resourceName = c.getString(iconResourceIndex);
-            if (!TextUtils.isEmpty(packageName) || !TextUtils.isEmpty(resourceName)) {
-                info.iconResource = new ShortcutIconResource();
-                info.iconResource.packageName = packageName;
-                info.iconResource.resourceName = resourceName;
-                icon = Utilities.createIconBitmap(packageName, resourceName, context);
-            }
-            if (icon == null) {
-                // Failed to load from resource, try loading from DB.
-                icon = Utilities.createIconBitmap(c, iconIndex, context);
-            }
-            break;
-        case LauncherSettings.Favorites.ICON_TYPE_BITMAP:
-            icon = Utilities.createIconBitmap(c, iconIndex, context);
-            info.customIcon = icon != null;
-            break;
+        String packageName = c.getString(iconPackageIndex);
+        String resourceName = c.getString(iconResourceIndex);
+        if (!TextUtils.isEmpty(packageName) || !TextUtils.isEmpty(resourceName)) {
+            info.iconResource = new ShortcutIconResource();
+            info.iconResource.packageName = packageName;
+            info.iconResource.resourceName = resourceName;
+            icon = Utilities.createIconBitmap(packageName, resourceName, mContext);
+        }
+        if (icon == null) {
+            // Failed to load from resource, try loading from DB.
+            icon = loadIcon(c);
         }
         return icon;
+    }
+
+    /**
+     * Loads the fixed bitmap from the icon if available.
+     */
+    public Bitmap loadIcon(Cursor c) {
+        return Utilities.createIconBitmap(c, iconIndex, mContext);
+    }
+
+    /**
+     * Returns the title or empty string
+     */
+    public String getTitle(Cursor c) {
+        String title = c.getString(titleIndex);
+        return TextUtils.isEmpty(title) ? "" : Utilities.trim(c.getString(titleIndex));
     }
 }
