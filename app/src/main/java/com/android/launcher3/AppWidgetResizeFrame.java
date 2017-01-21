@@ -1,5 +1,7 @@
 package com.android.launcher3;
 
+import com.android.launcher3.dragndrop.DragLayer;
+
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
@@ -9,6 +11,7 @@ import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetProviderInfo;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -24,7 +27,10 @@ public class AppWidgetResizeFrame extends FrameLayout implements View.OnKeyListe
     private static final float DIMMED_HANDLE_ALPHA = 0f;
     private static final float RESIZE_THRESHOLD = 0.66f;
 
-    private static Rect sTmpRect = new Rect();
+    private static final Rect sTmpRect = new Rect();
+
+    // Represents the cell size on the grid in the two orientations.
+    private static Point[] sCellSize;
 
     private final Launcher mLauncher;
     private final LauncherAppWidgetHostView mWidgetView;
@@ -74,7 +80,7 @@ public class AppWidgetResizeFrame extends FrameLayout implements View.OnKeyListe
             LauncherAppWidgetHostView widgetView, CellLayout cellLayout, DragLayer dragLayer) {
 
         super(context);
-        mLauncher = (Launcher) context;
+        mLauncher = Launcher.getLauncher(context);
         mCellLayout = cellLayout;
         mWidgetView = widgetView;
         LauncherAppWidgetProviderInfo info = (LauncherAppWidgetProviderInfo)
@@ -357,29 +363,28 @@ public class AppWidgetResizeFrame extends FrameLayout implements View.OnKeyListe
                 sTmpRect.right, sTmpRect.bottom);
     }
 
-    public static Rect getWidgetSizeRanges(Launcher launcher, int spanX, int spanY, Rect rect) {
+    public static Rect getWidgetSizeRanges(Context context, int spanX, int spanY, Rect rect) {
+        if (sCellSize == null) {
+            InvariantDeviceProfile inv = LauncherAppState.getInstance().getInvariantDeviceProfile();
+
+            // Initiate cell sizes.
+            sCellSize = new Point[2];
+            sCellSize[0] = inv.landscapeProfile.getCellSize();
+            sCellSize[1] = inv.portraitProfile.getCellSize();
+        }
+
         if (rect == null) {
             rect = new Rect();
         }
-        Rect landMetrics = Workspace.getCellLayoutMetrics(launcher, CellLayout.LANDSCAPE);
-        Rect portMetrics = Workspace.getCellLayoutMetrics(launcher, CellLayout.PORTRAIT);
-        final float density = launcher.getResources().getDisplayMetrics().density;
+        final float density = context.getResources().getDisplayMetrics().density;
 
         // Compute landscape size
-        int cellWidth = landMetrics.left;
-        int cellHeight = landMetrics.top;
-        int widthGap = landMetrics.right;
-        int heightGap = landMetrics.bottom;
-        int landWidth = (int) ((spanX * cellWidth + (spanX - 1) * widthGap) / density);
-        int landHeight = (int) ((spanY * cellHeight + (spanY - 1) * heightGap) / density);
+        int landWidth = (int) ((spanX * sCellSize[0].x) / density);
+        int landHeight = (int) ((spanY * sCellSize[0].y) / density);
 
         // Compute portrait size
-        cellWidth = portMetrics.left;
-        cellHeight = portMetrics.top;
-        widthGap = portMetrics.right;
-        heightGap = portMetrics.bottom;
-        int portWidth = (int) ((spanX * cellWidth + (spanX - 1) * widthGap) / density);
-        int portHeight = (int) ((spanY * cellHeight + (spanY - 1) * heightGap) / density);
+        int portWidth = (int) ((spanX * sCellSize[1].x) / density);
+        int portHeight = (int) ((spanY * sCellSize[1].y) / density);
         rect.set(portWidth, landHeight, landWidth, portHeight);
         return rect;
     }
@@ -458,10 +463,10 @@ public class AppWidgetResizeFrame extends FrameLayout implements View.OnKeyListe
             PropertyValuesHolder y = PropertyValuesHolder.ofInt("y", lp.y, newY);
             ObjectAnimator oa =
                     LauncherAnimUtils.ofPropertyValuesHolder(lp, this, width, height, x, y);
-            ObjectAnimator leftOa = LauncherAnimUtils.ofFloat(mLeftHandle, "alpha", 1.0f);
-            ObjectAnimator rightOa = LauncherAnimUtils.ofFloat(mRightHandle, "alpha", 1.0f);
-            ObjectAnimator topOa = LauncherAnimUtils.ofFloat(mTopHandle, "alpha", 1.0f);
-            ObjectAnimator bottomOa = LauncherAnimUtils.ofFloat(mBottomHandle, "alpha", 1.0f);
+            ObjectAnimator leftOa = LauncherAnimUtils.ofFloat(mLeftHandle, ALPHA, 1.0f);
+            ObjectAnimator rightOa = LauncherAnimUtils.ofFloat(mRightHandle, ALPHA, 1.0f);
+            ObjectAnimator topOa = LauncherAnimUtils.ofFloat(mTopHandle, ALPHA, 1.0f);
+            ObjectAnimator bottomOa = LauncherAnimUtils.ofFloat(mBottomHandle, ALPHA, 1.0f);
             oa.addUpdateListener(new AnimatorUpdateListener() {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     requestLayout();

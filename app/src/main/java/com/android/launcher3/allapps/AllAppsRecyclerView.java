@@ -19,35 +19,32 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.SparseIntArray;
 import android.view.View;
 
 import com.android.launcher3.BaseRecyclerView;
 import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.DeviceProfile;
+import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
-import com.android.launcher3.Stats;
-import com.android.launcher3.Utilities;
+import com.android.launcher3.userevent.nano.LauncherLogProto;
 
 import java.util.List;
 
 /**
  * A RecyclerView with custom fast scroll support for the all apps view.
  */
-public class AllAppsRecyclerView extends BaseRecyclerView
-        implements Stats.LaunchSourceProvider {
+public class AllAppsRecyclerView extends BaseRecyclerView {
 
     private AlphabeticalAppsList mApps;
     private AllAppsFastScrollHelper mFastScrollHelper;
-    private BaseRecyclerView.ScrollPositionState mScrollPosState =
-            new BaseRecyclerView.ScrollPositionState();
     private int mNumAppsPerRow;
 
-    // The specific icon heights that we use to calculate scroll
-    private int mPredictionIconHeight;
-    private int mIconHeight;
+    // The specific view heights that we use to calculate scroll
+    private SparseIntArray mViewHeights = new SparseIntArray();
+    private SparseIntArray mCachedScrollPositions = new SparseIntArray();
 
     // The empty-search result background
     private AllAppsBackgroundDrawable mEmptySearchBackground;
@@ -97,20 +94,62 @@ public class AllAppsRecyclerView extends BaseRecyclerView
 
         RecyclerView.RecycledViewPool pool = getRecycledViewPool();
         int approxRows = (int) Math.ceil(grid.availableHeightPx / grid.allAppsIconSizePx);
-        pool.setMaxRecycledViews(AllAppsGridAdapter.EMPTY_SEARCH_VIEW_TYPE, 1);
-        pool.setMaxRecycledViews(AllAppsGridAdapter.SEARCH_MARKET_DIVIDER_VIEW_TYPE, 1);
-        pool.setMaxRecycledViews(AllAppsGridAdapter.SEARCH_MARKET_VIEW_TYPE, 1);
-        pool.setMaxRecycledViews(AllAppsGridAdapter.ICON_VIEW_TYPE, approxRows * mNumAppsPerRow);
-        pool.setMaxRecycledViews(AllAppsGridAdapter.PREDICTION_ICON_VIEW_TYPE, mNumAppsPerRow);
-        pool.setMaxRecycledViews(AllAppsGridAdapter.SECTION_BREAK_VIEW_TYPE, approxRows);
+        pool.setMaxRecycledViews(AllAppsGridAdapter.VIEW_TYPE_EMPTY_SEARCH, 1);
+        pool.setMaxRecycledViews(AllAppsGridAdapter.VIEW_TYPE_SEARCH_DIVIDER, 1);
+        pool.setMaxRecycledViews(AllAppsGridAdapter.VIEW_TYPE_SEARCH_MARKET_DIVIDER, 1);
+        pool.setMaxRecycledViews(AllAppsGridAdapter.VIEW_TYPE_SEARCH_MARKET, 1);
+        pool.setMaxRecycledViews(AllAppsGridAdapter.VIEW_TYPE_ICON, approxRows * mNumAppsPerRow);
+        pool.setMaxRecycledViews(AllAppsGridAdapter.VIEW_TYPE_PREDICTION_ICON, mNumAppsPerRow);
+        pool.setMaxRecycledViews(AllAppsGridAdapter.VIEW_TYPE_PREDICTION_DIVIDER, 1);
+        pool.setMaxRecycledViews(AllAppsGridAdapter.VIEW_TYPE_SECTION_BREAK, approxRows);
     }
 
     /**
-     * Sets the heights of the icons in this view (for scroll calculations).
+     * Ensures that we can present a stable scrollbar for views of varying types by pre-measuring
+     * all the different view types.
      */
-    public void setPremeasuredIconHeights(int predictionIconHeight, int iconHeight) {
-        mPredictionIconHeight = predictionIconHeight;
-        mIconHeight = iconHeight;
+    public void preMeasureViews(AllAppsGridAdapter adapter) {
+        final int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(
+                getResources().getDisplayMetrics().widthPixels, View.MeasureSpec.AT_MOST);
+        final int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(
+                getResources().getDisplayMetrics().heightPixels, View.MeasureSpec.AT_MOST);
+
+        // Icons
+        BubbleTextView icon = (BubbleTextView) adapter.onCreateViewHolder(this,
+                AllAppsGridAdapter.VIEW_TYPE_ICON).mContent;
+        int iconHeight = icon.getLayoutParams().height;
+        mViewHeights.put(AllAppsGridAdapter.VIEW_TYPE_ICON, iconHeight);
+        mViewHeights.put(AllAppsGridAdapter.VIEW_TYPE_PREDICTION_ICON, iconHeight);
+
+        // Search divider
+        View searchDivider = adapter.onCreateViewHolder(this,
+                AllAppsGridAdapter.VIEW_TYPE_SEARCH_DIVIDER).mContent;
+        searchDivider.measure(widthMeasureSpec, heightMeasureSpec);
+        int searchDividerHeight = searchDivider.getMeasuredHeight();
+        mViewHeights.put(AllAppsGridAdapter.VIEW_TYPE_SEARCH_DIVIDER, searchDividerHeight);
+
+        // Generic dividers
+        View divider = adapter.onCreateViewHolder(this,
+                AllAppsGridAdapter.VIEW_TYPE_PREDICTION_DIVIDER).mContent;
+        divider.measure(widthMeasureSpec, heightMeasureSpec);
+        int dividerHeight = divider.getMeasuredHeight();
+        mViewHeights.put(AllAppsGridAdapter.VIEW_TYPE_PREDICTION_DIVIDER, dividerHeight);
+        mViewHeights.put(AllAppsGridAdapter.VIEW_TYPE_SEARCH_MARKET_DIVIDER, dividerHeight);
+
+        // Search views
+        View emptySearch = adapter.onCreateViewHolder(this,
+                AllAppsGridAdapter.VIEW_TYPE_EMPTY_SEARCH).mContent;
+        emptySearch.measure(widthMeasureSpec, heightMeasureSpec);
+        mViewHeights.put(AllAppsGridAdapter.VIEW_TYPE_EMPTY_SEARCH,
+                emptySearch.getMeasuredHeight());
+        View searchMarket = adapter.onCreateViewHolder(this,
+                AllAppsGridAdapter.VIEW_TYPE_SEARCH_MARKET).mContent;
+        searchMarket.measure(widthMeasureSpec, heightMeasureSpec);
+        mViewHeights.put(AllAppsGridAdapter.VIEW_TYPE_SEARCH_MARKET,
+                searchMarket.getMeasuredHeight());
+
+        // Section breaks
+        mViewHeights.put(AllAppsGridAdapter.VIEW_TYPE_SECTION_BREAK, 0);
     }
 
     /**
@@ -164,12 +203,9 @@ public class AllAppsRecyclerView extends BaseRecyclerView
         updateEmptySearchBackgroundBounds();
     }
 
-    @Override
-    public void fillInLaunchSourceData(View v, Bundle sourceData) {
-        sourceData.putString(Stats.SOURCE_EXTRA_CONTAINER, Stats.CONTAINER_ALL_APPS);
+    public int getContainerType(View v) {
         if (mApps.hasFilter()) {
-            sourceData.putString(Stats.SOURCE_EXTRA_SUB_CONTAINER,
-                    Stats.SUB_CONTAINER_ALL_APPS_SEARCH);
+            return LauncherLogProto.SEARCHRESULT;
         } else {
             if (v instanceof BubbleTextView) {
                 BubbleTextView icon = (BubbleTextView) v;
@@ -177,15 +213,12 @@ public class AllAppsRecyclerView extends BaseRecyclerView
                 if (position != NO_POSITION) {
                     List<AlphabeticalAppsList.AdapterItem> items = mApps.getAdapterItems();
                     AlphabeticalAppsList.AdapterItem item = items.get(position);
-                    if (item.viewType == AllAppsGridAdapter.PREDICTION_ICON_VIEW_TYPE) {
-                        sourceData.putString(Stats.SOURCE_EXTRA_SUB_CONTAINER,
-                                Stats.SUB_CONTAINER_ALL_APPS_PREDICTION);
-                        return;
+                    if (item.viewType == AllAppsGridAdapter.VIEW_TYPE_PREDICTION_ICON) {
+                        return LauncherLogProto.PREDICTION;
                     }
                 }
             }
-            sourceData.putString(Stats.SOURCE_EXTRA_SUB_CONTAINER,
-                    Stats.SUB_CONTAINER_ALL_APPS_A_Z);
+            return LauncherLogProto.ALLAPPS;
         }
     }
 
@@ -234,8 +267,8 @@ public class AllAppsRecyclerView extends BaseRecyclerView
         }
 
         // Update the fast scroll
-        int scrollY = getScrollTop(mScrollPosState);
-        int availableScrollHeight = getAvailableScrollHeight(mApps.getNumAppRows());
+        int scrollY = getCurrentScrollY();
+        int availableScrollHeight = getAvailableScrollHeight();
         mFastScrollHelper.smoothScrollToSection(scrollY, availableScrollHeight, lastInfo);
         return lastInfo.sectionName;
     }
@@ -249,6 +282,11 @@ public class AllAppsRecyclerView extends BaseRecyclerView
     @Override
     public void setAdapter(Adapter adapter) {
         super.setAdapter(adapter);
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            public void onChanged() {
+                mCachedScrollPositions.clear();
+            }
+        });
         mFastScrollHelper.onSetAdapter((AllAppsGridAdapter) adapter);
     }
 
@@ -265,42 +303,30 @@ public class AllAppsRecyclerView extends BaseRecyclerView
             return;
         }
 
-        // Find the index and height of the first visible row (all rows have the same height)
-        int rowCount = mApps.getNumAppRows();
-        getCurScrollState(mScrollPosState, -1);
-        if (mScrollPosState.rowIndex < 0) {
+        // Skip early if, there no child laid out in the container.
+        int scrollY = getCurrentScrollY();
+        if (scrollY < 0) {
             mScrollbar.setThumbOffset(-1, -1);
             return;
         }
 
         // Only show the scrollbar if there is height to be scrolled
         int availableScrollBarHeight = getAvailableScrollBarHeight();
-        int availableScrollHeight = getAvailableScrollHeight(mApps.getNumAppRows());
+        int availableScrollHeight = getAvailableScrollHeight();
         if (availableScrollHeight <= 0) {
             mScrollbar.setThumbOffset(-1, -1);
             return;
         }
 
-        // Calculate the current scroll position, the scrollY of the recycler view accounts for the
-        // view padding, while the scrollBarY is drawn right up to the background padding (ignoring
-        // padding)
-        int scrollY = getScrollTop(mScrollPosState);
-        int scrollBarY = mBackgroundPadding.top +
-                (int) (((float) scrollY / availableScrollHeight) * availableScrollBarHeight);
-
         if (mScrollbar.isThumbDetached()) {
-            int scrollBarX;
-            if (Utilities.isRtl(getResources())) {
-                scrollBarX = mBackgroundPadding.left;
-            } else {
-                scrollBarX = getWidth() - mBackgroundPadding.right - mScrollbar.getThumbWidth();
-            }
+            if (!mScrollbar.isDraggingThumb()) {
+                // Calculate the current scroll position, the scrollY of the recycler view accounts
+                // for the view padding, while the scrollBarY is drawn right up to the background
+                // padding (ignoring padding)
+                int scrollBarX = getScrollBarX();
+                int scrollBarY = mBackgroundPadding.top +
+                        (int) (((float) scrollY / availableScrollHeight) * availableScrollBarHeight);
 
-            if (mScrollbar.isDraggingThumb()) {
-                // If the thumb is detached, then just update the thumb to the current
-                // touch position
-                mScrollbar.setThumbOffset(scrollBarX, (int) mScrollbar.getLastTouchY());
-            } else {
                 int thumbScrollY = mScrollbar.getThumbOffset().y;
                 int diffScrollY = scrollBarY - thumbScrollY;
                 if (diffScrollY * dy > 0f) {
@@ -330,39 +356,8 @@ public class AllAppsRecyclerView extends BaseRecyclerView
                 }
             }
         } else {
-            synchronizeScrollBarThumbOffsetToViewScroll(mScrollPosState, rowCount);
+            synchronizeScrollBarThumbOffsetToViewScroll(scrollY, availableScrollHeight);
         }
-    }
-
-    /**
-     * Returns the current scroll state of the apps rows.
-     */
-    protected void getCurScrollState(ScrollPositionState stateOut, int viewTypeMask) {
-        stateOut.rowIndex = -1;
-        stateOut.rowTopOffset = -1;
-        stateOut.itemPos = -1;
-
-        // Return early if there are no items or we haven't been measured
-        List<AlphabeticalAppsList.AdapterItem> items = mApps.getAdapterItems();
-        if (items.isEmpty() || mNumAppsPerRow == 0) {
-            return;
-        }
-
-        int childCount = getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            View child = getChildAt(i);
-            int position = getChildPosition(child);
-            if (position != NO_POSITION) {
-                AlphabeticalAppsList.AdapterItem item = items.get(position);
-                if ((item.viewType & viewTypeMask) != 0) {
-                    stateOut.rowIndex = item.rowIndex;
-                    stateOut.rowTopOffset = getLayoutManager().getDecoratedTop(child);
-                    stateOut.itemPos = position;
-                    return;
-                }
-            }
-        }
-        return;
     }
 
     @Override
@@ -372,13 +367,69 @@ public class AllAppsRecyclerView extends BaseRecyclerView
         return !mApps.hasFilter();
     }
 
-    protected int getTop(int rowIndex) {
-        if (getChildCount() == 0 || rowIndex <= 0) {
-            return 0;
+    @Override
+    public int getCurrentScrollY() {
+        // Return early if there are no items or we haven't been measured
+        List<AlphabeticalAppsList.AdapterItem> items = mApps.getAdapterItems();
+        if (items.isEmpty() || mNumAppsPerRow == 0 || getChildCount() == 0) {
+            return -1;
         }
 
-        // The prediction bar icons have more padding, so account for that in the row offset
-        return mPredictionIconHeight + (rowIndex - 1) * mIconHeight;
+        // Calculate the y and offset for the item
+        View child = getChildAt(0);
+        int position = getChildPosition(child);
+        if (position == NO_POSITION) {
+            return -1;
+        }
+        return getCurrentScrollY(position, getLayoutManager().getDecoratedTop(child));
+    }
+
+    public int getCurrentScrollY(int position, int offset) {
+        List<AlphabeticalAppsList.AdapterItem> items = mApps.getAdapterItems();
+        AlphabeticalAppsList.AdapterItem posItem = position < items.size() ?
+                items.get(position) : null;
+        int y = mCachedScrollPositions.get(position, -1);
+        if (y < 0) {
+            y = 0;
+            for (int i = 0; i < position; i++) {
+                AlphabeticalAppsList.AdapterItem item = items.get(i);
+                if (AllAppsGridAdapter.isIconViewType(item.viewType)) {
+                    // Break once we reach the desired row
+                    if (posItem != null && posItem.viewType == item.viewType &&
+                            posItem.rowIndex == item.rowIndex) {
+                        break;
+                    }
+                    // Otherwise, only account for the first icon in the row since they are the same
+                    // size within a row
+                    if (item.rowAppIndex == 0) {
+                        y += mViewHeights.get(item.viewType, 0);
+                    }
+                } else {
+                    // Rest of the views span the full width
+                    y += mViewHeights.get(item.viewType, 0);
+                }
+            }
+            mCachedScrollPositions.put(position, y);
+        }
+
+        return getPaddingTop() + y - offset;
+    }
+
+    @Override
+    protected int getVisibleHeight() {
+        return super.getVisibleHeight()
+                - Launcher.getLauncher(getContext()).getDragLayer().getInsets().bottom;
+    }
+
+    /**
+     * Returns the available scroll height:
+     *   AvailableScrollHeight = Total height of the all items - last page height
+     */
+    @Override
+    protected int getAvailableScrollHeight() {
+        int paddedHeight = getCurrentScrollY(mApps.getAdapterItems().size(), 0);
+        int totalHeight = paddedHeight + getPaddingBottom();
+        return totalHeight - getVisibleHeight();
     }
 
     /**

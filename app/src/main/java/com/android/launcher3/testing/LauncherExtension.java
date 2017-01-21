@@ -12,6 +12,7 @@ import com.android.launcher3.AppInfo;
 import com.android.launcher3.Launcher;
 import com.android.launcher3.LauncherCallbacks;
 import com.android.launcher3.allapps.AllAppsSearchBarController;
+import com.android.launcher3.logging.UserEventDispatcher;
 import com.android.launcher3.util.ComponentKey;
 
 import java.io.FileDescriptor;
@@ -122,47 +123,11 @@ public class LauncherExtension extends Launcher {
         }
 
         @Override
-        public void onClickAllAppsButton(View v) {
-        }
-
-        @Override
         public void bindAllApplications(ArrayList<AppInfo> apps) {
         }
 
         @Override
-        public void onClickFolderIcon(View v) {
-        }
-
-        @Override
-        public void onClickAppShortcut(View v) {
-        }
-
-        @Override
-        public void onClickPagedViewIcon(View v) {
-        }
-
-        @Override
-        public void onClickWallpaperPicker(View v) {
-        }
-
-        @Override
-        public void onClickSettingsButton(View v) {
-        }
-
-        @Override
-        public void onClickAddWidgetButton(View v) {
-        }
-
-        @Override
-        public void onPageSwitch(View newPage, int newPageIndex) {
-        }
-
-        @Override
         public void onWorkspaceLockedChanged() {
-        }
-
-        @Override
-        public void onDragStarted(View view) {
         }
 
         @Override
@@ -174,18 +139,8 @@ public class LauncherExtension extends Launcher {
         }
 
         @Override
-        public boolean providesSearch() {
-            return false;
-        }
-
-        @Override
         public boolean startSearch(String initialQuery, boolean selectInitialQuery,
-                Bundle appSearchData, Rect sourceBounds) {
-            return false;
-        }
-
-        @Override
-        public boolean startSearchFromAllApps(String query) {
+                Bundle appSearchData) {
             return false;
         }
 
@@ -225,6 +180,9 @@ public class LauncherExtension extends Launcher {
         }
 
         @Override
+        public UserEventDispatcher getUserEventDispatcher() { return null; }
+
+        @Override
         public View getQsbBar() {
             return null;
         }
@@ -232,26 +190,6 @@ public class LauncherExtension extends Launcher {
         @Override
         public Bundle getAdditionalSearchWidgetOptions() {
             return new Bundle();
-        }
-
-        @Override
-        public Intent getFirstRunActivity() {
-            return null;
-        }
-
-        @Override
-        public boolean hasFirstRunActivity() {
-            return false;
-        }
-
-        @Override
-        public boolean hasDismissableIntroScreen() {
-            return false;
-        }
-
-        @Override
-        public View getIntroScreen() {
-            return null;
         }
 
         @Override
@@ -265,28 +203,19 @@ public class LauncherExtension extends Launcher {
         }
 
         @Override
-        public boolean overrideWallpaperDimensions() {
-            return false;
-        }
-
-        @Override
         public AllAppsSearchBarController getAllAppsSearchBarController() {
             return null;
         }
 
         @Override
         public List<ComponentKey> getPredictedApps() {
+            // To debug app predictions, enable AlphabeticalAppsList#DEBUG_PREDICTIONS
             return new ArrayList<>();
         }
 
         @Override
         public int getSearchBarHeight() {
             return SEARCH_BAR_HEIGHT_NORMAL;
-        }
-
-        @Override
-        public boolean isLauncherPreinstalled() {
-            return false;
         }
 
         @Override
@@ -300,6 +229,11 @@ public class LauncherExtension extends Launcher {
 
         @Override
         public void onDetachedFromWindow() {
-        };
+        }
+
+        @Override
+        public boolean shouldShowDiscoveryBounce() {
+            return false;
+        }
     }
 }

@@ -20,8 +20,6 @@ import android.graphics.Bitmap;
 
 import com.android.launcher3.ItemInfo;
 
-import java.util.Arrays;
-
 /**
  * Represents a {@link Package} in the widget tray section.
  */
@@ -48,18 +46,12 @@ public class PackageItemInfo extends ItemInfo {
      */
     public String titleSectionName;
 
-    int flags = 0;
-
     PackageItemInfo(String packageName) {
         this.packageName = packageName;
     }
 
     @Override
-    public String toString() {
-        return "PackageItemInfo(title=" + title + " id=" + this.id
-                + " type=" + this.itemType + " container=" + this.container
-                + " screen=" + screenId + " cellX=" + cellX + " cellY=" + cellY
-                + " spanX=" + spanX + " spanY=" + spanY + " dropPos=" + Arrays.toString(dropPos)
-                + " user=" + user + ")";
+    protected String dumpProperties() {
+        return super.dumpProperties() + " packageName=" + packageName;
     }
 }

@@ -18,11 +18,13 @@ import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction;
 
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.AppWidgetResizeFrame;
+import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.CellLayout;
 import com.android.launcher3.DeleteDropTarget;
-import com.android.launcher3.DragController.DragListener;
 import com.android.launcher3.DragSource;
-import com.android.launcher3.Folder;
+import com.android.launcher3.DropTarget.DragObject;
+import com.android.launcher3.dragndrop.DragOptions;
+import com.android.launcher3.folder.Folder;
 import com.android.launcher3.FolderInfo;
 import com.android.launcher3.InfoDropTarget;
 import com.android.launcher3.ItemInfo;
@@ -36,6 +38,9 @@ import com.android.launcher3.R;
 import com.android.launcher3.ShortcutInfo;
 import com.android.launcher3.UninstallDropTarget;
 import com.android.launcher3.Workspace;
+import com.android.launcher3.dragndrop.DragController.DragListener;
+import com.android.launcher3.shortcuts.DeepShortcutTextView;
+import com.android.launcher3.shortcuts.DeepShortcutsContainer;
 import com.android.launcher3.util.Thunk;
 
 import java.util.ArrayList;
@@ -45,13 +50,14 @@ public class LauncherAccessibilityDelegate extends AccessibilityDelegate impleme
 
     private static final String TAG = "LauncherAccessibilityDelegate";
 
-    private static final int REMOVE = R.id.action_remove;
-    private static final int INFO = R.id.action_info;
-    private static final int UNINSTALL = R.id.action_uninstall;
-    private static final int ADD_TO_WORKSPACE = R.id.action_add_to_workspace;
-    private static final int MOVE = R.id.action_move;
-    private static final int MOVE_TO_WORKSPACE = R.id.action_move_to_workspace;
-    private static final int RESIZE = R.id.action_resize;
+    protected static final int REMOVE = R.id.action_remove;
+    protected static final int INFO = R.id.action_info;
+    protected static final int UNINSTALL = R.id.action_uninstall;
+    protected static final int ADD_TO_WORKSPACE = R.id.action_add_to_workspace;
+    protected static final int MOVE = R.id.action_move;
+    protected static final int MOVE_TO_WORKSPACE = R.id.action_move_to_workspace;
+    protected static final int RESIZE = R.id.action_resize;
+    protected static final int DEEP_SHORTCUTS = R.id.action_deep_shortcuts;
 
     public enum DragType {
         ICON,
@@ -65,21 +71,20 @@ public class LauncherAccessibilityDelegate extends AccessibilityDelegate impleme
         public View item;
     }
 
-    private final SparseArray<AccessibilityAction> mActions = new SparseArray<>();
+    protected final SparseArray<AccessibilityAction> mActions = new SparseArray<>();
     @Thunk final Launcher mLauncher;
 
     private DragInfo mDragInfo = null;
-    private AccessibilityDragSource mDragSource = null;
 
     public LauncherAccessibilityDelegate(Launcher launcher) {
         mLauncher = launcher;
 
         mActions.put(REMOVE, new AccessibilityAction(REMOVE,
-                launcher.getText(R.string.delete_target_label)));
+                launcher.getText(R.string.remove_drop_target_label)));
         mActions.put(INFO, new AccessibilityAction(INFO,
-                launcher.getText(R.string.info_target_label)));
+                launcher.getText(R.string.app_info_drop_target_label)));
         mActions.put(UNINSTALL, new AccessibilityAction(UNINSTALL,
-                launcher.getText(R.string.delete_target_uninstall_label)));
+                launcher.getText(R.string.uninstall_drop_target_label)));
         mActions.put(ADD_TO_WORKSPACE, new AccessibilityAction(ADD_TO_WORKSPACE,
                 launcher.getText(R.string.action_add_to_workspace)));
         mActions.put(MOVE, new AccessibilityAction(MOVE,
@@ -88,21 +93,31 @@ public class LauncherAccessibilityDelegate extends AccessibilityDelegate impleme
                 launcher.getText(R.string.action_move_to_workspace)));
         mActions.put(RESIZE, new AccessibilityAction(RESIZE,
                         launcher.getText(R.string.action_resize)));
+        mActions.put(DEEP_SHORTCUTS, new AccessibilityAction(DEEP_SHORTCUTS,
+                launcher.getText(R.string.action_deep_shortcut)));
     }
 
     @Override
     public void onInitializeAccessibilityNodeInfo(View host, AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(host, info);
+        addActions(host, info);
+    }
+
+    protected void addActions(View host, AccessibilityNodeInfo info) {
         if (!(host.getTag() instanceof ItemInfo)) return;
         ItemInfo item = (ItemInfo) host.getTag();
 
-        if (DeleteDropTarget.supportsDrop(item)) {
+        if (host instanceof BubbleTextView && ((BubbleTextView) host).hasDeepShortcuts()) {
+            info.addAction(mActions.get(DEEP_SHORTCUTS));
+        }
+
+        if (DeleteDropTarget.supportsAccessibleDrop(item)) {
             info.addAction(mActions.get(REMOVE));
         }
         if (UninstallDropTarget.supportsDrop(host.getContext(), item)) {
             info.addAction(mActions.get(UNINSTALL));
         }
-        if (InfoDropTarget.supportsDrop(host.getContext(), item)) {
+        if (InfoDropTarget.supportsDrop(item)) {
             info.addAction(mActions.get(INFO));
         }
 
@@ -139,7 +154,7 @@ public class LauncherAccessibilityDelegate extends AccessibilityDelegate impleme
             DeleteDropTarget.removeWorkspaceOrFolderItem(mLauncher, item, host);
             return true;
         } else if (action == INFO) {
-            InfoDropTarget.startDetailsActivityForInfo(item, mLauncher);
+            InfoDropTarget.startDetailsActivityForInfo(item, mLauncher, null);
             return true;
         } else if (action == UNINSTALL) {
             return UninstallDropTarget.startUninstallActivity(mLauncher, item);
@@ -176,7 +191,7 @@ public class LauncherAccessibilityDelegate extends AccessibilityDelegate impleme
             Folder folder = mLauncher.getWorkspace().getOpenFolder();
             mLauncher.closeFolder(folder, true);
             ShortcutInfo info = (ShortcutInfo) item;
-            folder.getInfo().remove(info);
+            folder.getInfo().remove(info, false);
 
             final int[] coordinates = new int[2];
             final long screenId = findSpaceOnWorkspace(item, coordinates);
@@ -215,6 +230,9 @@ public class LauncherAccessibilityDelegate extends AccessibilityDelegate impleme
                     }
                 })
                 .show();
+            return true;
+        } else if (action == DEEP_SHORTCUTS) {
+            return DeepShortcutsContainer.showForIcon((BubbleTextView) host) != null;
         }
         return false;
     }
@@ -355,26 +373,25 @@ public class LauncherAccessibilityDelegate extends AccessibilityDelegate impleme
 
         Folder folder = workspace.getOpenFolder();
         if (folder != null) {
-            if (folder.getItemsInReadingOrder().contains(item)) {
-                mDragSource = folder;
-            } else {
+            if (!folder.getItemsInReadingOrder().contains(item)) {
                 mLauncher.closeFolder();
+                folder = null;
             }
         }
-        if (mDragSource == null) {
-            mDragSource = workspace;
-        }
-        mDragSource.enableAccessibleDrag(true);
-        mDragSource.startDrag(cellInfo, true);
 
-        if (mLauncher.getDragController().isDragging()) {
-            mLauncher.getDragController().addDragListener(this);
+        mLauncher.getDragController().addDragListener(this);
+
+        DragOptions options = new DragOptions();
+        options.isAccessibleDrag = true;
+        if (folder != null) {
+            folder.startDrag(cellInfo.cell, options);
+        } else {
+            workspace.startDrag(cellInfo, options);
         }
     }
 
-
     @Override
-    public void onDragStart(DragSource source, Object info, int dragAction) {
+    public void onDragStart(DragObject dragObject, DragOptions options) {
         // No-op
     }
 
@@ -382,22 +399,12 @@ public class LauncherAccessibilityDelegate extends AccessibilityDelegate impleme
     public void onDragEnd() {
         mLauncher.getDragController().removeDragListener(this);
         mDragInfo = null;
-        if (mDragSource != null) {
-            mDragSource.enableAccessibleDrag(false);
-            mDragSource = null;
-        }
-    }
-
-    public static interface AccessibilityDragSource {
-        void startDrag(CellLayout.CellInfo cellInfo, boolean accessible);
-
-        void enableAccessibleDrag(boolean enable);
     }
 
     /**
      * Find empty space on the workspace and returns the screenId.
      */
-    private long findSpaceOnWorkspace(ItemInfo info, int[] outCoordinates) {
+    protected long findSpaceOnWorkspace(ItemInfo info, int[] outCoordinates) {
         Workspace workspace = mLauncher.getWorkspace();
         ArrayList<Long> workspaceScreens = workspace.getScreenOrder();
         long screenId;
