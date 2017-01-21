@@ -362,7 +362,7 @@ public class DeviceProfile {
                         normalHotseatBarHeightPx, edgeMarginPx);
             }
         } else {
-            boolean showSearchBar = AppSettings.getInstance(this).showSearchBar;
+            boolean showSearchBar = settings.showSearchBar;
             int paddingTop = showSearchBar ? searchBarBounds.bottom : 0;
             int paddingBottom = hotseatBarHeightPx + pageIndicatorHeightPx;
             if (isTablet) {
