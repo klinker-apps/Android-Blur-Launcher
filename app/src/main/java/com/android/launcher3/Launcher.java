@@ -2862,6 +2862,8 @@ public class Launcher extends Activity
             Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
             Log.e(TAG, "Unable to launch. tag=" + item + " intent=" + intent, e);
         }
+
+        return true;
     }
 
     /**

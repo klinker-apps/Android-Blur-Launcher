@@ -32,7 +32,6 @@ dependencies {
     compile "com.android.support:support-v4:${project.ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:palette-v7:${ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:recyclerview-v7:${project.ANDROID_SUPPORT_VERSION}"
-    compile 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-2'
 
     compile fileTree(dir: 'lib', include: ['*.jar'])
 }

@@ -734,7 +734,7 @@ public class AllAppsContainerView extends BaseContainerView implements DragSourc
 
     @Override
     public void fillInLaunchSourceData(View v, ItemInfo info, Target target, Target targetParent) {
-        targetParent.containerType_ = LauncherLogProto.ContainerType.valueOf(mAppsRecyclerView.getContainerType(v));
+        targetParent.containerType = mAppsRecyclerView.getContainerType(v);
     }
 
     public boolean shouldRestoreImeState() {
