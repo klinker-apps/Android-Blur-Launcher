@@ -75,6 +75,6 @@
             android:title="@string/show_page_indicator"
             android:defaultValue="true"
             />-->
-        
+
     </PreferenceCategory>
 </PreferenceScreen>

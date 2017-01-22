@@ -328,20 +328,14 @@ public class DeviceProfile {
         folderIconPreviewPadding = res.getDimensionPixelSize(R.dimen.folder_preview_padding);
     }
 
-    /**
-     * @param recyclerViewWidth the available width of the AllAppsRecyclerView
-     */
-    public void updateAppsViewNumCols(Resources res, int recyclerViewWidth) {
-        allAppsNumCols = settings.colCountAllApps;
-        allAppsNumPredictiveCols = settings.colCountAllApps;
-    }
-
     public void updateInsets(Rect insets) {
         mInsets.set(insets);
     }
 
     public void updateAppsViewNumCols() {
-        allAppsNumCols = allAppsNumPredictiveCols = inv.numColumns;
+        //allAppsNumCols = allAppsNumPredictiveCols = inv.numColumns;
+        allAppsNumCols = settings.colCountAllApps;
+        allAppsNumPredictiveCols = settings.colCountAllApps;
     }
 
     /** Returns the width and height of the search bar, ignoring any padding. */
