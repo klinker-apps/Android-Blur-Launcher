@@ -50,17 +50,11 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.Interpolator;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/PagedView.java
 import xyz.klinker.blur.R;
-
 import xyz.klinker.blur.addons.settings.AppSettings;
+import xyz.klinker.blur.launcher3.pageindicators.PageIndicator;
 import xyz.klinker.blur.launcher3.util.LauncherEdgeEffect;
 import xyz.klinker.blur.launcher3.util.Thunk;
-=======
-import com.android.launcher3.pageindicators.PageIndicator;
-import com.android.launcher3.util.LauncherEdgeEffect;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/PagedView.java
 
 import java.util.ArrayList;
 
@@ -326,8 +320,7 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
         return (getMeasuredHeight() - getViewportHeight()) / 2;
     }
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/PagedView.java
-    PageIndicator getPageIndicator() {
+    public PageIndicator getPageIndicator() {
         if (AppSettings.getInstance(getContext()).showPageIndicators) {
             return mPageIndicator;
         } else {
@@ -336,10 +329,6 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
 
             return null;
         }
-=======
-    public PageIndicator getPageIndicator() {
-        return mPageIndicator;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/PagedView.java
     }
 
     /**
@@ -453,6 +442,9 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
      * has settled.
      */
     protected void notifyPageSwitchListener() {
+        if (mPageSwitchListener != null) {
+            mPageSwitchListener.onPageSwitch(getPageAt(getNextPage()), getNextPage());
+        }
         updatePageIndicator();
     }
 
@@ -2300,5 +2292,21 @@ public abstract class PagedView extends ViewGroup implements ViewGroup.OnHierarc
     @Override
     public boolean onHoverEvent(android.view.MotionEvent event) {
         return true;
+    }
+
+    private PageSwitchListener mPageSwitchListener;
+    public interface PageSwitchListener {
+        void onPageSwitch(View newPage, int newPageIndex);
+    }
+
+    /**
+     * Add a page change listener which will be called when a page is _finished_ listening.
+     *
+     */
+    public void setPageSwitchListener(PageSwitchListener pageSwitchListener) {
+        mPageSwitchListener = pageSwitchListener;
+        if (mPageSwitchListener != null) {
+            mPageSwitchListener.onPageSwitch(getPageAt(mCurrentPage), mCurrentPage);
+        }
     }
 }

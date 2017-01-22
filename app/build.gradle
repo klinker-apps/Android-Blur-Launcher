@@ -81,8 +81,8 @@ android {
 }
 
 dependencies {
-<<<<<<< HEAD
-    compile "com.android.support:support-v13:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:support-v4:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:palette-v7:${ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:recyclerview-v7:${project.ANDROID_SUPPORT_VERSION}"
 
     compile fileTree(dir: 'lib', include: ['*.jar'])
@@ -90,13 +90,5 @@ dependencies {
     compile(name: 'android-numberpicker', ext: 'aar')
     compile(name: 'dragsortlistview', ext: 'aar')
 
-    compile project(':wallpaper_picker')
     compile project(':extra_pages')
-=======
-    compile "com.android.support:support-v4:${project.ANDROID_SUPPORT_VERSION}"
-    compile "com.android.support:palette-v7:${ANDROID_SUPPORT_VERSION}"
-    compile "com.android.support:recyclerview-v7:${project.ANDROID_SUPPORT_VERSION}"
-
-    compile fileTree(dir: 'lib', include: ['*.jar'])
->>>>>>> upstream/master
 }

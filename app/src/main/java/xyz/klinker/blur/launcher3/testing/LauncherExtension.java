@@ -8,20 +8,12 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.FrameLayout;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/testing/LauncherExtension.java
 import xyz.klinker.blur.launcher3.AppInfo;
 import xyz.klinker.blur.launcher3.Launcher;
 import xyz.klinker.blur.launcher3.LauncherCallbacks;
 import xyz.klinker.blur.launcher3.allapps.AllAppsSearchBarController;
+import xyz.klinker.blur.launcher3.logging.UserEventDispatcher;
 import xyz.klinker.blur.launcher3.util.ComponentKey;
-=======
-import com.android.launcher3.AppInfo;
-import com.android.launcher3.Launcher;
-import com.android.launcher3.LauncherCallbacks;
-import com.android.launcher3.allapps.AllAppsSearchBarController;
-import com.android.launcher3.logging.UserEventDispatcher;
-import com.android.launcher3.util.ComponentKey;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/testing/LauncherExtension.java
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;

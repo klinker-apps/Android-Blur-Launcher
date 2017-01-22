@@ -26,15 +26,10 @@ import android.util.Xml;
 import android.view.Display;
 import android.view.WindowManager;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/InvariantDeviceProfile.java
-import xyz.klinker.blur.launcher3.util.Thunk;
-
 import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.config.ProviderConfig;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/InvariantDeviceProfile.java
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.config.ProviderConfig;
+import xyz.klinker.blur.launcher3.util.Thunk;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

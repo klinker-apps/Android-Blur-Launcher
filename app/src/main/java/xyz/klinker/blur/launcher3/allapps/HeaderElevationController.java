@@ -12,12 +12,8 @@ import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.widget.FrameLayout;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/allapps/HeaderElevationController.java
+import xyz.klinker.blur.launcher3.BaseRecyclerView;
 import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.BaseRecyclerView;
-import com.android.launcher3.R;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/allapps/HeaderElevationController.java
 
 /**
  * Helper class for controlling the header elevation in response to RecyclerView scroll.

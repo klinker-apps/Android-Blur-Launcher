@@ -22,30 +22,18 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/LauncherAppState.java
-import xyz.klinker.blur.launcher3.accessibility.LauncherAccessibilityDelegate;
+import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.compat.LauncherAppsCompat;
 import xyz.klinker.blur.launcher3.compat.PackageInstallerCompat;
 import xyz.klinker.blur.launcher3.compat.UserManagerCompat;
-import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.config.ProviderConfig;
+import xyz.klinker.blur.launcher3.dynamicui.ExtractionUtils;
+import xyz.klinker.blur.launcher3.logging.FileLog;
+import xyz.klinker.blur.launcher3.shortcuts.DeepShortcutManager;
+import xyz.klinker.blur.launcher3.shortcuts.ShortcutCache;
 import xyz.klinker.blur.launcher3.util.ConfigMonitor;
 import xyz.klinker.blur.launcher3.util.TestingUtils;
 import xyz.klinker.blur.launcher3.util.Thunk;
-
-import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.compat.LauncherAppsCompat;
-import com.android.launcher3.compat.PackageInstallerCompat;
-import com.android.launcher3.compat.UserManagerCompat;
-import com.android.launcher3.config.ProviderConfig;
-import com.android.launcher3.dynamicui.ExtractionUtils;
-import com.android.launcher3.logging.FileLog;
-import com.android.launcher3.shortcuts.DeepShortcutManager;
-import com.android.launcher3.shortcuts.ShortcutCache;
-import com.android.launcher3.util.ConfigMonitor;
-import com.android.launcher3.util.TestingUtils;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/LauncherAppState.java
 
 import java.lang.ref.WeakReference;
 

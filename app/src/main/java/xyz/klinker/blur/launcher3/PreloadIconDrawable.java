@@ -12,13 +12,9 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/PreloadIconDrawable.java
 import xyz.klinker.blur.R;
 
-class PreloadIconDrawable extends Drawable {
-=======
 public class PreloadIconDrawable extends Drawable {
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/PreloadIconDrawable.java
 
     private static final float ANIMATION_PROGRESS_STOPPED = -1.0f;
     private static final float ANIMATION_PROGRESS_STARTED = 0f;

@@ -26,21 +26,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/ShortcutInfo.java
+import xyz.klinker.blur.launcher3.LauncherSettings.Favorites;
 import xyz.klinker.blur.launcher3.compat.LauncherActivityInfoCompat;
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
 import xyz.klinker.blur.launcher3.compat.UserManagerCompat;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-=======
-import com.android.launcher3.LauncherSettings.Favorites;
-import com.android.launcher3.compat.LauncherActivityInfoCompat;
-import com.android.launcher3.compat.UserHandleCompat;
-import com.android.launcher3.compat.UserManagerCompat;
-import com.android.launcher3.folder.FolderIcon;
-import com.android.launcher3.shortcuts.ShortcutInfoCompat;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/ShortcutInfo.java
+import xyz.klinker.blur.launcher3.folder.FolderIcon;
+import xyz.klinker.blur.launcher3.shortcuts.ShortcutInfoCompat;
 
 /**
  * Represents a launchable icon on the workspaces and in folders.

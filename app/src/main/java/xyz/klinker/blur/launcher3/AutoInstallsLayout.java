@@ -35,17 +35,11 @@ import android.util.Log;
 import android.util.Pair;
 import android.util.Patterns;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/AutoInstallsLayout.java
-import xyz.klinker.blur.launcher3.LauncherProvider.SqlArguments;
-import xyz.klinker.blur.launcher3.util.Thunk;
-
 import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.LauncherProvider.SqlArguments;
-import com.android.launcher3.LauncherSettings.Favorites;
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/AutoInstallsLayout.java
+import xyz.klinker.blur.launcher3.LauncherProvider.SqlArguments;
+import xyz.klinker.blur.launcher3.LauncherSettings.Favorites;
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.util.Thunk;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -444,14 +438,8 @@ public class AutoInstallsLayout {
             }
 
             ItemInfo.writeBitmap(mValues, Utilities.createIconBitmap(icon, mContext));
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/AutoInstallsLayout.java
-            mValues.put(LauncherSettings.Favorites.ICON_TYPE, LauncherSettings.Favorites.ICON_TYPE_RESOURCE);
             mValues.put(LauncherSettings.Favorites.ICON_PACKAGE, mIconRes.getResourcePackageName(iconId));
             mValues.put(LauncherSettings.Favorites.ICON_RESOURCE, mIconRes.getResourceName(iconId));
-=======
-            mValues.put(Favorites.ICON_PACKAGE, mIconRes.getResourcePackageName(iconId));
-            mValues.put(Favorites.ICON_RESOURCE, mIconRes.getResourceName(iconId));
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/AutoInstallsLayout.java
 
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                         Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -489,7 +477,6 @@ public class AutoInstallsLayout {
                 return -1;
             }
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/AutoInstallsLayout.java
             ComponentName cn = new ComponentName(packageName, className);
             try {
                 mPackageManager.getReceiverInfo(cn, 0);
@@ -505,13 +492,9 @@ public class AutoInstallsLayout {
                 }
             }
 
-            mValues.put(LauncherSettings.Favorites.SPANX, getAttributeValue(parser, ATTR_SPAN_X));
-            mValues.put(LauncherSettings.Favorites.SPANY, getAttributeValue(parser, ATTR_SPAN_Y));
-=======
             mValues.put(Favorites.SPANX, getAttributeValue(parser, ATTR_SPAN_X));
             mValues.put(Favorites.SPANY, getAttributeValue(parser, ATTR_SPAN_Y));
             mValues.put(Favorites.ITEM_TYPE, Favorites.ITEM_TYPE_APPWIDGET);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/AutoInstallsLayout.java
 
             // Read the extras
             Bundle extras = new Bundle();
@@ -539,17 +522,6 @@ public class AutoInstallsLayout {
             return verifyAndInsert(new ComponentName(packageName, className), extras);
         }
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/AutoInstallsLayout.java
-                mValues.put(LauncherSettings.Favorites.ITEM_TYPE, LauncherSettings.Favorites.ITEM_TYPE_APPWIDGET);
-                mValues.put(LauncherSettings.Favorites.APPWIDGET_ID, appWidgetId);
-                mValues.put(LauncherSettings.Favorites.APPWIDGET_PROVIDER, cn.flattenToString());
-                mValues.put(LauncherSettings.Favorites._ID, mCallback.generateNewItemId());
-                insertedId = mCallback.insertAndCheck(mDb, mValues);
-                if (insertedId < 0) {
-                    mAppWidgetHost.deleteAppWidgetId(appWidgetId);
-                    return insertedId;
-                }
-=======
         protected long verifyAndInsert(ComponentName cn, Bundle extras) {
             mValues.put(Favorites.APPWIDGET_PROVIDER, cn.flattenToString());
             mValues.put(Favorites.RESTORED,
@@ -560,7 +532,6 @@ public class AutoInstallsLayout {
             if (!extras.isEmpty()) {
                 mValues.put(Favorites.INTENT, new Intent().putExtras(extras).toUri(0));
             }
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/AutoInstallsLayout.java
 
             long insertedId = mCallback.insertAndCheck(mDb, mValues);
             if (insertedId < 0) {
@@ -653,13 +624,8 @@ public class AutoInstallsLayout {
                     copyInteger(myValues, childValues, LauncherSettings.Favorites.CELLY);
 
                     addedId = folderItems.get(0);
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/AutoInstallsLayout.java
-                    mDb.update(LauncherProvider.TABLE_FAVORITES, childValues,
-                            LauncherSettings.Favorites._ID + "=" + addedId, null);
-=======
                     mDb.update(Favorites.TABLE_NAME, childValues,
                             Favorites._ID + "=" + addedId, null);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/AutoInstallsLayout.java
                 }
             }
             return addedId;

@@ -28,29 +28,16 @@ import android.view.ViewPropertyAnimator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/widget/WidgetCell.java
 import xyz.klinker.blur.launcher3.DeviceProfile;
-import xyz.klinker.blur.launcher3.InvariantDeviceProfile;
 import xyz.klinker.blur.launcher3.ItemInfo;
 import xyz.klinker.blur.launcher3.Launcher;
 import xyz.klinker.blur.launcher3.LauncherAppState;
-import xyz.klinker.blur.launcher3.LauncherAppWidgetProviderInfo;
+import xyz.klinker.blur.launcher3.SimpleOnStylusPressListener;
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.StylusEventHelper;
 import xyz.klinker.blur.launcher3.WidgetPreviewLoader;
-import xyz.klinker.blur.launcher3.compat.AppWidgetManagerCompat;
-=======
-import com.android.launcher3.DeviceProfile;
-import com.android.launcher3.ItemInfo;
-import com.android.launcher3.Launcher;
-import com.android.launcher3.LauncherAppState;
-import com.android.launcher3.SimpleOnStylusPressListener;
-import com.android.launcher3.R;
-import com.android.launcher3.StylusEventHelper;
-import com.android.launcher3.WidgetPreviewLoader;
-import com.android.launcher3.WidgetPreviewLoader.PreviewLoadRequest;
-import com.android.launcher3.model.WidgetItem;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/widget/WidgetCell.java
+import xyz.klinker.blur.launcher3.WidgetPreviewLoader.PreviewLoadRequest;
+import xyz.klinker.blur.launcher3.model.WidgetItem;
 
 /**
  * Represents the individual cell of the widget inside the widget tray. The preview is drawn

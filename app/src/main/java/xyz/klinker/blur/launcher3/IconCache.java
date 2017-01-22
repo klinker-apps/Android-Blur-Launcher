@@ -144,8 +144,6 @@ public class IconCache {
         // Always prefer RGB_565 config for low res. If the bitmap has transparency, it will
         // automatically be loaded as ALPHA_8888.
         mLowResOptions.inPreferredConfig = Bitmap.Config.RGB_565;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/IconCache.java
-        updateSystemStateString();
 
         mIconPackHelper = new IconPackHelper(context);
         loadIconPack();
@@ -158,8 +156,6 @@ public class IconCache {
             PreferenceManager.getDefaultSharedPreferences(mContext)
                     .edit().putString("icon_pack", "").commit();
         }
-=======
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/IconCache.java
     }
 
     private Drawable getFullResDefaultActivityIcon() {
@@ -421,12 +417,7 @@ public class IconCache {
             entry = new CacheEntry();
             Drawable icon = app.getIcon(mIconDpi, mIconPackHelper);
             entry.icon = Utilities.createBadgedIconBitmap(
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/IconCache.java
                     icon, app.getUser(), mContext, app.isThemed() ? null : mIconPackHelper);
-=======
-                    mIconProvider.getIcon(app, mIconDpi), app.getUser(),
-                    mContext);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/IconCache.java
         }
         entry.title = app.getLabel();
         entry.contentDescription = mUserManager.getBadgedLabelForUser(entry.title, app.getUser());
@@ -594,12 +585,7 @@ public class IconCache {
                 if (info != null) {
                     Drawable icon = info.getIcon(mIconDpi, mIconPackHelper);
                     entry.icon = Utilities.createBadgedIconBitmap(
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/IconCache.java
                             icon, info.getUser(), mContext, info.isThemed() ? null : mIconPackHelper);
-=======
-                            mIconProvider.getIcon(info, mIconDpi), info.getUser(),
-                            mContext);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/IconCache.java
                 } else {
                     if (usePackageIcon) {
                         CacheEntry packageEntry = getEntryForPackageLocked(
@@ -680,17 +666,9 @@ public class IconCache {
                     if (appInfo == null) {
                         throw new NameNotFoundException("ApplicationInfo is null");
                     }
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/IconCache.java
-                    entry.icon = Utilities.createBadgedIconBitmap(
-                            appInfo.loadIcon(mPackageManager), user, mContext, mIconPackHelper);
-=======
-
-                    // Load the full res icon for the application, but if useLowResIcon is set, then
-                    // only keep the low resolution icon instead of the larger full-sized icon
                     Bitmap icon = Utilities.createBadgedIconBitmap(
-                            appInfo.loadIcon(mPackageManager), user, mContext);
+                            appInfo.loadIcon(mPackageManager), user, mContext, mIconPackHelper);
                     Bitmap lowResIcon =  generateLowResIcon(icon, mPackageBgColor);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/IconCache.java
                     entry.title = appInfo.loadLabel(mPackageManager);
                     entry.contentDescription = mUserManager.getBadgedLabelForUser(entry.title, user);
                     entry.icon = useLowResIcon ? lowResIcon : icon;

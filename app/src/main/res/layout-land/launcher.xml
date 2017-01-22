@@ -18,29 +18,27 @@
 <xyz.klinker.blur.addons.view.LauncherDrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/launcher_drawer">
-
-<<<<<<< HEAD
+    
     <xyz.klinker.blur.launcher3.LauncherRootView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:launcher="http://schemas.android.com/apk/res-auto"
+
         android:id="@+id/launcher"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <xyz.klinker.blur.launcher3.DragLayer
+        <xyz.klinker.blur.launcher3.dragndrop.DragLayer
             android:id="@+id/drag_layer"
             android:clipChildren="false"
+            android:importantForAccessibility="no"
             android:clipToPadding="false"
+            android:background="@drawable/workspace_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <xyz.klinker.blur.launcher3.FocusIndicatorView
-                android:id="@+id/focus_indicator"
-                android:layout_width="52dp"
-                android:layout_height="52dp" />
 
             <!-- The workspace contains 5 screens of cells -->
             <!-- DO NOT CHANGE THE ID -->
@@ -49,78 +47,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                launcher:defaultScreen="@integer/config_workspaceDefaultScreen" />
-=======
-    <com.android.launcher3.dragndrop.DragLayer
-        android:id="@+id/drag_layer"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        android:background="@drawable/workspace_bg"
-        android:importantForAccessibility="no"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <!-- The workspace contains 5 screens of cells -->
-        <!-- DO NOT CHANGE THE ID -->
-        <com.android.launcher3.Workspace
-            android:id="@+id/workspace"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            launcher:pageIndicator="@id/page_indicator" />
-
-        <!-- DO NOT CHANGE THE ID -->
-        <include layout="@layout/hotseat"
-            android:id="@+id/hotseat"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="right"
-            launcher:layout_ignoreInsets="true" />
-
-        <include
-            android:id="@+id/drop_target_bar"
-            layout="@layout/drop_target_bar_vert" />
->>>>>>> upstream/master
+                launcher:pageIndicator="@+id/page_indicator">
+            </xyz.klinker.blur.launcher3.Workspace>
 
             <!-- DO NOT CHANGE THE ID -->
             <include layout="@layout/hotseat"
                 android:id="@+id/hotseat"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="right" />
-
-            <include
-                android:id="@+id/search_drop_target_bar"
-                layout="@layout/search_drop_target_bar" />
-
-<<<<<<< HEAD
-            <FrameLayout
-                android:id="@+id/search_dummy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-=======
-        <com.android.launcher3.pageindicators.PageIndicatorCaretLandscape
-            android:id="@+id/page_indicator"
-            android:layout_width="@dimen/dynamic_grid_page_indicator_height"
-            android:layout_height="@dimen/dynamic_grid_page_indicator_height"
-            android:layout_gravity="bottom|left"/>
-
-        <!-- A place holder view instead of the QSB in transposed layout -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="10dp"
-            android:id="@+id/workspace_blocked_row" />
-
-        <include layout="@layout/widgets_view"
-            android:id="@+id/widgets_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" />
->>>>>>> upstream/master
+                launcher:layout_ignoreInsets="true" />
 
             <include layout="@layout/overview_panel"
                 android:id="@+id/overview_panel"
                 android:visibility="gone" />
+
+            <!-- Keep these behind the workspace so that they are not visible when
+                 we go into AllApps -->
+            <include layout="@layout/page_indicator"
+                android:id="@+id/page_indicator" />
+
+            <include
+                android:id="@+id/drop_target_bar"
+                layout="@layout/drop_target_bar_horz" />
+
+            <include
+                layout="@layout/qsb_container"
+                android:id="@+id/qsb_container" />
+
+            <FrameLayout
+                android:id="@+id/search_dummy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <include layout="@layout/widgets_view"
                 android:id="@+id/widgets_view"
@@ -132,27 +89,15 @@
                 android:id="@+id/apps_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="invisible" />
-        </xyz.klinker.blur.launcher3.DragLayer>
-
-        <ViewStub
-            android:id="@+id/launcher_overlay_stub"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-<<<<<<< HEAD
-            android:inflatedId="@+id/launcher_overlay"
-            android:layout="@layout/launcher_overlay" />
+                android:visibility="invisible"
+                launcher:layout_ignoreInsets="true" />
+        </xyz.klinker.blur.launcher3.dragndrop.DragLayer>
 
     </xyz.klinker.blur.launcher3.LauncherRootView>
-
+    
     <include layout="@layout/launcher_drawer_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left"/>
-=======
-            android:visibility="invisible" />
-
-    </com.android.launcher3.dragndrop.DragLayer>
->>>>>>> upstream/master
 
 </xyz.klinker.blur.addons.view.LauncherDrawerLayout>

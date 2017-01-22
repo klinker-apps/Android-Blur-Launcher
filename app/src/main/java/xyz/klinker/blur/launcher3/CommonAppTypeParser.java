@@ -23,6 +23,7 @@ import android.content.res.XmlResourceParser;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.util.Thunk;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -72,16 +73,9 @@ public class CommonAppTypeParser implements AutoInstallsLayout.LayoutParserCallb
         parsedValues = values;
 
         // Remove unwanted values
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/CommonAppTypeParser.java
-        values.put(LauncherSettings.Favorites.ICON_TYPE, (Integer) null);
         values.put(LauncherSettings.Favorites.ICON_PACKAGE, (String) null);
         values.put(LauncherSettings.Favorites.ICON_RESOURCE, (String) null);
         values.put(LauncherSettings.Favorites.ICON, (byte[]) null);
-=======
-        values.put(Favorites.ICON_PACKAGE, (String) null);
-        values.put(Favorites.ICON_RESOURCE, (String) null);
-        values.put(Favorites.ICON, (byte[]) null);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/CommonAppTypeParser.java
         return 1;
     }
 

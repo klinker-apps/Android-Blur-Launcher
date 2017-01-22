@@ -35,15 +35,12 @@ import android.view.ViewDebug;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Hotseat.java
 import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.dynamicui.ExtractedColors;
-import com.android.launcher3.logging.UserEventDispatcher;
-import com.android.launcher3.userevent.nano.LauncherLogProto;
-import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Hotseat.java
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.dynamicui.ExtractedColors;
+import xyz.klinker.blur.launcher3.logging.UserEventDispatcher;
+import xyz.klinker.blur.launcher3.userevent.nano.LauncherLogProto;
+import xyz.klinker.blur.launcher3.userevent.nano.LauncherLogProto.Target;
 
 public class Hotseat extends FrameLayout
         implements UserEventDispatcher.LaunchSourceProvider {

@@ -9,30 +9,18 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/widget/WidgetHostViewLoader.java
 import xyz.klinker.blur.launcher3.AppWidgetResizeFrame;
-import xyz.klinker.blur.launcher3.DragController;
-import xyz.klinker.blur.launcher3.DragLayer;
 import xyz.klinker.blur.launcher3.DragSource;
+import xyz.klinker.blur.launcher3.DropTarget;
+import xyz.klinker.blur.launcher3.ItemInfo;
 import xyz.klinker.blur.launcher3.Launcher;
 import xyz.klinker.blur.launcher3.LauncherAppWidgetProviderInfo;
 import xyz.klinker.blur.launcher3.Utilities;
 import xyz.klinker.blur.launcher3.compat.AppWidgetManagerCompat;
+import xyz.klinker.blur.launcher3.dragndrop.DragController;
+import xyz.klinker.blur.launcher3.dragndrop.DragLayer;
+import xyz.klinker.blur.launcher3.dragndrop.DragOptions;
 import xyz.klinker.blur.launcher3.util.Thunk;
-=======
-import com.android.launcher3.AppWidgetResizeFrame;
-import com.android.launcher3.DragSource;
-import com.android.launcher3.DropTarget;
-import com.android.launcher3.ItemInfo;
-import com.android.launcher3.Launcher;
-import com.android.launcher3.LauncherAppWidgetProviderInfo;
-import com.android.launcher3.Utilities;
-import com.android.launcher3.compat.AppWidgetManagerCompat;
-import com.android.launcher3.dragndrop.DragController;
-import com.android.launcher3.dragndrop.DragLayer;
-import com.android.launcher3.dragndrop.DragOptions;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/widget/WidgetHostViewLoader.java
 
 public class WidgetHostViewLoader implements DragController.DragListener {
     private static final String TAG = "WidgetHostViewLoader";

@@ -34,7 +34,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/allapps/AllAppsContainerView.java
 import xyz.klinker.blur.launcher3.AppInfo;
 import xyz.klinker.blur.launcher3.BaseContainerView;
 import xyz.klinker.blur.launcher3.BubbleTextView;
@@ -44,40 +43,20 @@ import xyz.klinker.blur.launcher3.DeviceProfile;
 import xyz.klinker.blur.launcher3.DragSource;
 import xyz.klinker.blur.launcher3.DropTarget;
 import xyz.klinker.blur.launcher3.ExtendedEditText;
-import xyz.klinker.blur.launcher3.Folder;
 import xyz.klinker.blur.launcher3.ItemInfo;
 import xyz.klinker.blur.launcher3.Launcher;
 import xyz.klinker.blur.launcher3.LauncherTransitionable;
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.Utilities;
 import xyz.klinker.blur.launcher3.Workspace;
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.dragndrop.DragOptions;
+import xyz.klinker.blur.launcher3.folder.Folder;
 import xyz.klinker.blur.launcher3.util.ComponentKey;
-=======
-import com.android.launcher3.AppInfo;
-import com.android.launcher3.BaseContainerView;
-import com.android.launcher3.BubbleTextView;
-import com.android.launcher3.CellLayout;
-import com.android.launcher3.DeleteDropTarget;
-import com.android.launcher3.DeviceProfile;
-import com.android.launcher3.DragSource;
-import com.android.launcher3.DropTarget;
-import com.android.launcher3.ExtendedEditText;
-import com.android.launcher3.ItemInfo;
-import com.android.launcher3.Launcher;
-import com.android.launcher3.LauncherTransitionable;
-import com.android.launcher3.R;
-import com.android.launcher3.Utilities;
-import com.android.launcher3.Workspace;
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.dragndrop.DragOptions;
-import com.android.launcher3.folder.Folder;
-import com.android.launcher3.graphics.TintedDrawableSpan;
-import com.android.launcher3.keyboard.FocusedItemDecorator;
-import com.android.launcher3.shortcuts.DeepShortcutsContainer;
-import com.android.launcher3.userevent.nano.LauncherLogProto;
-import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
-import com.android.launcher3.util.ComponentKey;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/allapps/AllAppsContainerView.java
+import xyz.klinker.blur.launcher3.graphics.TintedDrawableSpan;
+import xyz.klinker.blur.launcher3.keyboard.FocusedItemDecorator;
+import xyz.klinker.blur.launcher3.shortcuts.DeepShortcutsContainer;
+import xyz.klinker.blur.launcher3.userevent.nano.LauncherLogProto.Target;
 
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
@@ -751,9 +730,6 @@ public class AllAppsContainerView extends BaseContainerView implements DragSourc
         mSearchQueryBuilder.clearSpans();
         Selection.setSelection(mSearchQueryBuilder, 0);
     }
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/allapps/AllAppsContainerView.java
-}
-=======
 
     @Override
     public void fillInLaunchSourceData(View v, ItemInfo info, Target target, Target targetParent) {
@@ -764,4 +740,3 @@ public class AllAppsContainerView extends BaseContainerView implements DragSourc
         return !TextUtils.isEmpty(mSearchInput.getText());
     }
 }
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/allapps/AllAppsContainerView.java

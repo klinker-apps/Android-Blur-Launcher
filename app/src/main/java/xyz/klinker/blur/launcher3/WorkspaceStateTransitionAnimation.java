@@ -30,15 +30,10 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.DecelerateInterpolator;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/WorkspaceStateTransitionAnimation.java
-import xyz.klinker.blur.launcher3.util.Thunk;
-
 import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.dragndrop.DragLayer;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/WorkspaceStateTransitionAnimation.java
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.dragndrop.DragLayer;
+import xyz.klinker.blur.launcher3.util.Thunk;
 
 import java.util.HashMap;
 

@@ -16,15 +16,9 @@
 
 package xyz.klinker.blur.launcher3.accessibility;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/accessibility/FolderAccessibilityHelper.java
 import xyz.klinker.blur.launcher3.CellLayout;
-import xyz.klinker.blur.launcher3.FolderPagedView;
+import xyz.klinker.blur.launcher3.folder.FolderPagedView;
 import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.CellLayout;
-import com.android.launcher3.folder.FolderPagedView;
-import com.android.launcher3.R;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/accessibility/FolderAccessibilityHelper.java
 
 /**
  * Implementation of {@link DragAndDropAccessibilityDelegate} to support DnD in a folder.

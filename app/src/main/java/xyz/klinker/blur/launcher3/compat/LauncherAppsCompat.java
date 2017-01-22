@@ -24,12 +24,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/compat/LauncherAppsCompat.java
 import xyz.klinker.blur.launcher3.Utilities;
-=======
-import com.android.launcher3.Utilities;
-import com.android.launcher3.shortcuts.ShortcutInfoCompat;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/compat/LauncherAppsCompat.java
+import xyz.klinker.blur.launcher3.shortcuts.ShortcutInfoCompat;
 
 import java.util.List;
 

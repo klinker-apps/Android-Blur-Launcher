@@ -26,27 +26,14 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/widget/WidgetsListAdapter.java
 import xyz.klinker.blur.launcher3.BubbleTextView;
-import xyz.klinker.blur.launcher3.DeviceProfile;
-import xyz.klinker.blur.launcher3.Launcher;
 import xyz.klinker.blur.launcher3.LauncherAppState;
-import xyz.klinker.blur.launcher3.LauncherAppWidgetProviderInfo;
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.Utilities;
 import xyz.klinker.blur.launcher3.WidgetPreviewLoader;
 import xyz.klinker.blur.launcher3.model.PackageItemInfo;
+import xyz.klinker.blur.launcher3.model.WidgetItem;
 import xyz.klinker.blur.launcher3.model.WidgetsModel;
-=======
-import com.android.launcher3.BubbleTextView;
-import com.android.launcher3.LauncherAppState;
-import com.android.launcher3.R;
-import com.android.launcher3.Utilities;
-import com.android.launcher3.WidgetPreviewLoader;
-import com.android.launcher3.model.PackageItemInfo;
-import com.android.launcher3.model.WidgetItem;
-import com.android.launcher3.model.WidgetsModel;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/widget/WidgetsListAdapter.java
 
 import java.util.List;
 

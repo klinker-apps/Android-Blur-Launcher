@@ -14,22 +14,7 @@
      limitations under the License.
 -->
 
-<<<<<<< HEAD:app/src/main/res/layout/wallpaper_picker_item.xml
-<xyz.klinker.blur.launcher3.CheckableFrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/wallpaperThumbnailWidth"
-    android:layout_height="@dimen/wallpaperThumbnailHeight"
-    android:focusable="true"
-    android:clickable="true"
-    android:foreground="@drawable/wallpaper_tile_fg">
-    <ImageView
-        android:id="@+id/wallpaper_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
-</xyz.klinker.blur.launcher3.CheckableFrameLayout>
-=======
-<com.android.launcher3.shortcuts.DeepShortcutsContainer
+<xyz.klinker.blur.launcher3.shortcuts.DeepShortcutsContainer
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/deep_shortcuts_container"
     android:layout_width="wrap_content"
@@ -41,5 +26,4 @@
     android:elevation="@dimen/deep_shortcuts_elevation"
     android:orientation="vertical">
 
-</com.android.launcher3.shortcuts.DeepShortcutsContainer>
->>>>>>> upstream/master:app/src/main/res/layout/deep_shortcuts_container.xml
+</xyz.klinker.blur.launcher3.shortcuts.DeepShortcutsContainer>

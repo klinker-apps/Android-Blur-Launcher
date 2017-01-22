@@ -29,20 +29,12 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/InstallShortcutReceiver.java
 import xyz.klinker.blur.launcher3.compat.LauncherActivityInfoCompat;
 import xyz.klinker.blur.launcher3.compat.LauncherAppsCompat;
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
 import xyz.klinker.blur.launcher3.compat.UserManagerCompat;
+import xyz.klinker.blur.launcher3.util.PackageManagerHelper;
 import xyz.klinker.blur.launcher3.util.Thunk;
-=======
-import com.android.launcher3.compat.LauncherActivityInfoCompat;
-import com.android.launcher3.compat.LauncherAppsCompat;
-import com.android.launcher3.compat.UserHandleCompat;
-import com.android.launcher3.compat.UserManagerCompat;
-import com.android.launcher3.util.PackageManagerHelper;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/InstallShortcutReceiver.java
 
 import org.json.JSONException;
 import org.json.JSONObject;

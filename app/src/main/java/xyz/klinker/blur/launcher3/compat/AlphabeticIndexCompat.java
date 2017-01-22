@@ -2,18 +2,15 @@ package xyz.klinker.blur.launcher3.compat;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/compat/AlphabeticIndexCompat.java
-import xyz.klinker.blur.launcher3.Utilities;
-import android.content.res.Configuration;
-=======
 import android.icu.text.AlphabeticIndex;
 import android.os.Build;
 import android.os.LocaleList;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/compat/AlphabeticIndexCompat.java
 import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.util.Locale;
+
+import xyz.klinker.blur.launcher3.Utilities;
 
 public class AlphabeticIndexCompat {
     private static final String TAG = "AlphabeticIndexCompat";

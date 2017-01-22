@@ -7,15 +7,10 @@ import android.graphics.PointF;
 import android.graphics.Rect;
 import android.view.animation.DecelerateInterpolator;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/util/FlingAnimation.java
-import xyz.klinker.blur.launcher3.DragLayer;
-import xyz.klinker.blur.launcher3.DragView;
 import xyz.klinker.blur.launcher3.DropTarget;
-=======
-import com.android.launcher3.DropTarget.DragObject;
-import com.android.launcher3.dragndrop.DragLayer;
-import com.android.launcher3.dragndrop.DragView;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/util/FlingAnimation.java
+import xyz.klinker.blur.launcher3.DropTarget.DragObject;
+import xyz.klinker.blur.launcher3.dragndrop.DragLayer;
+import xyz.klinker.blur.launcher3.dragndrop.DragView;
 
 public class FlingAnimation implements AnimatorUpdateListener {
 

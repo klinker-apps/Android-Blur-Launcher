@@ -25,16 +25,10 @@ import android.view.View;
 import android.view.View.AccessibilityDelegate;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/accessibility/OverviewScreenAccessibilityDelegate.java
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.Utilities;
 import xyz.klinker.blur.launcher3.Workspace;
-=======
-import com.android.launcher3.R;
-import com.android.launcher3.Utilities;
-import com.android.launcher3.Workspace;
-import com.android.launcher3.config.FeatureFlags;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/accessibility/OverviewScreenAccessibilityDelegate.java
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class OverviewScreenAccessibilityDelegate extends AccessibilityDelegate {

@@ -21,7 +21,6 @@
     <!-- General -->
     <skip />
 
-<<<<<<< HEAD
     <!-- URI used to import old favorites. [DO NOT TRANSLATE] -->
     <string name="old_launcher_provider_uri" translatable="false">content://com.android.launcher2.settings/favorites?notify=true</string>
 
@@ -31,8 +30,6 @@
     <!-- Permission to receive the xyz.klinker.blur.launcher3.action.FIRST_LOAD_COMPLETE intent. [DO NOT TRANSLATE] -->
     <string name="receive_first_load_broadcast_permission" translatable="false">xyz.klinker.blur.launcher3.permission.RECEIVE_FIRST_LOAD_BROADCAST</string>
 
-=======
->>>>>>> upstream/master
     <!-- Application name -->
     <string name="application_name">Blur 2</string>
     <!-- Default folder name -->

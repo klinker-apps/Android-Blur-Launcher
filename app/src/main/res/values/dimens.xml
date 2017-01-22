@@ -15,13 +15,10 @@
 -->
 
 <resources>
-<<<<<<< HEAD
     <dimen name="app_icon_size">64dp</dimen>
 
     <dimen name="nope_animation_spacing">10dp</dimen>
 
-=======
->>>>>>> upstream/master
 <!-- Dynamic Grid -->
     <dimen name="dynamic_grid_edge_margin">8dp</dimen>
     <dimen name="dynamic_grid_page_indicator_height">28dp</dimen>

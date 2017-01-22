@@ -51,6 +51,8 @@ import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -94,81 +96,57 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
+import xyz.klinker.blur.R;
 import xyz.klinker.blur.addons.PermissionModelUtil;
 import xyz.klinker.blur.addons.PersisterService;
-import xyz.klinker.blur.addons.pages.PageSlideTransformer;
 import xyz.klinker.blur.addons.pages.PagesFragmentAdapter;
 import xyz.klinker.blur.addons.settings.AppSettings;
-import xyz.klinker.blur.addons.settings.SettingsActivity;
 import xyz.klinker.blur.addons.utils.GestureUtils;
 import xyz.klinker.blur.addons.utils.UpdateUtils;
 import xyz.klinker.blur.addons.view.LauncherDrawerLayout;
-import xyz.klinker.blur.extra_pages.BaseLauncherPage;
 import xyz.klinker.blur.extra_pages.calc_page.Utils;
 import xyz.klinker.blur.launcher3.DropTarget.DragObject;
-import xyz.klinker.blur.launcher3.PagedView.PageSwitchListener;
+import xyz.klinker.blur.launcher3.LauncherSettings.Favorites;
+import xyz.klinker.blur.launcher3.accessibility.LauncherAccessibilityDelegate;
 import xyz.klinker.blur.launcher3.allapps.AllAppsContainerView;
+import xyz.klinker.blur.launcher3.allapps.PredictiveAppsProvider;
+import xyz.klinker.blur.launcher3.allapps.AllAppsTransitionController;
 import xyz.klinker.blur.launcher3.allapps.DefaultAppSearchController;
 import xyz.klinker.blur.launcher3.compat.AppWidgetManagerCompat;
 import xyz.klinker.blur.launcher3.compat.LauncherActivityInfoCompat;
 import xyz.klinker.blur.launcher3.compat.LauncherAppsCompat;
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
 import xyz.klinker.blur.launcher3.compat.UserManagerCompat;
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.config.ProviderConfig;
+import xyz.klinker.blur.launcher3.dragndrop.DragController;
+import xyz.klinker.blur.launcher3.dragndrop.DragLayer;
+import xyz.klinker.blur.launcher3.dragndrop.DragOptions;
+import xyz.klinker.blur.launcher3.dragndrop.DragView;
+import xyz.klinker.blur.launcher3.dynamicui.ExtractedColors;
+import xyz.klinker.blur.launcher3.folder.Folder;
+import xyz.klinker.blur.launcher3.folder.FolderIcon;
+import xyz.klinker.blur.launcher3.keyboard.ViewGroupFocusHelper;
+import xyz.klinker.blur.launcher3.logging.FileLog;
+import xyz.klinker.blur.launcher3.logging.UserEventDispatcher;
 import xyz.klinker.blur.launcher3.model.WidgetsModel;
+import xyz.klinker.blur.launcher3.pageindicators.PageIndicator;
+import xyz.klinker.blur.launcher3.shortcuts.DeepShortcutManager;
+import xyz.klinker.blur.launcher3.shortcuts.DeepShortcutsContainer;
+import xyz.klinker.blur.launcher3.shortcuts.ShortcutKey;
+import xyz.klinker.blur.launcher3.userevent.nano.LauncherLogProto;
+import xyz.klinker.blur.launcher3.util.ActivityResultInfo;
 import xyz.klinker.blur.launcher3.util.ComponentKey;
-import xyz.klinker.blur.launcher3.util.LongArrayMap;
+import xyz.klinker.blur.launcher3.util.ItemInfoMatcher;
+import xyz.klinker.blur.launcher3.util.MultiHashMap;
+import xyz.klinker.blur.launcher3.util.PackageManagerHelper;
+import xyz.klinker.blur.launcher3.util.PendingRequestArgs;
 import xyz.klinker.blur.launcher3.util.TestingUtils;
 import xyz.klinker.blur.launcher3.util.Thunk;
+import xyz.klinker.blur.launcher3.util.ViewOnDrawExecutor;
 import xyz.klinker.blur.launcher3.widget.PendingAddWidgetInfo;
 import xyz.klinker.blur.launcher3.widget.WidgetHostViewLoader;
 import xyz.klinker.blur.launcher3.widget.WidgetsContainerView;
-import xyz.klinker.blur.R;
-import xyz.klinker.blur.launcher3.allapps.PredictiveAppsProvider;
-=======
-import com.android.launcher3.DropTarget.DragObject;
-import com.android.launcher3.LauncherSettings.Favorites;
-import com.android.launcher3.accessibility.LauncherAccessibilityDelegate;
-import com.android.launcher3.allapps.AllAppsContainerView;
-import com.android.launcher3.allapps.PredictiveAppsProvider;
-import com.android.launcher3.allapps.AllAppsTransitionController;
-import com.android.launcher3.allapps.DefaultAppSearchController;
-import com.android.launcher3.compat.AppWidgetManagerCompat;
-import com.android.launcher3.compat.LauncherActivityInfoCompat;
-import com.android.launcher3.compat.LauncherAppsCompat;
-import com.android.launcher3.compat.UserHandleCompat;
-import com.android.launcher3.compat.UserManagerCompat;
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.config.ProviderConfig;
-import com.android.launcher3.dragndrop.DragController;
-import com.android.launcher3.dragndrop.DragLayer;
-import com.android.launcher3.dragndrop.DragOptions;
-import com.android.launcher3.dragndrop.DragView;
-import com.android.launcher3.dynamicui.ExtractedColors;
-import com.android.launcher3.folder.Folder;
-import com.android.launcher3.folder.FolderIcon;
-import com.android.launcher3.keyboard.ViewGroupFocusHelper;
-import com.android.launcher3.logging.FileLog;
-import com.android.launcher3.logging.UserEventDispatcher;
-import com.android.launcher3.model.WidgetsModel;
-import com.android.launcher3.pageindicators.PageIndicator;
-import com.android.launcher3.shortcuts.DeepShortcutManager;
-import com.android.launcher3.shortcuts.DeepShortcutsContainer;
-import com.android.launcher3.shortcuts.ShortcutKey;
-import com.android.launcher3.userevent.nano.LauncherLogProto;
-import com.android.launcher3.util.ActivityResultInfo;
-import com.android.launcher3.util.ComponentKey;
-import com.android.launcher3.util.ItemInfoMatcher;
-import com.android.launcher3.util.MultiHashMap;
-import com.android.launcher3.util.PackageManagerHelper;
-import com.android.launcher3.util.PendingRequestArgs;
-import com.android.launcher3.util.TestingUtils;
-import com.android.launcher3.util.Thunk;
-import com.android.launcher3.util.ViewOnDrawExecutor;
-import com.android.launcher3.widget.PendingAddWidgetInfo;
-import com.android.launcher3.widget.WidgetHostViewLoader;
-import com.android.launcher3.widget.WidgetsContainerView;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
@@ -221,42 +199,16 @@ public class Launcher extends Activity
             "xyz.klinker.blur.launcher3.intent.extra.shortcut.INGORE_LAUNCH_ANIMATION";
 
     public static final String ACTION_APPWIDGET_HOST_RESET =
-            "com.android.launcher3.intent.ACTION_APPWIDGET_HOST_RESET";
+            "xyz.klinker.blur.launcher3.intent.ACTION_APPWIDGET_HOST_RESET";
 
     // Type: int
     private static final String RUNTIME_STATE_CURRENT_SCREEN = "launcher.current_screen";
     // Type: int
     private static final String RUNTIME_STATE = "launcher.state";
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
-    // Type: int
-    private static final String RUNTIME_STATE_PENDING_ADD_CONTAINER = "launcher.add_container";
-    // Type: int
-    private static final String RUNTIME_STATE_PENDING_ADD_SCREEN = "launcher.add_screen";
-    // Type: int
-    private static final String RUNTIME_STATE_PENDING_ADD_CELL_X = "launcher.add_cell_x";
-    // Type: int
-    private static final String RUNTIME_STATE_PENDING_ADD_CELL_Y = "launcher.add_cell_y";
-    // Type: int
-    private static final String RUNTIME_STATE_PENDING_ADD_SPAN_X = "launcher.add_span_x";
-    // Type: int
-    private static final String RUNTIME_STATE_PENDING_ADD_SPAN_Y = "launcher.add_span_y";
-    // Type: parcelable
-    private static final String RUNTIME_STATE_PENDING_ADD_WIDGET_INFO = "launcher.add_widget_info";
-    // Type: parcelable
-    private static final String RUNTIME_STATE_PENDING_ADD_WIDGET_ID = "launcher.add_widget_id";
-
-    static final String INTRO_SCREEN_DISMISSED = "launcher.intro_screen_dismissed";
-    static final String FIRST_RUN_ACTIVITY_DISPLAYED = "launcher.first_run_activity_displayed";
-
-    static final String FIRST_LOAD_COMPLETE = "launcher.first_load_complete";
-    static final String ACTION_FIRST_LOAD_COMPLETE =
-            "xyz.klinker.blur.launcher3.action.FIRST_LOAD_COMPLETE";
-=======
     // Type: PendingRequestArgs
     private static final String RUNTIME_STATE_PENDING_REQUEST_ARGS = "launcher.request_args";
     // Type: ActivityResultInfo
     private static final String RUNTIME_STATE_PENDING_ACTIVITY_RESULT = "launcher.activity_result";
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
 
     static final String APPS_VIEW_SHOWN = "launcher.apps_view_shown";
 
@@ -498,18 +450,14 @@ public class Launcher extends Activity
         setContentView(R.layout.launcher);
 
         setupViews();
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
         setUpBlur();
 
-        mDeviceProfile.layout(this);
-=======
         mDeviceProfile.layout(this, false /* notifyListeners */);
         mExtractedColors = new ExtractedColors();
         loadExtractedColorsAndColorItems();
 
         ((AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE))
                 .addAccessibilityStateChangeListener(this);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
 
         lockAllApps();
 
@@ -1023,7 +971,6 @@ public class Launcher extends Activity
             mLauncherCallbacks.onStart();
         }
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
         if (AppSettings.getInstance(this).shouldPersist) {
             Intent persister = new Intent(getApplicationContext(), PersisterService.class);
             bindService(persister, new ServiceConnection() {
@@ -1037,10 +984,10 @@ public class Launcher extends Activity
                     Log.v("blur_persister", "connection to persistent service destroyed");
                 }
             }, Context.BIND_AUTO_CREATE);
-=======
+        }
+
         if (Utilities.isNycMR1OrAbove()) {
             mAppWidgetHost.startListening();
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
         }
     }
 
@@ -1910,7 +1857,6 @@ public class Launcher extends Activity
         }
         super.onNewIntent(intent);
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
         // Close the menu
         if (Intent.ACTION_MAIN.equals(intent.getAction())) {
             final boolean alreadyOnHome = mHasFocus && ((intent.getFlags() &
@@ -1948,8 +1894,8 @@ public class Launcher extends Activity
 
                 return;
             }
+        }
 
-=======
         boolean alreadyOnHome = mHasFocus && ((intent.getFlags() &
                 Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)
                 != Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
@@ -1960,7 +1906,6 @@ public class Launcher extends Activity
 
         boolean isActionMain = Intent.ACTION_MAIN.equals(intent.getAction());
         if (isActionMain) {
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
             // also will cancel mWaitingForResult.
             closeSystemDialogs();
 
@@ -2009,8 +1954,6 @@ public class Launcher extends Activity
             mLauncherCallbacks.onNewIntent(intent);
         }
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
-=======
         // Defer moving to the default screen until after we callback to the LauncherCallbacks
         // as slow logic in the callbacks eat into the time the scroller expects for the snapToPage
         // animation.
@@ -2034,7 +1977,6 @@ public class Launcher extends Activity
             }
         }
 
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
         if (DEBUG_RESUME_TIME) {
             Log.d(TAG, "Time spent in onNewIntent: " + (System.currentTimeMillis() - startTime));
         }
@@ -2479,13 +2421,6 @@ public class Launcher extends Activity
 
     @Override
     public void onBackPressed() {
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
-        if (mLauncherDrawer.isDrawerOpen(Gravity.LEFT)) {
-            mLauncherDrawer.closeDrawer(Gravity.LEFT);
-        } else if (mLauncherDrawer.isDrawerOpen(Gravity.RIGHT)) {
-            mLauncherDrawer.closeDrawer(Gravity.RIGHT);
-        } else if (isAllAppsVisible()) {
-=======
         if (mLauncherCallbacks != null && mLauncherCallbacks.handleBackPressed()) {
             return;
         }
@@ -2495,10 +2430,13 @@ public class Launcher extends Activity
             return;
         }
 
-        if (getOpenShortcutsContainer() != null) {
+        if (mLauncherDrawer.isDrawerOpen(Gravity.LEFT)) {
+            mLauncherDrawer.closeDrawer(Gravity.LEFT);
+        } else if (mLauncherDrawer.isDrawerOpen(Gravity.RIGHT)) {
+            mLauncherDrawer.closeDrawer(Gravity.RIGHT);
+        } else if (getOpenShortcutsContainer() != null) {
             closeShortcutsContainer();
-        } else if (isAppsViewVisible()) {
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
+        } else if (isAllAppsVisible()) {
             showWorkspace(true);
         } else if (isWidgetsViewVisible()) {
             showOverviewMode(true);
@@ -3114,11 +3052,8 @@ public class Launcher extends Activity
      * Opens the user folder described by the specified tag. The opening of the folder
      * is animated relative to the specified View. If the View is null, no animation
      * is played.
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
-=======
      *
      * @param folderIcon The FolderIcon describing the folder to open.
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
      */
     public void openFolder(FolderIcon folderIcon) {
 
@@ -3364,14 +3299,9 @@ public class Launcher extends Activity
     public boolean showWorkspace(boolean animated, Runnable onCompleteRunnable) {
         boolean changed = mState != State.WORKSPACE ||
                 mWorkspace.getState() != Workspace.State.NORMAL;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
-        if (changed) {
+        if (changed || mAllAppsController.isTransitioning()) {
             lockLauncherDrawer(false);
             boolean wasInSpringLoadedMode = (mState != State.WORKSPACE);
-
-=======
-        if (changed || mAllAppsController.isTransitioning()) {
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
             mWorkspace.setVisibility(View.VISIBLE);
             mStateTransitionAnimation.startAnimationToWorkspace(mState, mWorkspace.getState(),
                     Workspace.State.NORMAL, animated, onCompleteRunnable);
@@ -3425,14 +3355,12 @@ public class Launcher extends Activity
         mStateTransitionAnimation.startAnimationToWorkspace(mState, mWorkspace.getState(),
                 Workspace.State.OVERVIEW, animated, postAnimRunnable);
         mState = State.WORKSPACE;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
 
         lockLauncherDrawer(true);
-=======
+
         // If animated from long press, then don't allow any of the controller in the drag
         // layer to intercept any remaining touch.
         mWorkspace.requestDisallowInterceptTouchEvent(animated);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
     }
 
     /**
@@ -3473,7 +3401,6 @@ public class Launcher extends Activity
     // TODO: calling method should use the return value so that when {@code false} is returned
     // the workspace transition doesn't fall into invalid state.
     private boolean showAppsOrWidgets(State toState, boolean animated, boolean focusSearchBar) {
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -3481,14 +3408,10 @@ public class Launcher extends Activity
             }
         }, 750);
 
-        if (mState != State.WORKSPACE &&  mState != State.APPS_SPRING_LOADED &&
-                mState != State.WIDGETS_SPRING_LOADED) {
-=======
         if (!(mState == State.WORKSPACE ||
                 mState == State.APPS_SPRING_LOADED ||
                 mState == State.WIDGETS_SPRING_LOADED ||
                 (mState == State.APPS && mAllAppsController.isTransitioning()))) {
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
             return false;
         }
         if (toState != State.APPS && toState != State.WIDGETS) {
@@ -3623,173 +3546,6 @@ public class Launcher extends Activity
         // TODO
     }
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
-    public boolean launcherCallbacksProvidesSearch() {
-        return (mLauncherCallbacks != null && mLauncherCallbacks.providesSearch());
-    }
-
-    public View getOrCreateQsbBar() {
-        if (launcherCallbacksProvidesSearch()) {
-            return mLauncherCallbacks.getQsbBar();
-        }
-
-        if (mQsb == null) {
-            AppWidgetProviderInfo searchProvider = Utilities.getSearchWidgetProvider(this);
-            if (searchProvider == null) {
-                return null;
-            }
-
-            Bundle opts = new Bundle();
-            opts.putInt(AppWidgetManager.OPTION_APPWIDGET_HOST_CATEGORY,
-                    AppWidgetProviderInfo.WIDGET_CATEGORY_SEARCHBOX);
-
-            // Determine the min and max dimensions of the widget.
-            LauncherAppState app = LauncherAppState.getInstance();
-            DeviceProfile portraitProfile = app.getInvariantDeviceProfile().portraitProfile;
-            DeviceProfile landscapeProfile = app.getInvariantDeviceProfile().landscapeProfile;
-            float density = getResources().getDisplayMetrics().density;
-            Point searchDimens = portraitProfile.getSearchBarDimensForWidgetOpts(getResources());
-            int maxHeight = (int) (searchDimens.y / density);
-            int minHeight = maxHeight;
-            int maxWidth = (int) ((searchDimens.x / density) / 5) * 3;
-            int minWidth = maxWidth;
-            if (!landscapeProfile.isVerticalBarLayout()) {
-                searchDimens = landscapeProfile.getSearchBarDimensForWidgetOpts(getResources());
-                maxHeight = (int) Math.max(maxHeight, searchDimens.y / density);
-                minHeight = (int) Math.min(minHeight, searchDimens.y / density);
-                maxWidth = (int) Math.max(maxWidth, searchDimens.x / density);
-                minWidth = (int) Math.min(minWidth, searchDimens.x / density);
-            }
-            opts.putInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, maxHeight);
-            opts.putInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, minHeight);
-            opts.putInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH, maxWidth);
-            opts.putInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, minWidth);
-            if (LOGD) {
-                Log.d(TAG, "QSB widget options: maxHeight=" + maxHeight + " minHeight=" + minHeight
-                        + " maxWidth=" + maxWidth + " minWidth=" + minWidth);
-            }
-
-            if (mLauncherCallbacks != null) {
-                opts.putAll(mLauncherCallbacks.getAdditionalSearchWidgetOptions());
-            }
-
-            int widgetId = mSharedPrefs.getInt(QSB_WIDGET_ID, -1);
-            AppWidgetProviderInfo widgetInfo = mAppWidgetManager.getAppWidgetInfo(widgetId);
-            if (!searchProvider.provider.flattenToString().equals(
-                    mSharedPrefs.getString(QSB_WIDGET_PROVIDER, null))
-                    || (widgetInfo == null)
-                    || !widgetInfo.provider.equals(searchProvider.provider)) {
-                // A valid widget is not already bound.
-                if (widgetId > -1) {
-                    mAppWidgetHost.deleteAppWidgetId(widgetId);
-                    widgetId = -1;
-                }
-
-                // Try to bind a new widget
-                widgetId = View.generateViewId();
-
-                mSharedPrefs.edit()
-                    .putInt(QSB_WIDGET_ID, widgetId)
-                    .putString(QSB_WIDGET_PROVIDER, searchProvider.provider.flattenToString())
-                    .apply();
-            }
-
-            mAppWidgetHost.setQsbWidgetId(widgetId);
-
-            if (widgetId != -1) {
-                mQsb = mAppWidgetHost.createView(this, widgetId, searchProvider);
-                mQsb.setId(R.id.qsb_widget);
-                mQsb.updateAppWidgetOptions(opts);
-
-                // on tablets, we don't need this widget taking up the whole screen. It looks better
-                // with some padding on the sides
-                if (getResources().getBoolean(R.bool.reduce_search_width)) {
-                    Display display = getWindowManager().getDefaultDisplay();
-                    Point size = new Point();
-                    display.getSize(size);
-                    mQsb.setPadding(size.x / 8, 0, size.x / 8, 0);
-                } else {
-                    mQsb.setPadding(0, 0, 0, 0);
-                }
-
-                mSearchDropTargetBar.addView(mQsb);
-                mSearchDropTargetBar.setQsbSearchBar(mQsb);
-
-                if (AppSettings.getInstance(this).showSearchBar) {
-                    createClickableSearch(1);
-                } else {
-                    mQsb.getLayoutParams().width = 0;
-                }
-            }
-        }
-        return mQsb;
-    }
-
-    private void createClickableSearch(final int tryNumber) {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FrameLayout content = (FrameLayout) findViewById(R.id.search_dummy);
-
-                View search = new View(Launcher.this);
-
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mQsb.getHeight());
-                params.topMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics());
-
-                search.setLayoutParams(params);
-
-                search.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (!disableSearch()) {
-                            if ((event.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
-                                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                            }
-                        }
-
-                        return disableSearch();
-                    }
-                });
-                search.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showGlobalSearchOverlay();
-                        //startSearch("", false, new Bundle(), new Rect());
-                    }
-                });
-
-                try {
-                    content.addView(search);
-                } catch (Exception e) {
-                    if (tryNumber <= 3) {
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                createClickableSearch(tryNumber + 1);
-                            }
-                        }, 2000);
-                    }
-                }
-            }
-        }, 1000);
-
-    }
-
-    private boolean disableSearch() {
-        return mWorkspace.isInOverviewMode() || isAllAppsVisible() || isWidgetsViewVisible();
-    }
-
-    private void reinflateQSBIfNecessary() {
-        if (mQsb instanceof LauncherAppWidgetHostView &&
-                ((LauncherAppWidgetHostView) mQsb).isReinflateRequired()) {
-            mSearchDropTargetBar.removeView(mQsb);
-            mQsb = null;
-            mSearchDropTargetBar.setQsbSearchBar(getOrCreateQsbBar());
-        }
-    }
-
-=======
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
     @Override
     public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
         final boolean result = super.dispatchPopulateAccessibilityEvent(event);
@@ -4824,7 +4580,6 @@ public class Launcher extends Activity
     }
 
     private PredictiveAppsProvider predictiveAppsProvider;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Launcher.java
 
     private LauncherDrawerLayout mLauncherDrawer;
     private ViewPager mDrawerPager;
@@ -4865,7 +4620,7 @@ public class Launcher extends Activity
                     return;
                 }
 
-                if (mLauncherDrawer.getDrawerLockMode(Gravity.LEFT) == LauncherDrawerLayout.LOCK_MODE_LOCKED_CLOSED
+                if (mLauncherDrawer.getDrawerLockMode(Gravity.START) == LauncherDrawerLayout.LOCK_MODE_LOCKED_CLOSED
                         && !mWorkspace.isSmall()) {
                     lockLauncherDrawer(false);
                 }
@@ -5002,10 +4757,6 @@ public class Launcher extends Activity
         mDrawerPager.setCurrentItem(adapter.getCount() - 1);
     }
 
-}
-=======
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Launcher.java
-
     public static Launcher getLauncher(Context context) {
         if (context instanceof Launcher) {
             return (Launcher) context;
@@ -5030,5 +4781,9 @@ public class Launcher extends Activity
         public void run() {
             setOrientation();
         }
+    }
+
+    public View getAllAppsButton() {
+        return mAllAppsButton;
     }
 }

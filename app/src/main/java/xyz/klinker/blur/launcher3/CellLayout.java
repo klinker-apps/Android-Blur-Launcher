@@ -46,31 +46,20 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.DecelerateInterpolator;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/CellLayout.java
+import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.BubbleTextView.BubbleTextShadowHandler;
-import xyz.klinker.blur.launcher3.FolderIcon.FolderRingAnimator;
+import xyz.klinker.blur.launcher3.LauncherSettings.Favorites;
 import xyz.klinker.blur.launcher3.accessibility.DragAndDropAccessibilityDelegate;
 import xyz.klinker.blur.launcher3.accessibility.FolderAccessibilityHelper;
 import xyz.klinker.blur.launcher3.accessibility.WorkspaceAccessibilityHelper;
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.config.ProviderConfig;
+import xyz.klinker.blur.launcher3.folder.FolderIcon;
+import xyz.klinker.blur.launcher3.graphics.DragPreviewProvider;
+import xyz.klinker.blur.launcher3.util.CellAndSpan;
+import xyz.klinker.blur.launcher3.util.GridOccupancy;
 import xyz.klinker.blur.launcher3.util.ParcelableSparseArray;
 import xyz.klinker.blur.launcher3.util.Thunk;
-
-import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.BubbleTextView.BubbleTextShadowHandler;
-import com.android.launcher3.LauncherSettings.Favorites;
-import com.android.launcher3.accessibility.DragAndDropAccessibilityDelegate;
-import com.android.launcher3.accessibility.FolderAccessibilityHelper;
-import com.android.launcher3.accessibility.WorkspaceAccessibilityHelper;
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.config.ProviderConfig;
-import com.android.launcher3.folder.FolderIcon;
-import com.android.launcher3.graphics.DragPreviewProvider;
-import com.android.launcher3.util.CellAndSpan;
-import com.android.launcher3.util.GridOccupancy;
-import com.android.launcher3.util.ParcelableSparseArray;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/CellLayout.java
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2521,7 +2510,6 @@ public class CellLayout extends ViewGroup implements BubbleTextShadowHandler {
      * @param pixelY The Y location at which you want to search for a vacant area.
      * @param spanX Horizontal span of the object.
      * @param spanY Vertical span of the object.
-     * @param ignoreView Considers space occupied by this view as unoccupied
      * @param result Previously returned value to possibly recycle.
      * @return The X, Y cell of a vacant area that can contain this object,
      *         nearest the requested location.

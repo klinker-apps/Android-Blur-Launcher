@@ -36,7 +36,7 @@ import java.util.ArrayList;
 public class PackageManagerHelper {
 
     private static final int FLAG_SUSPENDED = 1<<30;
-    private static final String LIVE_WALLPAPER_PICKER_PKG = "com.android.wallpaper.livepicker";
+    private static final String LIVE_WALLPAPER_PICKER_PKG = "xyz.klinker.blur.wallpaper.livepicker";
 
     /**
      * Returns true if the app can possibly be on the SDCard. This is just a workaround and doesn't

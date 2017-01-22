@@ -41,17 +41,12 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/ButtonDropTarget.java
 import xyz.klinker.blur.R;
-
+import xyz.klinker.blur.launcher3.dragndrop.DragController;
+import xyz.klinker.blur.launcher3.dragndrop.DragLayer;
+import xyz.klinker.blur.launcher3.dragndrop.DragOptions;
+import xyz.klinker.blur.launcher3.dragndrop.DragView;
 import xyz.klinker.blur.launcher3.util.Thunk;
-=======
-import com.android.launcher3.dragndrop.DragController;
-import com.android.launcher3.dragndrop.DragLayer;
-import com.android.launcher3.dragndrop.DragOptions;
-import com.android.launcher3.dragndrop.DragView;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/ButtonDropTarget.java
 
 /**
  * Implements a DropTarget.

@@ -22,18 +22,12 @@ import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/FocusHelper.java
+import xyz.klinker.blur.R;
+import xyz.klinker.blur.launcher3.config.ProviderConfig;
+import xyz.klinker.blur.launcher3.folder.Folder;
+import xyz.klinker.blur.launcher3.folder.FolderPagedView;
 import xyz.klinker.blur.launcher3.util.FocusLogic;
 import xyz.klinker.blur.launcher3.util.Thunk;
-
-import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.config.ProviderConfig;
-import com.android.launcher3.folder.Folder;
-import com.android.launcher3.folder.FolderPagedView;
-import com.android.launcher3.util.FocusLogic;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/FocusHelper.java
 
 /**
  * A keyboard listener we set on all the workspace icons.

@@ -18,8 +18,6 @@ package xyz.klinker.blur.launcher3.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/util/ManagedProfileHeuristic.java
-import android.os.Build;
 
 import xyz.klinker.blur.launcher3.FolderInfo;
 import xyz.klinker.blur.launcher3.ItemInfo;
@@ -31,25 +29,9 @@ import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.ShortcutInfo;
 import xyz.klinker.blur.launcher3.Utilities;
 import xyz.klinker.blur.launcher3.compat.LauncherActivityInfoCompat;
-import xyz.klinker.blur.launcher3.compat.LauncherAppsCompat;
+import xyz.klinker.blur.launcher3.shortcuts.ShortcutInfoCompat;
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
 import xyz.klinker.blur.launcher3.compat.UserManagerCompat;
-=======
-
-import com.android.launcher3.FolderInfo;
-import com.android.launcher3.ItemInfo;
-import com.android.launcher3.LauncherAppState;
-import com.android.launcher3.LauncherFiles;
-import com.android.launcher3.LauncherModel;
-import com.android.launcher3.MainThreadExecutor;
-import com.android.launcher3.R;
-import com.android.launcher3.ShortcutInfo;
-import com.android.launcher3.Utilities;
-import com.android.launcher3.compat.LauncherActivityInfoCompat;
-import com.android.launcher3.shortcuts.ShortcutInfoCompat;
-import com.android.launcher3.compat.UserHandleCompat;
-import com.android.launcher3.compat.UserManagerCompat;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/util/ManagedProfileHeuristic.java
 
 import java.util.ArrayList;
 import java.util.HashSet;

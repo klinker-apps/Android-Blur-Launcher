@@ -14,11 +14,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<<<<<<< HEAD
-<xyz.klinker.blur.launcher3.Folder xmlns:android="http://schemas.android.com/apk/res/android"
-=======
-<com.android.launcher3.folder.Folder xmlns:android="http://schemas.android.com/apk/res/android"
->>>>>>> upstream/master
+<xyz.klinker.blur.launcher3.folder.Folder xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -26,35 +22,14 @@
     android:elevation="5dp"
     android:orientation="vertical" >
 
-    <com.android.launcher3.folder.FolderPagedView
+    <xyz.klinker.blur.launcher3.folder.FolderPagedView
         android:id="@+id/folder_content"
         android:layout_width="match_parent"
-<<<<<<< HEAD
-        android:layout_height="match_parent" >
-
-        <!-- Actual size of the indicator doesn't matter as it is scaled to match the view size -->
-
-        <xyz.klinker.blur.launcher3.FocusIndicatorView
-            android:id="@+id/focus_indicator"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
-
-        <xyz.klinker.blur.launcher3.FolderPagedView
-            android:id="@+id/folder_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="8dp"
-            launcher:pageIndicator="@+id/folder_page_indicator" />
-    </FrameLayout>
-=======
         android:layout_height="match_parent"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="6dp"
         launcher:pageIndicator="@+id/folder_page_indicator" />
->>>>>>> upstream/master
 
     <LinearLayout
         android:id="@+id/folder_footer"
@@ -85,7 +60,7 @@
             android:textColorHint="#ff808080"
             android:textSize="@dimen/folder_label_text_size" />
 
-        <com.android.launcher3.pageindicators.PageIndicatorDots
+        <xyz.klinker.blur.launcher3.pageindicators.PageIndicatorDots
             android:id="@+id/folder_page_indicator"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
@@ -95,8 +70,4 @@
 
     </LinearLayout>
 
-<<<<<<< HEAD
-</xyz.klinker.blur.launcher3.Folder>
-=======
-</com.android.launcher3.folder.Folder>
->>>>>>> upstream/master
+</xyz.klinker.blur.launcher3.folder.Folder>

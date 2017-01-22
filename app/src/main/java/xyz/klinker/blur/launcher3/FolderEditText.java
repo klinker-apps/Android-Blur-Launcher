@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.widget.EditText;
 
-import com.android.launcher3.folder.Folder;
+import xyz.klinker.blur.launcher3.folder.Folder;
 
 public class FolderEditText extends EditText {
 

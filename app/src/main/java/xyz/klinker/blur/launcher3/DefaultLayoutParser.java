@@ -46,7 +46,7 @@ public class DefaultLayoutParser extends AutoInstallsLayout {
 
     // TODO: Remove support for this broadcast, instead use widget options to send bind time options
     private static final String ACTION_APPWIDGET_DEFAULT_WORKSPACE_CONFIGURE =
-            "com.android.launcher.action.APPWIDGET_DEFAULT_WORKSPACE_CONFIGURE";
+            "xyz.klinker.blur.launcher.action.APPWIDGET_DEFAULT_WORKSPACE_CONFIGURE";
 
     public DefaultLayoutParser(Context context, AppWidgetHost appWidgetHost,
             LayoutParserCallback callback, Resources sourceRes, int layoutId) {
@@ -310,9 +310,9 @@ public class DefaultLayoutParser extends AutoInstallsLayout {
                     return -1;
                 }
 
-                mValues.put(Favorites.APPWIDGET_ID, appWidgetId);
-                mValues.put(Favorites.APPWIDGET_PROVIDER, cn.flattenToString());
-                mValues.put(Favorites._ID, mCallback.generateNewItemId());
+                mValues.put(LauncherSettings.Favorites.APPWIDGET_ID, appWidgetId);
+                mValues.put(LauncherSettings.Favorites.APPWIDGET_PROVIDER, cn.flattenToString());
+                mValues.put(LauncherSettings.Favorites._ID, mCallback.generateNewItemId());
                 insertedId = mCallback.insertAndCheck(mDb, mValues);
                 if (insertedId < 0) {
                     mAppWidgetHost.deleteAppWidgetId(appWidgetId);

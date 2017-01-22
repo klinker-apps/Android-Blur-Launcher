@@ -11,13 +11,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.util.Log;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/AppWidgetsRestoredReceiver.java
-import java.util.ArrayList;
-import java.util.List;
-=======
-import com.android.launcher3.LauncherSettings.Favorites;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/AppWidgetsRestoredReceiver.java
-
 public class AppWidgetsRestoredReceiver extends BroadcastReceiver {
 
     private static final String TAG = "AWRestoredReceiver";

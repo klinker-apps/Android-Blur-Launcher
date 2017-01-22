@@ -27,13 +27,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/widget/WidgetsContainerView.java
 import xyz.klinker.blur.launcher3.BaseContainerView;
 import xyz.klinker.blur.launcher3.CellLayout;
 import xyz.klinker.blur.launcher3.DeleteDropTarget;
-import xyz.klinker.blur.launcher3.DragController;
 import xyz.klinker.blur.launcher3.DragSource;
-import xyz.klinker.blur.launcher3.Folder;
+import xyz.klinker.blur.launcher3.DropTarget;
+import xyz.klinker.blur.launcher3.DropTarget.DragObject;
+import xyz.klinker.blur.launcher3.dragndrop.DragOptions;
+import xyz.klinker.blur.launcher3.folder.Folder;
 import xyz.klinker.blur.launcher3.IconCache;
 import xyz.klinker.blur.launcher3.ItemInfo;
 import xyz.klinker.blur.launcher3.Launcher;
@@ -43,33 +44,12 @@ import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.Utilities;
 import xyz.klinker.blur.launcher3.WidgetPreviewLoader;
 import xyz.klinker.blur.launcher3.Workspace;
+import xyz.klinker.blur.launcher3.dragndrop.DragController;
 import xyz.klinker.blur.launcher3.model.WidgetsModel;
+import xyz.klinker.blur.launcher3.userevent.nano.LauncherLogProto;
+import xyz.klinker.blur.launcher3.userevent.nano.LauncherLogProto.Target;
 import xyz.klinker.blur.launcher3.util.Thunk;
-import xyz.klinker.blur.launcher3.DropTarget;
-=======
-import com.android.launcher3.BaseContainerView;
-import com.android.launcher3.CellLayout;
-import com.android.launcher3.DeleteDropTarget;
-import com.android.launcher3.DragSource;
-import com.android.launcher3.DropTarget.DragObject;
-import com.android.launcher3.dragndrop.DragOptions;
-import com.android.launcher3.folder.Folder;
-import com.android.launcher3.IconCache;
-import com.android.launcher3.ItemInfo;
-import com.android.launcher3.Launcher;
-import com.android.launcher3.LauncherAppState;
-import com.android.launcher3.PendingAddItemInfo;
-import com.android.launcher3.R;
-import com.android.launcher3.Utilities;
-import com.android.launcher3.WidgetPreviewLoader;
-import com.android.launcher3.Workspace;
-import com.android.launcher3.dragndrop.DragController;
-import com.android.launcher3.model.WidgetsModel;
-import com.android.launcher3.userevent.nano.LauncherLogProto;
-import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
-import com.android.launcher3.util.Thunk;
-import com.android.launcher3.util.TransformingTouchDelegate;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/widget/WidgetsContainerView.java
+import xyz.klinker.blur.launcher3.util.TransformingTouchDelegate;
 
 /**
  * The widgets list view container.

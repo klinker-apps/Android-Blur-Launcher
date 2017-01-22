@@ -25,11 +25,6 @@ import android.util.Property;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/LauncherAnimUtils.java
-import xyz.klinker.blur.launcher3.util.UiThreadCircularReveal;
-
-=======
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/LauncherAnimUtils.java
 import java.util.HashSet;
 import java.util.WeakHashMap;
 

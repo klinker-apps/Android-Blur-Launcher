@@ -28,27 +28,16 @@ import android.os.Handler;
 import android.util.Log;
 import android.util.LongSparseArray;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/WidgetPreviewLoader.java
+import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.compat.AppWidgetManagerCompat;
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
 import xyz.klinker.blur.launcher3.compat.UserManagerCompat;
+import xyz.klinker.blur.launcher3.model.WidgetItem;
 import xyz.klinker.blur.launcher3.util.ComponentKey;
+import xyz.klinker.blur.launcher3.util.Preconditions;
 import xyz.klinker.blur.launcher3.util.SQLiteCacheHelper;
 import xyz.klinker.blur.launcher3.util.Thunk;
 import xyz.klinker.blur.launcher3.widget.WidgetCell;
-
-import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.compat.AppWidgetManagerCompat;
-import com.android.launcher3.compat.UserHandleCompat;
-import com.android.launcher3.compat.UserManagerCompat;
-import com.android.launcher3.model.WidgetItem;
-import com.android.launcher3.util.ComponentKey;
-import com.android.launcher3.util.Preconditions;
-import com.android.launcher3.util.SQLiteCacheHelper;
-import com.android.launcher3.util.Thunk;
-import com.android.launcher3.widget.WidgetCell;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/WidgetPreviewLoader.java
 
 import java.util.ArrayList;
 import java.util.Collections;

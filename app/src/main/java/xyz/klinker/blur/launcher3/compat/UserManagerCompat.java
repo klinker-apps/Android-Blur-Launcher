@@ -61,11 +61,7 @@ public abstract class UserManagerCompat {
     public abstract CharSequence getBadgedLabelForUser(CharSequence label, UserHandleCompat user);
     public abstract long getUserCreationTime(UserHandleCompat user);
     public abstract boolean isQuietModeEnabled(UserHandleCompat user);
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/compat/UserManagerCompat.java
-}
-=======
     public abstract boolean isUserUnlocked(UserHandleCompat user);
 
     public abstract boolean isDemoUser();
 }
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/compat/UserManagerCompat.java

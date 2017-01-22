@@ -14,35 +14,16 @@
      limitations under the License.
 -->
 
-<<<<<<< HEAD
-<xyz.klinker.blur.launcher3.FolderIcon
-=======
-<com.android.launcher3.folder.FolderIcon
->>>>>>> upstream/master
+<xyz.klinker.blur.launcher3.folder.FolderIcon
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:focusable="true" >
-<<<<<<< HEAD
-    <ImageView
-        android:id="@+id/preview_background"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:antialias="true"
-        android:src="@drawable/portal_ring_inner"/>
     <xyz.klinker.blur.launcher3.BubbleTextView
-=======
-    <com.android.launcher3.BubbleTextView
->>>>>>> upstream/master
         style="@style/Icon"
         android:id="@+id/folder_icon_name"
         android:layout_gravity="top"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-<<<<<<< HEAD
-</xyz.klinker.blur.launcher3.FolderIcon>
-=======
-</com.android.launcher3.folder.FolderIcon>
->>>>>>> upstream/master
+</xyz.klinker.blur.launcher3.folder.FolderIcon>

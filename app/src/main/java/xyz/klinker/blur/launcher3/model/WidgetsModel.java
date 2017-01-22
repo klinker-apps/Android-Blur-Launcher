@@ -10,27 +10,16 @@ import android.os.DeadObjectException;
 import android.os.TransactionTooLargeException;
 import android.util.Log;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/model/WidgetsModel.java
 import xyz.klinker.blur.launcher3.AppFilter;
 import xyz.klinker.blur.launcher3.IconCache;
+import xyz.klinker.blur.launcher3.InvariantDeviceProfile;
+import xyz.klinker.blur.launcher3.ItemInfo;
 import xyz.klinker.blur.launcher3.LauncherAppState;
 import xyz.klinker.blur.launcher3.LauncherAppWidgetProviderInfo;
-import xyz.klinker.blur.launcher3.Utilities;
 import xyz.klinker.blur.launcher3.compat.AlphabeticIndexCompat;
 import xyz.klinker.blur.launcher3.compat.AppWidgetManagerCompat;
-import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
-=======
-import com.android.launcher3.AppFilter;
-import com.android.launcher3.IconCache;
-import com.android.launcher3.InvariantDeviceProfile;
-import com.android.launcher3.ItemInfo;
-import com.android.launcher3.LauncherAppState;
-import com.android.launcher3.LauncherAppWidgetProviderInfo;
-import com.android.launcher3.compat.AlphabeticIndexCompat;
-import com.android.launcher3.compat.AppWidgetManagerCompat;
-import com.android.launcher3.config.ProviderConfig;
-import com.android.launcher3.util.Preconditions;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/model/WidgetsModel.java
+import xyz.klinker.blur.launcher3.config.ProviderConfig;
+import xyz.klinker.blur.launcher3.util.Preconditions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,12 +44,7 @@ public class WidgetsModel {
     private final HashMap<PackageItemInfo, ArrayList<WidgetItem>> mWidgetsList;
 
     private final AppWidgetManagerCompat mAppWidgetMgr;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/model/WidgetsModel.java
-    private final Comparator mWidgetAndShortcutNameComparator;
-    private final Comparator mAppNameComparator;
-=======
     private final Comparator<ItemInfo> mAppNameComparator;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/model/WidgetsModel.java
     private final IconCache mIconCache;
     private final AppFilter mAppFilter;
     private final AlphabeticIndexCompat mIndexer;
@@ -163,25 +147,6 @@ public class WidgetsModel {
         // clear the lists.
         mWidgetsList.clear();
         mPackageItemInfos.clear();
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/model/WidgetsModel.java
-
-        // add and update.
-        for (Object o: rawWidgetsShortcuts) {
-            String packageName = "";
-            UserHandleCompat userHandle = null;
-            ComponentName componentName = null;
-            if (o instanceof LauncherAppWidgetProviderInfo) {
-                LauncherAppWidgetProviderInfo widgetInfo = (LauncherAppWidgetProviderInfo) o;
-                componentName = widgetInfo.provider;
-                packageName = widgetInfo.provider.getPackageName();
-                userHandle = mAppWidgetMgr.getUser(widgetInfo);
-            } else if (o instanceof ResolveInfo) {
-                ResolveInfo resolveInfo = (ResolveInfo) o;
-                componentName = new ComponentName(resolveInfo.activityInfo.packageName,
-                        resolveInfo.activityInfo.name);
-                packageName = resolveInfo.activityInfo.packageName;
-                userHandle = UserHandleCompat.myUserHandle();
-=======
 
         InvariantDeviceProfile idp = LauncherAppState.getInstance().getInvariantDeviceProfile();
 
@@ -199,7 +164,6 @@ public class WidgetsModel {
                     }
                     continue;
                 }
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/model/WidgetsModel.java
             }
 
             if (mAppFilter != null && !mAppFilter.shouldShowApp(item.componentName)) {
@@ -212,20 +176,11 @@ public class WidgetsModel {
 
             String packageName = item.componentName.getPackageName();
             PackageItemInfo pInfo = tmpPackageItemInfos.get(packageName);
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/model/WidgetsModel.java
-            ArrayList<Object> widgetsShortcutsList = mWidgetsList.get(pInfo);
-            if (widgetsShortcutsList != null) {
-                widgetsShortcutsList.add(o);
-            } else {
-                widgetsShortcutsList = new ArrayList<Object>();
-                widgetsShortcutsList.add(o);
-=======
             ArrayList<WidgetItem> widgetsShortcutsList = mWidgetsList.get(pInfo);
 
             if (widgetsShortcutsList == null) {
                 widgetsShortcutsList = new ArrayList<>();
 
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/model/WidgetsModel.java
                 pInfo = new PackageItemInfo(packageName);
                 tmpPackageItemInfos.put(packageName,  pInfo);
 

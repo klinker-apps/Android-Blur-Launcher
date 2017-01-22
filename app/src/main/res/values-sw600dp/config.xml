@@ -1,7 +1,6 @@
 <resources>
     <bool name="is_tablet">true</bool>
     <bool name="allow_rotation">true</bool>
-<<<<<<< HEAD
 
     <!-- DragController -->
     <integer name="config_flingToDeleteMinVelocity">-1000</integer>
@@ -16,6 +15,4 @@
 
     <!-- Default Orientation (portrait) -->
     <string name="default_orientation">1</string>
-=======
->>>>>>> upstream/master
 </resources>

@@ -42,11 +42,8 @@ import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Utilities.java
 import android.graphics.Typeface;
-=======
 import android.graphics.RectF;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Utilities.java
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
@@ -64,7 +61,8 @@ import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Utilities.java
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,18 +70,9 @@ import xyz.klinker.blur.addons.settings.AppSettings;
 import xyz.klinker.blur.addons.utils.IconPackHelper;
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
 import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.config.ProviderConfig;
+import xyz.klinker.blur.launcher3.graphics.ShadowGenerator;
 import xyz.klinker.blur.launcher3.util.IconNormalizer;
-=======
-import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityManager;
-import android.widget.Toast;
-
-import com.android.launcher3.compat.UserHandleCompat;
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.config.ProviderConfig;
-import com.android.launcher3.graphics.ShadowGenerator;
-import com.android.launcher3.util.IconNormalizer;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Utilities.java
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -152,7 +141,7 @@ public final class Utilities {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2;
 
     // An intent extra to indicate the horizontal scroll of the wallpaper.
-    public static final String EXTRA_WALLPAPER_OFFSET = "com.android.launcher3.WALLPAPER_OFFSET";
+    public static final String EXTRA_WALLPAPER_OFFSET = "xyz.klinker.blur.launcher3.WALLPAPER_OFFSET";
 
     // These values are same as that in {@link AsyncTask}.
     private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
@@ -241,10 +230,9 @@ public final class Utilities {
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static Bitmap createBadgedIconBitmap(
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Utilities.java
             Drawable icon, UserHandleCompat user, Context context, IconPackHelper helper) {
-        float scale = FeatureFlags.LAUNCHER3_ICON_NORMALIZATION ?
-                IconNormalizer.getInstance().getScale(icon) : 1;
+        float scale = FeatureFlags.LAUNCHER3_DISABLE_ICON_NORMALIZATION ?
+                1 : IconNormalizer.getInstance().getScale(icon, null);
 
         // if there is an icon pack set up, then we want to use its scale, rather than the icon
         // normalization scale.
@@ -262,11 +250,6 @@ public final class Utilities {
             bitmap = createIconBitmap(icon, context, scale);
         }
 
-=======
-            Drawable icon, UserHandleCompat user, Context context) {
-        float scale = FeatureFlags.LAUNCHER3_DISABLE_ICON_NORMALIZATION ?
-                1 : IconNormalizer.getInstance().getScale(icon, null);
-        Bitmap bitmap = createIconBitmap(icon, context, scale);
         return badgeIconForUser(bitmap, user, context);
     }
 
@@ -274,7 +257,6 @@ public final class Utilities {
      * Badges the provided icon with the user badge if required.
      */
     public static Bitmap badgeIconForUser(Bitmap icon,  UserHandleCompat user, Context context) {
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Utilities.java
         if (Utilities.ATLEAST_LOLLIPOP && user != null
                 && !UserHandleCompat.myUserHandle().equals(user)) {
             BitmapDrawable drawable = new FixedSizeBitmapDrawable(icon);

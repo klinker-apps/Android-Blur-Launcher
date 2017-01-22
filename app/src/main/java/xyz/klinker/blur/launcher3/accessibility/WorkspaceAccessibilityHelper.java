@@ -22,25 +22,15 @@ import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.text.TextUtils;
 import android.view.View;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/accessibility/WorkspaceAccessibilityHelper.java
 import xyz.klinker.blur.launcher3.AppInfo;
 import xyz.klinker.blur.launcher3.CellLayout;
 import xyz.klinker.blur.launcher3.FolderInfo;
 import xyz.klinker.blur.launcher3.ItemInfo;
-
+import xyz.klinker.blur.launcher3.Launcher;
+import xyz.klinker.blur.launcher3.accessibility.LauncherAccessibilityDelegate.DragType;
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.ShortcutInfo;
-=======
-import com.android.launcher3.AppInfo;
-import com.android.launcher3.CellLayout;
-import com.android.launcher3.FolderInfo;
-import com.android.launcher3.ItemInfo;
-import com.android.launcher3.Launcher;
-import com.android.launcher3.accessibility.LauncherAccessibilityDelegate.DragType;
-import com.android.launcher3.R;
-import com.android.launcher3.ShortcutInfo;
-import com.android.launcher3.dragndrop.DragLayer;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/accessibility/WorkspaceAccessibilityHelper.java
+import xyz.klinker.blur.launcher3.dragndrop.DragLayer;
 
 /**
  * Implementation of {@link DragAndDropAccessibilityDelegate} to support DnD on workspace.

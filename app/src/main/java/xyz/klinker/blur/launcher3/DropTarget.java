@@ -16,7 +16,7 @@
 
 package xyz.klinker.blur.launcher3;
 
-import com.android.launcher3.dragndrop.DragView;
+import xyz.klinker.blur.launcher3.dragndrop.DragView;
 
 import android.graphics.PointF;
 import android.graphics.Rect;

@@ -18,12 +18,8 @@ package xyz.klinker.blur.launcher3;
 
 import android.view.View;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/DragSource.java
-=======
-import com.android.launcher3.DropTarget.DragObject;
-import com.android.launcher3.logging.UserEventDispatcher.LaunchSourceProvider;
-
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/DragSource.java
+import xyz.klinker.blur.launcher3.DropTarget.DragObject;
+import xyz.klinker.blur.launcher3.logging.UserEventDispatcher.LaunchSourceProvider;
 /**
  * Interface defining an object that can originate a drag.
  */

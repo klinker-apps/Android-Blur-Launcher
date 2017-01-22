@@ -45,7 +45,6 @@ import android.util.LongSparseArray;
 import android.util.MutableInt;
 import android.util.Pair;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/LauncherModel.java
 import xyz.klinker.blur.launcher3.compat.AppWidgetManagerCompat;
 import xyz.klinker.blur.launcher3.compat.LauncherActivityInfoCompat;
 import xyz.klinker.blur.launcher3.compat.LauncherAppsCompat;
@@ -53,51 +52,31 @@ import xyz.klinker.blur.launcher3.compat.PackageInstallerCompat;
 import xyz.klinker.blur.launcher3.compat.PackageInstallerCompat.PackageInstallInfo;
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
 import xyz.klinker.blur.launcher3.compat.UserManagerCompat;
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.config.ProviderConfig;
+import xyz.klinker.blur.launcher3.dynamicui.ExtractionUtils;
+import xyz.klinker.blur.launcher3.folder.Folder;
+import xyz.klinker.blur.launcher3.folder.FolderIcon;
+import xyz.klinker.blur.launcher3.logging.FileLog;
+import xyz.klinker.blur.launcher3.model.GridSizeMigrationTask;
 import xyz.klinker.blur.launcher3.model.WidgetsModel;
+import xyz.klinker.blur.launcher3.provider.ImportDataTask;
+import xyz.klinker.blur.launcher3.provider.LauncherDbUtils;
+import xyz.klinker.blur.launcher3.shortcuts.DeepShortcutManager;
+import xyz.klinker.blur.launcher3.shortcuts.ShortcutInfoCompat;
+import xyz.klinker.blur.launcher3.shortcuts.ShortcutKey;
 import xyz.klinker.blur.launcher3.util.ComponentKey;
 import xyz.klinker.blur.launcher3.util.CursorIconInfo;
 import xyz.klinker.blur.launcher3.util.FlagOp;
+import xyz.klinker.blur.launcher3.util.GridOccupancy;
 import xyz.klinker.blur.launcher3.util.LongArrayMap;
 import xyz.klinker.blur.launcher3.util.ManagedProfileHeuristic;
+import xyz.klinker.blur.launcher3.util.MultiHashMap;
 import xyz.klinker.blur.launcher3.util.PackageManagerHelper;
+import xyz.klinker.blur.launcher3.util.Preconditions;
 import xyz.klinker.blur.launcher3.util.StringFilter;
 import xyz.klinker.blur.launcher3.util.Thunk;
-
-import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.compat.AppWidgetManagerCompat;
-import com.android.launcher3.compat.LauncherActivityInfoCompat;
-import com.android.launcher3.compat.LauncherAppsCompat;
-import com.android.launcher3.compat.PackageInstallerCompat;
-import com.android.launcher3.compat.PackageInstallerCompat.PackageInstallInfo;
-import com.android.launcher3.compat.UserHandleCompat;
-import com.android.launcher3.compat.UserManagerCompat;
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.config.ProviderConfig;
-import com.android.launcher3.dynamicui.ExtractionUtils;
-import com.android.launcher3.folder.Folder;
-import com.android.launcher3.folder.FolderIcon;
-import com.android.launcher3.logging.FileLog;
-import com.android.launcher3.model.GridSizeMigrationTask;
-import com.android.launcher3.model.WidgetsModel;
-import com.android.launcher3.provider.ImportDataTask;
-import com.android.launcher3.provider.LauncherDbUtils;
-import com.android.launcher3.shortcuts.DeepShortcutManager;
-import com.android.launcher3.shortcuts.ShortcutInfoCompat;
-import com.android.launcher3.shortcuts.ShortcutKey;
-import com.android.launcher3.util.ComponentKey;
-import com.android.launcher3.util.CursorIconInfo;
-import com.android.launcher3.util.FlagOp;
-import com.android.launcher3.util.GridOccupancy;
-import com.android.launcher3.util.LongArrayMap;
-import com.android.launcher3.util.ManagedProfileHeuristic;
-import com.android.launcher3.util.MultiHashMap;
-import com.android.launcher3.util.PackageManagerHelper;
-import com.android.launcher3.util.Preconditions;
-import com.android.launcher3.util.StringFilter;
-import com.android.launcher3.util.Thunk;
-import com.android.launcher3.util.ViewOnDrawExecutor;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/LauncherModel.java
+import xyz.klinker.blur.launcher3.util.ViewOnDrawExecutor;
 
 import java.lang.ref.WeakReference;
 import java.net.URISyntaxException;
@@ -137,11 +116,6 @@ public class LauncherModel extends BroadcastReceiver
     @Thunk boolean mIsLoaderTaskRunning;
     @Thunk boolean mHasLoaderCompletedOnce;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/LauncherModel.java
-    private static final String MIGRATE_AUTHORITY = "xyz.klinker.blur.launcher2.settings";
-
-=======
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/LauncherModel.java
     @Thunk static final HandlerThread sWorkerThread = new HandlerThread("launcher-loader");
     static {
         sWorkerThread.start();
@@ -1245,19 +1219,9 @@ public class LauncherModel extends BroadcastReceiver
         if (Intent.ACTION_LOCALE_CHANGED.equals(action)) {
             // If we have changed locale we need to clear out the labels in all apps/workspace.
             forceReload();
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/LauncherModel.java
-        } else if (SearchManager.INTENT_GLOBAL_SEARCH_ACTIVITY_CHANGED.equals(action)) {
-            Callbacks callbacks = getCallback();
-            if (callbacks != null) {
-                callbacks.bindSearchProviderChanged();
-            }
-        } else if (LauncherAppsCompat.ACTION_MANAGED_PROFILE_ADDED.equals(action)
-                || LauncherAppsCompat.ACTION_MANAGED_PROFILE_REMOVED.equals(action)) {
-=======
         } else if (Intent.ACTION_MANAGED_PROFILE_ADDED.equals(action)
                 || Intent.ACTION_MANAGED_PROFILE_REMOVED.equals(action)) {
             UserManagerCompat.getInstance(context).enableAndResetCache();
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/LauncherModel.java
             forceReload();
         } else if (Intent.ACTION_MANAGED_PROFILE_AVAILABLE.equals(action) ||
                 Intent.ACTION_MANAGED_PROFILE_UNAVAILABLE.equals(action) ||

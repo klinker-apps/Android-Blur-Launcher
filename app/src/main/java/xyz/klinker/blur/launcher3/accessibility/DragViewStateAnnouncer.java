@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 
-import com.android.launcher3.Launcher;
+import xyz.klinker.blur.launcher3.Launcher;
 
 /**
  * Periodically sends accessibility events to announce ongoing state changed. Based on the

@@ -29,13 +29,10 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.SparseArray;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/HolographicOutlineHelper.java
 import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.config.ProviderConfig;
+import xyz.klinker.blur.launcher3.config.ProviderConfig;
 
 import java.nio.ByteBuffer;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/HolographicOutlineHelper.java
 
 /**
  * Utility class to generate shadow and outline effect, which are used for click feedback

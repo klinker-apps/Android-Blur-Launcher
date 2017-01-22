@@ -9,12 +9,9 @@ import android.view.ViewDebug;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/InsettableFrameLayout.java
 import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.allapps.AllAppsContainerView;
-import com.android.launcher3.config.FeatureFlags;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/InsettableFrameLayout.java
+import xyz.klinker.blur.launcher3.allapps.AllAppsContainerView;
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
 
 public class InsettableFrameLayout extends FrameLayout implements
     ViewGroup.OnHierarchyChangeListener, Insettable {

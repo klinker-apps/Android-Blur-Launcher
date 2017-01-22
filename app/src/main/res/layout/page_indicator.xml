@@ -13,16 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<<<<<<< HEAD
-<xyz.klinker.blur.launcher3.PageIndicator
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:launcher="http://schemas.android.com/apk/res-auto"
-    android:animateLayoutChanges="true"
-    launcher:windowSize="@integer/config_maxNumberOfPageIndicatorsToShow">
-</xyz.klinker.blur.launcher3.PageIndicator>
-=======
-
-<com.android.launcher3.pageindicators.PageIndicatorLineCaret
+<xyz.klinker.blur.launcher3.pageindicators.PageIndicatorLineCaret
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/dynamic_grid_page_indicator_height">
@@ -32,5 +23,4 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:scaleType="centerInside"/>
-</com.android.launcher3.pageindicators.PageIndicatorLineCaret>
->>>>>>> upstream/master
+</xyz.klinker.blur.launcher3.pageindicators.PageIndicatorLineCaret>

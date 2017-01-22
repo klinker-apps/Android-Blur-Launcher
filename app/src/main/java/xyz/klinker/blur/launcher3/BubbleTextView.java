@@ -42,22 +42,16 @@ import android.view.ViewDebug;
 import android.view.ViewParent;
 import android.widget.TextView;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/BubbleTextView.java
-import xyz.klinker.blur.addons.settings.AppSettings;
-import xyz.klinker.blur.launcher3.IconCache.IconLoadRequest;
-import xyz.klinker.blur.launcher3.model.PackageItemInfo;
-
 import xyz.klinker.blur.R;
 
-import java.util.Arrays;
-import java.util.List;
-=======
-import com.android.launcher3.IconCache.IconLoadRequest;
-import com.android.launcher3.folder.FolderIcon;
-import com.android.launcher3.model.PackageItemInfo;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/BubbleTextView.java
+import xyz.klinker.blur.addons.settings.AppSettings;
+import xyz.klinker.blur.launcher3.IconCache.IconLoadRequest;
+import xyz.klinker.blur.launcher3.folder.FolderIcon;
+import xyz.klinker.blur.launcher3.model.PackageItemInfo;
 
 import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * TextView that draws a bubble behind the text. We cannot use a LineBackgroundSpan
@@ -176,46 +170,7 @@ public class BubbleTextView extends TextView
 
     public void applyFromShortcutInfo(ShortcutInfo info, IconCache iconCache,
             boolean promiseStateChanged) {
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/BubbleTextView.java
-        Bitmap b = info.getIcon(iconCache);
-
-        FastBitmapDrawable iconDrawable = mLauncher.createIconDrawable(b);
-        if (info.isDisabled()) {
-            iconDrawable.setState(FastBitmapDrawable.State.DISABLED);
-        }
-        setIcon(iconDrawable, mIconSize);
-        if (info.contentDescription != null) {
-            setContentDescription(info.contentDescription);
-        }
-
-        // this is where we check the name and replace any custom ones
-        if (AppSettings.getInstance(getContext()).showIconNames) {
-
-            if (sharedPrefs == null) {
-                sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-            }
-            if (customNames == null) {
-                customNames = Arrays.asList(sharedPrefs.getString("launcher_custom_app_names", "").split(":|:"));
-            }
-
-            String name = "";
-            try {
-                name = info.title.toString();
-            } catch (Exception e) {
-
-            }
-            if (customNames.contains(name)) {
-                setText(sharedPrefs.getString(info.title.toString(), ""));
-            } else {
-                setText(info.title);
-            }
-        } else {
-            setText("");
-        }
-
-=======
         applyIconAndLabel(info.getIcon(iconCache), info);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/BubbleTextView.java
         setTag(info);
         if (promiseStateChanged || info.isPromise()) {
             applyState(promiseStateChanged);
@@ -223,21 +178,7 @@ public class BubbleTextView extends TextView
     }
 
     public void applyFromApplicationInfo(AppInfo info) {
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/BubbleTextView.java
-        FastBitmapDrawable iconDrawable = mLauncher.createIconDrawable(info.iconBitmap);
-        if (info.isDisabled()) {
-            iconDrawable.setState(FastBitmapDrawable.State.DISABLED);
-        }
-        setIcon(iconDrawable, mIconSize);
-        setText(info.title);
-
-        if (info.contentDescription != null) {
-            setContentDescription(info.contentDescription);
-        }
-=======
         applyIconAndLabel(info.iconBitmap, info);
-
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/BubbleTextView.java
         // We don't need to check the info since it's not a ShortcutInfo
         super.setTag(info);
 
@@ -265,6 +206,31 @@ public class BubbleTextView extends TextView
             setContentDescription(info.isDisabled()
                     ? getContext().getString(R.string.disabled_app_label, info.contentDescription)
                     : info.contentDescription);
+        }
+
+        // this is where we check the name and replace any custom ones
+        if (AppSettings.getInstance(getContext()).showIconNames) {
+
+            if (sharedPrefs == null) {
+                sharedPrefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+            }
+            if (customNames == null) {
+                customNames = Arrays.asList(sharedPrefs.getString("launcher_custom_app_names", "").split(":|:"));
+            }
+
+            String name = "";
+            try {
+                name = info.title.toString();
+            } catch (Exception e) {
+
+            }
+            if (customNames.contains(name)) {
+                setText(sharedPrefs.getString(info.title.toString(), ""));
+            } else {
+                setText(info.title);
+            }
+        } else {
+            setText("");
         }
     }
 

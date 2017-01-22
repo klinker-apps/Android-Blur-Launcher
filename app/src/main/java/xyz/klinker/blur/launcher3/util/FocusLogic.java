@@ -21,16 +21,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/util/FocusLogic.java
 import xyz.klinker.blur.launcher3.CellLayout;
+import xyz.klinker.blur.launcher3.DeviceProfile;
 import xyz.klinker.blur.launcher3.ShortcutAndWidgetContainer;
-=======
-import com.android.launcher3.CellLayout;
-import com.android.launcher3.DeviceProfile;
-import com.android.launcher3.InvariantDeviceProfile;
-import com.android.launcher3.ShortcutAndWidgetContainer;
-import com.android.launcher3.config.FeatureFlags;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/util/FocusLogic.java
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
 
 import java.util.Arrays;
 

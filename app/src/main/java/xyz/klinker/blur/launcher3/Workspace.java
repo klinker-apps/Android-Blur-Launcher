@@ -46,12 +46,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.Property;
 import android.util.SparseArray;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Workspace.java
-import android.view.Choreographer;
-import android.view.Display;
 import android.view.GestureDetector;
-=======
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Workspace.java
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewDebug;
@@ -61,53 +56,40 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.TextView;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Workspace.java
+import xyz.klinker.blur.R;
 import xyz.klinker.blur.addons.settings.AppSettings;
 import xyz.klinker.blur.addons.utils.GestureUtils;
 import xyz.klinker.blur.addons.utils.ItemDropHelper;
-import xyz.klinker.blur.launcher3.accessibility.LauncherAccessibilityDelegate;
+import xyz.klinker.blur.launcher3.Launcher.CustomContentCallbacks;
+import xyz.klinker.blur.launcher3.Launcher.LauncherOverlay;
+import xyz.klinker.blur.launcher3.UninstallDropTarget.DropTargetSource;
+import xyz.klinker.blur.launcher3.accessibility.AccessibileDragListenerAdapter;
+import xyz.klinker.blur.launcher3.accessibility.OverviewAccessibilityDelegate;
 import xyz.klinker.blur.launcher3.accessibility.OverviewScreenAccessibilityDelegate;
 import xyz.klinker.blur.launcher3.accessibility.WorkspaceAccessibilityHelper;
 import xyz.klinker.blur.launcher3.compat.AppWidgetManagerCompat;
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.config.ProviderConfig;
+import xyz.klinker.blur.launcher3.dragndrop.DragController;
+import xyz.klinker.blur.launcher3.dragndrop.DragLayer;
+import xyz.klinker.blur.launcher3.dragndrop.DragOptions;
+import xyz.klinker.blur.launcher3.dragndrop.DragScroller;
+import xyz.klinker.blur.launcher3.dragndrop.DragView;
+import xyz.klinker.blur.launcher3.dragndrop.SpringLoadedDragController;
+import xyz.klinker.blur.launcher3.folder.Folder;
+import xyz.klinker.blur.launcher3.folder.FolderIcon;
+import xyz.klinker.blur.launcher3.graphics.DragPreviewProvider;
+import xyz.klinker.blur.launcher3.userevent.nano.LauncherLogProto;
+import xyz.klinker.blur.launcher3.userevent.nano.LauncherLogProto.Target;
+import xyz.klinker.blur.launcher3.util.ItemInfoMatcher;
 import xyz.klinker.blur.launcher3.util.LongArrayMap;
+import xyz.klinker.blur.launcher3.util.MultiStateAlphaController;
 import xyz.klinker.blur.launcher3.util.Thunk;
+import xyz.klinker.blur.launcher3.util.VerticalFlingDetector;
+import xyz.klinker.blur.launcher3.util.WallpaperOffsetInterpolator;
 import xyz.klinker.blur.launcher3.widget.PendingAddShortcutInfo;
 import xyz.klinker.blur.launcher3.widget.PendingAddWidgetInfo;
-
-import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.Launcher.CustomContentCallbacks;
-import com.android.launcher3.Launcher.LauncherOverlay;
-import com.android.launcher3.UninstallDropTarget.DropTargetSource;
-import com.android.launcher3.accessibility.AccessibileDragListenerAdapter;
-import com.android.launcher3.accessibility.OverviewAccessibilityDelegate;
-import com.android.launcher3.accessibility.OverviewScreenAccessibilityDelegate;
-import com.android.launcher3.accessibility.WorkspaceAccessibilityHelper;
-import com.android.launcher3.compat.AppWidgetManagerCompat;
-import com.android.launcher3.compat.UserHandleCompat;
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.config.ProviderConfig;
-import com.android.launcher3.dragndrop.DragController;
-import com.android.launcher3.dragndrop.DragLayer;
-import com.android.launcher3.dragndrop.DragOptions;
-import com.android.launcher3.dragndrop.DragScroller;
-import com.android.launcher3.dragndrop.DragView;
-import com.android.launcher3.dragndrop.SpringLoadedDragController;
-import com.android.launcher3.folder.Folder;
-import com.android.launcher3.folder.FolderIcon;
-import com.android.launcher3.graphics.DragPreviewProvider;
-import com.android.launcher3.userevent.nano.LauncherLogProto;
-import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
-import com.android.launcher3.util.ItemInfoMatcher;
-import com.android.launcher3.util.LongArrayMap;
-import com.android.launcher3.util.MultiStateAlphaController;
-import com.android.launcher3.util.Thunk;
-import com.android.launcher3.util.VerticalFlingDetector;
-import com.android.launcher3.util.WallpaperOffsetInterpolator;
-import com.android.launcher3.widget.PendingAddShortcutInfo;
-import com.android.launcher3.widget.PendingAddWidgetInfo;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Workspace.java
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -121,11 +103,7 @@ import java.util.HashSet;
 public class Workspace extends PagedView
         implements DropTarget, DragSource, DragScroller, View.OnTouchListener,
         DragController.DragListener, LauncherTransitionable, ViewGroup.OnHierarchyChangeListener,
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Workspace.java
-        Insettable, UninstallDropTarget.UninstallSource, LauncherAccessibilityDelegate.AccessibilityDragSource, Stats.LaunchSourceProvider {
-=======
         Insettable, DropTargetSource {
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Workspace.java
     private static final String TAG = "Launcher.Workspace";
 
     private static boolean ENFORCE_DRAG_EVENT_ORDER = false;
@@ -172,14 +150,7 @@ public class Workspace extends PagedView
     private int mDragOverX = -1;
     private int mDragOverY = -1;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Workspace.java
-    static Rect mLandscapeCellLayoutMetrics = null;
-    static Rect mPortraitCellLayoutMetrics = null;
-
-    Launcher.CustomContentCallbacks mCustomContentCallbacks;
-=======
     CustomContentCallbacks mCustomContentCallbacks;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Workspace.java
     boolean mCustomContentShowing;
     private float mLastCustomContentScrollProgress = -1f;
     private String mCustomContentDescription = "";
@@ -293,12 +264,7 @@ public class Workspace extends PagedView
     public static final int REORDER_TIMEOUT = 350;
     private final Alarm mFolderCreationAlarm = new Alarm();
     private final Alarm mReorderAlarm = new Alarm();
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Workspace.java
-    @Thunk
-    FolderIcon.FolderRingAnimator mDragFolderRingAnimator = null;
-=======
     private FolderIcon.PreviewBackground mFolderCreateBg;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Workspace.java
     private FolderIcon mDragOverFolderIcon = null;
     private boolean mCreateUserFolderOnDrop = false;
     private boolean mAddToExistingFolderOnDrop = false;
@@ -2319,11 +2285,6 @@ public class Workspace extends PagedView
         CellLayout layout = (CellLayout) child.getParent().getParent();
         layout.prepareChildForDrag(child);
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Workspace.java
-        beginDragShared(child, this, accessible);
-
-        mLauncher.lockLauncherDrawer(true);
-=======
         if (options.isAccessibleDrag) {
             mDragController.addDragListener(new AccessibileDragListenerAdapter(
                     this, CellLayout.WORKSPACE_ACCESSIBILITY_DRAG) {
@@ -2340,7 +2301,7 @@ public class Workspace extends PagedView
         }
 
         beginDragShared(child, this, options);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Workspace.java
+        mLauncher.lockLauncherDrawer(true);
     }
 
     public void beginDragShared(View child, DragSource source, DragOptions options) {
@@ -3311,20 +3272,8 @@ public class Workspace extends PagedView
         }
 
         public void onAlarm(Alarm alarm) {
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Workspace.java
-            if (mDragFolderRingAnimator != null) {
-                // This shouldn't happen ever, but just in case, make sure we clean up the mess.
-                mDragFolderRingAnimator.animateToNaturalState();
-            }
-            mDragFolderRingAnimator = new FolderIcon.FolderRingAnimator(mLauncher, null);
-            mDragFolderRingAnimator.setCell(cellX, cellY);
-            mDragFolderRingAnimator.setCellLayout(layout);
-            mDragFolderRingAnimator.animateToAcceptState();
-            layout.showFolderAccept(mDragFolderRingAnimator);
-=======
             mFolderCreateBg = bg;
             mFolderCreateBg.animateToAccept(layout, cellX, cellY);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Workspace.java
             layout.clearDragOutlines();
             setDragMode(DRAG_MODE_CREATE_FOLDER);
         }
@@ -3818,73 +3767,6 @@ public class Workspace extends PagedView
         }
     }
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Workspace.java
-    void updateItemLocationsInDatabase(CellLayout cl) {
-        int count = cl.getShortcutsAndWidgets().getChildCount();
-
-        long screenId = getIdForScreen(cl);
-        int container = LauncherSettings.Favorites.CONTAINER_DESKTOP;
-
-        if (mLauncher.isHotseatLayout(cl)) {
-            screenId = -1;
-            container = LauncherSettings.Favorites.CONTAINER_HOTSEAT;
-        }
-
-        for (int i = 0; i < count; i++) {
-            View v = cl.getShortcutsAndWidgets().getChildAt(i);
-            ItemInfo info = (ItemInfo) v.getTag();
-            // Null check required as the AllApps button doesn't have an item info
-            if (info != null && info.requiresDbUpdate) {
-                info.requiresDbUpdate = false;
-                LauncherModel.modifyItemInDatabase(mLauncher, info, container, screenId, info.cellX,
-                        info.cellY, info.spanX, info.spanY);
-            }
-        }
-    }
-
-    void saveWorkspaceToDb() {
-        saveWorkspaceScreenToDb((CellLayout) mLauncher.getHotseat().getLayout());
-        int count = getChildCount();
-        for (int i = 0; i < count; i++) {
-            CellLayout cl = (CellLayout) getChildAt(i);
-            saveWorkspaceScreenToDb(cl);
-        }
-    }
-
-    void saveWorkspaceScreenToDb(CellLayout cl) {
-        int count = cl.getShortcutsAndWidgets().getChildCount();
-
-        long screenId = getIdForScreen(cl);
-        int container = LauncherSettings.Favorites.CONTAINER_DESKTOP;
-
-        Hotseat hotseat = mLauncher.getHotseat();
-        if (mLauncher.isHotseatLayout(cl)) {
-            screenId = -1;
-            container = LauncherSettings.Favorites.CONTAINER_HOTSEAT;
-        }
-
-        for (int i = 0; i < count; i++) {
-            View v = cl.getShortcutsAndWidgets().getChildAt(i);
-            ItemInfo info = (ItemInfo) v.getTag();
-            // Null check required as the AllApps button doesn't have an item info
-            if (info != null) {
-                int cellX = info.cellX;
-                int cellY = info.cellY;
-                if (container == LauncherSettings.Favorites.CONTAINER_HOTSEAT) {
-                    cellX = hotseat.getCellXFromOrder((int) info.screenId);
-                    cellY = hotseat.getCellYFromOrder((int) info.screenId);
-                }
-                LauncherModel.addItemToDatabase(mLauncher, info, container, screenId, cellX, cellY);
-            }
-            if (v instanceof FolderIcon) {
-                FolderIcon fi = (FolderIcon) v;
-                fi.getFolder().addItemLocationsInDatabase();
-            }
-        }
-    }
-
-=======
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Workspace.java
     @Override
     public float getIntrinsicIconScaleFactor() {
         return 1f;
@@ -4489,7 +4371,6 @@ public class Workspace extends PagedView
         }
     }
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/Workspace.java
     /*
             Additional Methods/Classes for Blur Launcher
      */
@@ -4623,7 +4504,8 @@ public class Workspace extends PagedView
         public boolean onDoubleTapEvent(MotionEvent e) {
             return false;
         }
-=======
+    }
+
     public interface OnStateChangeListener {
 
         /**
@@ -4636,6 +4518,5 @@ public class Workspace extends PagedView
 
     public static final boolean isQsbContainerPage(int pageNo) {
         return pageNo == 0;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/Workspace.java
     }
 }

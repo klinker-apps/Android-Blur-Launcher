@@ -16,12 +16,9 @@
 <!-- The top and bottom paddings are defined in this container, but since we want
      the list view to span the full width (for touch interception purposes), we
      will bake the left/right padding into that view's background itself. -->
-<<<<<<< HEAD
+
 <xyz.klinker.blur.launcher3.allapps.AllAppsContainerView
     xmlns:android="http://schemas.android.com/apk/res/android"
-=======
-<com.android.launcher3.allapps.AllAppsContainerView xmlns:android="http://schemas.android.com/apk/res/android"
->>>>>>> upstream/master
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
     android:id="@+id/apps_view"
     android:layout_width="match_parent"
@@ -37,13 +34,8 @@
         android:focusable="false"
         android:visibility="invisible" />
 
-
-<<<<<<< HEAD
     <xyz.klinker.blur.launcher3.allapps.AllAppsRecyclerViewContainerView
-=======
-    <com.android.launcher3.allapps.AllAppsRecyclerViewContainerView
         android:id="@+id/main_content"
->>>>>>> upstream/master
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
@@ -92,11 +84,7 @@
                 android:textSize="16sp" />
         </FrameLayout>
 
-<<<<<<< HEAD
     </xyz.klinker.blur.launcher3.allapps.AllAppsRecyclerViewContainerView>
-</xyz.klinker.blur.launcher3.allapps.AllAppsContainerView>
-=======
-    </com.android.launcher3.allapps.AllAppsRecyclerViewContainerView>
     <View
         android:id="@+id/nav_bar_bg"
         android:layout_width="match_parent"
@@ -105,5 +93,4 @@
         android:background="@color/all_apps_navbar_color"
         android:focusable="false"
         android:visibility="invisible" />
-</com.android.launcher3.allapps.AllAppsContainerView>
->>>>>>> upstream/master
+</xyz.klinker.blur.launcher3.allapps.AllAppsContainerView>

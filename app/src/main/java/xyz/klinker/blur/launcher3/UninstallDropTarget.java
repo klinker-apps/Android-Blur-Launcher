@@ -10,15 +10,10 @@ import android.os.Bundle;
 import android.os.UserManager;
 import android.util.AttributeSet;
 import android.util.Pair;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/UninstallDropTarget.java
-import xyz.klinker.blur.R;
-import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
-import xyz.klinker.blur.launcher3.util.Thunk;
-=======
 import android.widget.Toast;
 
-import com.android.launcher3.compat.UserHandleCompat;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/UninstallDropTarget.java
+import xyz.klinker.blur.R;
+import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
 
 public class UninstallDropTarget extends ButtonDropTarget {
 

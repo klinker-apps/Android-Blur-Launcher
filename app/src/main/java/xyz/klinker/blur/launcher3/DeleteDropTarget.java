@@ -24,18 +24,12 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/DeleteDropTarget.java
+import xyz.klinker.blur.R;
+import xyz.klinker.blur.launcher3.dragndrop.DragLayer;
+import xyz.klinker.blur.launcher3.dragndrop.DragOptions;
+import xyz.klinker.blur.launcher3.folder.Folder;
 import xyz.klinker.blur.launcher3.util.FlingAnimation;
 import xyz.klinker.blur.launcher3.util.Thunk;
-
-import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.dragndrop.DragLayer;
-import com.android.launcher3.dragndrop.DragOptions;
-import com.android.launcher3.folder.Folder;
-import com.android.launcher3.util.FlingAnimation;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/DeleteDropTarget.java
 
 public class DeleteDropTarget extends ButtonDropTarget {
 
@@ -70,7 +64,7 @@ public class DeleteDropTarget extends ButtonDropTarget {
     }
 
     @Override
-    protected boolean supportsDrop(DragSource source, ItemInfo info) {
+    public boolean supportsDrop(DragSource source, ItemInfo info) {
         return true;
     }
 
@@ -84,15 +78,8 @@ public class DeleteDropTarget extends ButtonDropTarget {
         }
     }
 
-    @Override
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/DeleteDropTarget.java
-    @Thunk
-    void completeDrop(DragObject d) {
-        ItemInfo item = (ItemInfo) d.dragInfo;
-=======
     @Thunk void completeDrop(DragObject d) {
         ItemInfo item = d.dragInfo;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/DeleteDropTarget.java
         if ((d.dragSource instanceof Workspace) || (d.dragSource instanceof Folder)) {
             removeWorkspaceOrFolderItem(mLauncher, item, null);
         }

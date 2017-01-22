@@ -25,15 +25,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.accessibility.AccessibilityEvent;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/accessibility/DragAndDropAccessibilityDelegate.java
 import xyz.klinker.blur.launcher3.CellLayout;
-import xyz.klinker.blur.launcher3.LauncherAppState;
+import xyz.klinker.blur.launcher3.Launcher;
 import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.CellLayout;
-import com.android.launcher3.Launcher;
-import com.android.launcher3.R;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/accessibility/DragAndDropAccessibilityDelegate.java
 
 import java.util.List;
 

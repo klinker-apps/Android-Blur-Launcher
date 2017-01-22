@@ -33,15 +33,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/compat/LauncherAppsCompatV16.java
-import xyz.klinker.blur.launcher3.util.Thunk;
+import xyz.klinker.blur.launcher3.Utilities;
+import xyz.klinker.blur.launcher3.shortcuts.ShortcutInfoCompat;
 import xyz.klinker.blur.launcher3.util.PackageManagerHelper;
-=======
-import com.android.launcher3.Utilities;
-import com.android.launcher3.shortcuts.ShortcutInfoCompat;
-import com.android.launcher3.util.PackageManagerHelper;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/compat/LauncherAppsCompatV16.java
+import xyz.klinker.blur.launcher3.util.Thunk;
 
 import java.util.ArrayList;
 import java.util.List;

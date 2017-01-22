@@ -25,13 +25,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.Toast;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/InfoDropTarget.java
-import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
-
 import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.compat.LauncherAppsCompat;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/InfoDropTarget.java
+import xyz.klinker.blur.launcher3.compat.LauncherAppsCompat;
 
 public class InfoDropTarget extends UninstallDropTarget {
 

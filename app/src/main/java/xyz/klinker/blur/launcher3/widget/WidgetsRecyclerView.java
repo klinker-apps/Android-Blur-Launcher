@@ -22,15 +22,9 @@ import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.view.View;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/widget/WidgetsRecyclerView.java
 import xyz.klinker.blur.launcher3.BaseRecyclerView;
 import xyz.klinker.blur.launcher3.model.PackageItemInfo;
 import xyz.klinker.blur.launcher3.model.WidgetsModel;
-=======
-import com.android.launcher3.BaseRecyclerView;
-import com.android.launcher3.model.PackageItemInfo;
-import com.android.launcher3.model.WidgetsModel;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/widget/WidgetsRecyclerView.java
 
 /**
  * The widgets recycler view.

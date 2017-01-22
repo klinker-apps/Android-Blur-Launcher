@@ -32,21 +32,13 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/LauncherStateTransitionAnimation.java
+import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.allapps.AllAppsContainerView;
-import xyz.klinker.blur.launcher3.util.UiThreadCircularReveal;
+import xyz.klinker.blur.launcher3.allapps.AllAppsTransitionController;
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.util.CircleRevealOutlineProvider;
 import xyz.klinker.blur.launcher3.util.Thunk;
 import xyz.klinker.blur.launcher3.widget.WidgetsContainerView;
-
-import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.allapps.AllAppsContainerView;
-import com.android.launcher3.allapps.AllAppsTransitionController;
-import com.android.launcher3.config.FeatureFlags;
-import com.android.launcher3.util.CircleRevealOutlineProvider;
-import com.android.launcher3.util.Thunk;
-import com.android.launcher3.widget.WidgetsContainerView;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/LauncherStateTransitionAnimation.java
 
 import java.util.HashMap;
 

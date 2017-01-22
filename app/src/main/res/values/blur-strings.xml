@@ -67,6 +67,7 @@
     <string name="about">About</string>
     <string name="find_pages">Find Pages</string>
     <string name="find_cards">Find Cards</string>
+    <string name="delete">Delete</string>
 
     <!-- Advanced Settings -->
     <string name="experimental_disclaimer">These are housed here because they may not always work as intended. Please be aware of this warning when using these settings.</string>

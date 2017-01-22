@@ -16,16 +16,12 @@
 package xyz.klinker.blur.launcher3.widget;
 
 import android.support.v7.widget.RecyclerView;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/widget/WidgetsRowViewHolder.java
-import android.view.ViewGroup;
-=======
 import android.view.View;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.ViewGroup;
 
-import com.android.launcher3.BubbleTextView;
-import com.android.launcher3.R;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/widget/WidgetsRowViewHolder.java
+import xyz.klinker.blur.launcher3.BubbleTextView;
+import xyz.klinker.blur.R;
 
 public class WidgetsRowViewHolder extends RecyclerView.ViewHolder {
 

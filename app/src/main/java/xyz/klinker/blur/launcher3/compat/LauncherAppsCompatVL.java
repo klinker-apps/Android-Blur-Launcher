@@ -28,7 +28,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.UserHandle;
 
-import com.android.launcher3.shortcuts.ShortcutInfoCompat;
+import xyz.klinker.blur.launcher3.shortcuts.ShortcutInfoCompat;
 
 import java.util.ArrayList;
 import java.util.Collections;

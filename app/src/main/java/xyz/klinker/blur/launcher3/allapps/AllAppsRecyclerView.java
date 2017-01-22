@@ -24,21 +24,12 @@ import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.view.View;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/allapps/AllAppsRecyclerView.java
 import xyz.klinker.blur.launcher3.BaseRecyclerView;
-import xyz.klinker.blur.launcher3.DeviceProfile;
-import xyz.klinker.blur.R;
-import xyz.klinker.blur.launcher3.Stats;
-import xyz.klinker.blur.launcher3.Utilities;
 import xyz.klinker.blur.launcher3.BubbleTextView;
-=======
-import com.android.launcher3.BaseRecyclerView;
-import com.android.launcher3.BubbleTextView;
-import com.android.launcher3.DeviceProfile;
-import com.android.launcher3.Launcher;
-import com.android.launcher3.R;
-import com.android.launcher3.userevent.nano.LauncherLogProto;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/allapps/AllAppsRecyclerView.java
+import xyz.klinker.blur.launcher3.DeviceProfile;
+import xyz.klinker.blur.launcher3.Launcher;
+import xyz.klinker.blur.R;
+import xyz.klinker.blur.launcher3.userevent.nano.LauncherLogProto;
 
 import java.util.List;
 

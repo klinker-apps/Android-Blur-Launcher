@@ -1,6 +1,3 @@
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/LauncherCallbacks.java
-package xyz.klinker.blur.launcher3;
-=======
 /*
  * Copyright (C) 2016 The Android Open Source Project
  *
@@ -17,8 +14,7 @@ package xyz.klinker.blur.launcher3;
  * limitations under the License.
  */
 
-package com.android.launcher3;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/LauncherCallbacks.java
+package xyz.klinker.blur.launcher3;
 
 import android.content.Intent;
 import android.graphics.Rect;
@@ -26,14 +22,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/LauncherCallbacks.java
 import xyz.klinker.blur.launcher3.allapps.AllAppsSearchBarController;
+import xyz.klinker.blur.launcher3.logging.UserEventDispatcher;
 import xyz.klinker.blur.launcher3.util.ComponentKey;
-=======
-import com.android.launcher3.allapps.AllAppsSearchBarController;
-import com.android.launcher3.logging.UserEventDispatcher;
-import com.android.launcher3.util.ComponentKey;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/LauncherCallbacks.java
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;

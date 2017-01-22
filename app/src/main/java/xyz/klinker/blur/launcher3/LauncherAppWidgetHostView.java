@@ -30,18 +30,15 @@ import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.RemoteViews;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/LauncherAppWidgetHostView.java
 import xyz.klinker.blur.R;
-=======
-import com.android.launcher3.dragndrop.DragLayer.TouchCompleteListener;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/LauncherAppWidgetHostView.java
+import xyz.klinker.blur.launcher3.dragndrop.DragLayer.TouchCompleteListener;
 
 import java.util.ArrayList;
 
 /**
  * {@inheritDoc}
  */
-public class LauncherAppWidgetHostView extends AppWidgetHostView implements DragLayer.TouchCompleteListener {
+public class LauncherAppWidgetHostView extends AppWidgetHostView implements TouchCompleteListener {
 
     LayoutInflater mInflater;
 

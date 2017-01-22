@@ -73,11 +73,6 @@
          filter the activities shown in the launcher. Can be empty. -->
     <string name="app_filter_class" translatable="false"></string>
 
-<<<<<<< HEAD
-    <!-- Name of a packages that xyz.klinker.blur.launcher3.action.LAUNCH
-         should be targeting. Can be empty. -->
-    <string-array name="launch_broadcast_targets" translatable="false"></string-array>
-=======
     <!-- List of package names that com.android.launcher3.action.LAUNCH
      should be targeting. Can be empty. -->
     <array name="launch_broadcast_targets" translatable="false"></array>
@@ -87,7 +82,6 @@
 
     <!-- Package name of the default wallpaper picker. -->
     <string name="wallpaper_picker_package" translatable="false"></string>
->>>>>>> upstream/master
 
     <!-- Specifies whether to expand the cropped area on both sides (rather
          than just to one side) -->

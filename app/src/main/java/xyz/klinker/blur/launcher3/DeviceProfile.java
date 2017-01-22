@@ -29,7 +29,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 
-import com.android.launcher3.config.FeatureFlags;
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
 
 import java.util.ArrayList;
 
@@ -213,7 +213,6 @@ public class DeviceProfile {
         computeAllAppsButtonSize(context);
     }
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/DeviceProfile.java
     private void setInvFromSettings(AppSettings settings) {
         // set the grid
         inv.numColumns = settings.colCount;
@@ -221,12 +220,12 @@ public class DeviceProfile {
 
         // set the hotseat/dock
         inv.numHotseatIcons = settings.dockItems;
-        inv.hotseatAllAppsRank = settings.dockItems / 2;
 
         // set the icon size
         inv.iconSize = inv.iconSize * settings.iconScale;
         inv.hotseatIconSize = inv.hotseatIconSize * settings.dockScale;
-=======
+    }
+
     public void addLauncherLayoutChangedListener(LauncherLayoutChangeListener listener) {
         if (!mListeners.contains(listener)) {
             mListeners.add(listener);
@@ -237,7 +236,6 @@ public class DeviceProfile {
         if (mListeners.contains(listener)) {
             mListeners.remove(listener);
         }
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/DeviceProfile.java
     }
 
     /**
@@ -285,22 +283,13 @@ public class DeviceProfile {
         dragViewScale = (iconSizePx + scaleDps) / iconSizePx;
 
         // Hotseat
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/DeviceProfile.java
         if (settings.showDock) {
-            normalHotseatBarHeightPx = iconSizePx + 4 * edgeMarginPx;
-            shortHotseatBarHeightPx = iconSizePx + 2 * edgeMarginPx;
             hotseatCellWidthPx = iconSizePx;
             hotseatCellHeightPx = iconSizePx;
         } else {
-            normalHotseatBarHeightPx = 0;
-            shortHotseatBarHeightPx = 0;
             hotseatCellWidthPx = 0;
             hotseatCellHeightPx = 0;
         }
-=======
-        hotseatCellWidthPx = iconSizePx;
-        hotseatCellHeightPx = iconSizePx;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/DeviceProfile.java
 
         if (!isVerticalBarLayout()) {
             int expectedWorkspaceHeight = availableHeightPx - hotseatBarHeightPx
@@ -339,17 +328,16 @@ public class DeviceProfile {
         folderIconPreviewPadding = res.getDimensionPixelSize(R.dimen.folder_preview_padding);
     }
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/DeviceProfile.java
     /**
      * @param recyclerViewWidth the available width of the AllAppsRecyclerView
      */
     public void updateAppsViewNumCols(Resources res, int recyclerViewWidth) {
         allAppsNumCols = settings.colCountAllApps;
         allAppsNumPredictiveCols = settings.colCountAllApps;
-=======
+    }
+
     public void updateInsets(Rect insets) {
         mInsets.set(insets);
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/DeviceProfile.java
     }
 
     public void updateAppsViewNumCols() {
@@ -376,11 +364,6 @@ public class DeviceProfile {
             }
             return new Point(availableWidthPx - 2 * gap, dropTargetBarSizePx);
         }
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/DeviceProfile.java
-
-        return bounds;
-=======
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/DeviceProfile.java
     }
 
     public Point getCellSize() {

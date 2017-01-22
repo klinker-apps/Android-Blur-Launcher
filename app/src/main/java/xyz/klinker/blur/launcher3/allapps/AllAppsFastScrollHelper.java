@@ -18,15 +18,9 @@ package xyz.klinker.blur.launcher3.allapps;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/allapps/AllAppsFastScrollHelper.java
 import xyz.klinker.blur.launcher3.BaseRecyclerViewFastScrollBar;
 import xyz.klinker.blur.launcher3.FastBitmapDrawable;
 import xyz.klinker.blur.launcher3.util.Thunk;
-=======
-import com.android.launcher3.BaseRecyclerViewFastScrollBar;
-import com.android.launcher3.FastBitmapDrawable;
-import com.android.launcher3.util.Thunk;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/allapps/AllAppsFastScrollHelper.java
 
 import java.util.HashSet;
 import java.util.List;

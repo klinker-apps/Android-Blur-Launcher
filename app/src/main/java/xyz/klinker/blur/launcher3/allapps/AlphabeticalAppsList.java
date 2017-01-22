@@ -17,28 +17,16 @@ package xyz.klinker.blur.launcher3.allapps;
 
 import android.content.ComponentName;
 import android.content.Context;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/allapps/AlphabeticalAppsList.java
 import android.preference.PreferenceManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import xyz.klinker.blur.launcher3.AppInfo;
-import xyz.klinker.blur.launcher3.Launcher;
-import xyz.klinker.blur.launcher3.LauncherAppState;
-import xyz.klinker.blur.launcher3.compat.AlphabeticIndexCompat;
-import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
-import xyz.klinker.blur.launcher3.model.AppNameComparator;
-import xyz.klinker.blur.launcher3.util.ComponentKey;
-=======
 import android.util.Log;
 
-import com.android.launcher3.AppInfo;
-import com.android.launcher3.Launcher;
-import com.android.launcher3.compat.AlphabeticIndexCompat;
-import com.android.launcher3.compat.UserHandleCompat;
-import com.android.launcher3.config.ProviderConfig;
-import com.android.launcher3.model.AppNameComparator;
-import com.android.launcher3.util.ComponentKey;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/allapps/AlphabeticalAppsList.java
+import xyz.klinker.blur.launcher3.AppInfo;
+import xyz.klinker.blur.launcher3.Launcher;
+import xyz.klinker.blur.launcher3.compat.AlphabeticIndexCompat;
+import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
+import xyz.klinker.blur.launcher3.config.ProviderConfig;
+import xyz.klinker.blur.launcher3.model.AppNameComparator;
+import xyz.klinker.blur.launcher3.util.ComponentKey;
 
 import java.util.ArrayList;
 import java.util.Collections;

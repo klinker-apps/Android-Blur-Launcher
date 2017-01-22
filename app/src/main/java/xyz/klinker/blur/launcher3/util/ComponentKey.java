@@ -18,14 +18,8 @@ package xyz.klinker.blur.launcher3.util;
 
 import android.content.ComponentName;
 import android.content.Context;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/util/ComponentKey.java
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
 import xyz.klinker.blur.launcher3.compat.UserManagerCompat;
-=======
-
-import com.android.launcher3.compat.UserHandleCompat;
-import com.android.launcher3.compat.UserManagerCompat;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/util/ComponentKey.java
 
 import java.util.Arrays;
 

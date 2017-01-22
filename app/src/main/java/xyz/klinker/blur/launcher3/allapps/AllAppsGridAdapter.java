@@ -23,15 +23,11 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.support.v4.view.accessibility.AccessibilityEventCompat;
 import android.support.v4.view.accessibility.AccessibilityRecordCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/allapps/AllAppsGridAdapter.java
-import android.support.v7.widget.RecyclerView.Recycler;
-import android.support.v7.widget.RecyclerView.State;
-=======
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/allapps/AllAppsGridAdapter.java
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,22 +36,13 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.TextView;
-<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/allapps/AllAppsGridAdapter.java
+
 import xyz.klinker.blur.launcher3.AppInfo;
 import xyz.klinker.blur.launcher3.BubbleTextView;
+import xyz.klinker.blur.launcher3.DeviceProfile;
 import xyz.klinker.blur.launcher3.Launcher;
 import xyz.klinker.blur.R;
-import xyz.klinker.blur.launcher3.LauncherAppState;
 import xyz.klinker.blur.launcher3.Utilities;
-=======
-
-import com.android.launcher3.AppInfo;
-import com.android.launcher3.BubbleTextView;
-import com.android.launcher3.DeviceProfile;
-import com.android.launcher3.Launcher;
-import com.android.launcher3.R;
-import com.android.launcher3.Utilities;
->>>>>>> upstream/master:app/src/main/java/com/android/launcher3/allapps/AllAppsGridAdapter.java
 
 import java.util.HashMap;
 import java.util.List;
