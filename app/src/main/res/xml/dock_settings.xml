@@ -2,11 +2,11 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
+    <!--<CheckBoxPreference
         android:key="show_dock"
         android:title="@string/show_dock"
         android:defaultValue="true"
-        />
+        />-->
 
     <ListPreference
         android:key="dock_icon_scale"
@@ -15,7 +15,6 @@
         android:defaultValue="1.0"
         android:entries="@array/scale"
         android:entryValues="@array/scale_inserted"
-        android:dependency="show_dock"
         />
 
     <ListPreference
@@ -24,7 +23,6 @@
         android:defaultValue="@integer/default_dock_items"
         android:entries="@array/dock_count"
         android:entryValues="@array/dock_count"
-        android:dependency="show_dock"
         />
 
 </PreferenceScreen>

@@ -8,11 +8,11 @@
     <xyz.klinker.blur.addons.view.DrawerGridSizePreference
             android:title="@string/all_apps_grid"/>
 
-    <CheckBoxPreference
+    <!--<CheckBoxPreference
         android:key="show_predicted_apps"
         android:title="@string/show_predicted_apps"
         android:defaultValue="true"
-        />
+        />-->
 
     <PreferenceCategory
         android:title="@string/padding">
