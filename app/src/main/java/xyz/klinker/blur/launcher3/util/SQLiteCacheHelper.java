@@ -29,22 +29,6 @@ public abstract class SQLiteCacheHelper {
     }
 
     /**
-     * @see SQLiteDatabase#update(String, ContentValues, String, String[])
-     */
-    public void update(ContentValues values, String whereClause, String[] whereArgs) {
-        if (mIgnoreWrites) {
-            return;
-        }
-        try {
-            mOpenHelper.getWritableDatabase().update(mTableName, values, whereClause, whereArgs);
-        } catch (SQLiteFullException e) {
-            onDiskFull(e);
-        } catch (SQLiteException e) {
-            Log.d(TAG, "Ignoring sqlite exception", e);
-        }
-    }
-
-    /**
      * @see SQLiteDatabase#delete(String, String, String[])
      */
     public void delete(String whereClause, String[] whereArgs) {
@@ -98,7 +82,7 @@ public abstract class SQLiteCacheHelper {
     private class MySQLiteOpenHelper extends SQLiteOpenHelper {
 
         public MySQLiteOpenHelper(Context context, String name, int version) {
-            super(context, name, null, version);
+            super(new NoLocaleSqliteContext(context), name, null, version);
         }
 
         @Override

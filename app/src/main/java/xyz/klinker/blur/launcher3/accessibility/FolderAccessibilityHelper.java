@@ -17,7 +17,7 @@
 package xyz.klinker.blur.launcher3.accessibility;
 
 import xyz.klinker.blur.launcher3.CellLayout;
-import xyz.klinker.blur.launcher3.FolderPagedView;
+import xyz.klinker.blur.launcher3.folder.FolderPagedView;
 import xyz.klinker.blur.R;
 
 /**

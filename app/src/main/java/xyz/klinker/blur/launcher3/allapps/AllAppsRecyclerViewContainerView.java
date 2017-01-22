@@ -18,13 +18,16 @@ package xyz.klinker.blur.launcher3.allapps;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
 import xyz.klinker.blur.launcher3.BubbleTextView;
 import xyz.klinker.blur.launcher3.BubbleTextView.BubbleTextShadowHandler;
 import xyz.klinker.blur.launcher3.ClickShadowView;
 import xyz.klinker.blur.launcher3.DeviceProfile;
 import xyz.klinker.blur.launcher3.Launcher;
+import xyz.klinker.blur.R;
 
 /**
  * A container for RecyclerView to allow for the click shadow view to be shown behind an icon that
@@ -46,7 +49,7 @@ public class AllAppsRecyclerViewContainerView extends FrameLayout
     public AllAppsRecyclerViewContainerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        Launcher launcher = (Launcher) context;
+        Launcher launcher = Launcher.getLauncher(context);
         DeviceProfile grid = launcher.getDeviceProfile();
 
         mTouchFeedbackView = new ClickShadowView(context);
@@ -62,7 +65,8 @@ public class AllAppsRecyclerViewContainerView extends FrameLayout
             mTouchFeedbackView.setBitmap(null);
             mTouchFeedbackView.animate().cancel();
         } else if (mTouchFeedbackView.setBitmap(background)) {
-            mTouchFeedbackView.alignWithIconView(icon, (ViewGroup) icon.getParent());
+            View rv = findViewById(R.id.apps_list_view);
+            mTouchFeedbackView.alignWithIconView(icon, (ViewGroup) icon.getParent(), rv);
             mTouchFeedbackView.animateShadow();
         }
     }

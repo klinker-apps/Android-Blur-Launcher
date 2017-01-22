@@ -10,13 +10,16 @@ import android.util.Log;
 import android.view.View;
 
 import xyz.klinker.blur.launcher3.AppWidgetResizeFrame;
-import xyz.klinker.blur.launcher3.DragController;
-import xyz.klinker.blur.launcher3.DragLayer;
 import xyz.klinker.blur.launcher3.DragSource;
+import xyz.klinker.blur.launcher3.DropTarget;
+import xyz.klinker.blur.launcher3.ItemInfo;
 import xyz.klinker.blur.launcher3.Launcher;
 import xyz.klinker.blur.launcher3.LauncherAppWidgetProviderInfo;
 import xyz.klinker.blur.launcher3.Utilities;
 import xyz.klinker.blur.launcher3.compat.AppWidgetManagerCompat;
+import xyz.klinker.blur.launcher3.dragndrop.DragController;
+import xyz.klinker.blur.launcher3.dragndrop.DragLayer;
+import xyz.klinker.blur.launcher3.dragndrop.DragOptions;
 import xyz.klinker.blur.launcher3.util.Thunk;
 
 public class WidgetHostViewLoader implements DragController.DragListener {
@@ -48,7 +51,7 @@ public class WidgetHostViewLoader implements DragController.DragListener {
     }
 
     @Override
-    public void onDragStart(DragSource source, Object info, int dragAction) { }
+    public void onDragStart(DropTarget.DragObject dragObject, DragOptions options) { }
 
     @Override
     public void onDragEnd() {
@@ -152,15 +155,15 @@ public class WidgetHostViewLoader implements DragController.DragListener {
         return true;
     }
 
-    public static Bundle getDefaultOptionsForWidget(Launcher launcher, PendingAddWidgetInfo info) {
+    public static Bundle getDefaultOptionsForWidget(Context context, PendingAddWidgetInfo info) {
         Bundle options = null;
-        Rect rect = new Rect();
         if (Utilities.ATLEAST_JB_MR1) {
-            AppWidgetResizeFrame.getWidgetSizeRanges(launcher, info.spanX, info.spanY, rect);
-            Rect padding = AppWidgetHostView.getDefaultPaddingForWidget(launcher,
+            Rect rect = new Rect();
+            AppWidgetResizeFrame.getWidgetSizeRanges(context, info.spanX, info.spanY, rect);
+            Rect padding = AppWidgetHostView.getDefaultPaddingForWidget(context,
                     info.componentName, null);
 
-            float density = launcher.getResources().getDisplayMetrics().density;
+            float density = context.getResources().getDisplayMetrics().density;
             int xPaddingDips = (int) ((padding.left + padding.right) / density);
             int yPaddingDips = (int) ((padding.top + padding.bottom) / density);
 

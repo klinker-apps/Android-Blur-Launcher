@@ -26,7 +26,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.addons.utils.IconPackHelper;
@@ -56,12 +55,7 @@ public class LauncherActivityInfoCompatV16 extends LauncherActivityInfoCompat {
     }
 
     public CharSequence getLabel() {
-        try {
-            return mResolveInfo.loadLabel(mPm);
-        } catch (SecurityException e) {
-            Log.e("LAInfoCompat", "Failed to extract app display name from resolve info", e);
-            return "";
-        }
+        return mResolveInfo.loadLabel(mPm);
     }
 
     public Drawable getIcon(int density, IconPackHelper helper) {

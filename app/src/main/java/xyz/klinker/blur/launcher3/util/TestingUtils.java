@@ -19,7 +19,7 @@ import java.util.HashMap;
 public class TestingUtils {
 
     public static final String MEMORY_TRACKER = "MemoryTracker";
-    public static final String ACTION_START_TRACKING = "com.android.launcher3.action.START_TRACKING";
+    public static final String ACTION_START_TRACKING = "xyz.klinker.blur.launcher3.action.START_TRACKING";
 
     public static final boolean MEMORY_DUMP_ENABLED = false;
     public static final String SHOW_WEIGHT_WATCHER = "debug.show_mem";

@@ -19,14 +19,17 @@ package xyz.klinker.blur.launcher3;
 import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.graphics.PointF;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 
+import xyz.klinker.blur.R;
+import xyz.klinker.blur.launcher3.dragndrop.DragLayer;
+import xyz.klinker.blur.launcher3.dragndrop.DragOptions;
+import xyz.klinker.blur.launcher3.folder.Folder;
 import xyz.klinker.blur.launcher3.util.FlingAnimation;
 import xyz.klinker.blur.launcher3.util.Thunk;
-
-import xyz.klinker.blur.R;
 
 public class DeleteDropTarget extends ButtonDropTarget {
 
@@ -47,21 +50,36 @@ public class DeleteDropTarget extends ButtonDropTarget {
         setDrawable(R.drawable.ic_remove_launcher);
     }
 
-    public static boolean supportsDrop(Object info) {
+    @Override
+    public void onDragStart(DropTarget.DragObject dragObject, DragOptions options) {
+        super.onDragStart(dragObject, options);
+        setTextBasedOnDragSource(dragObject.dragSource);
+    }
+
+    /** @return true for items that should have a "Remove" action in accessibility. */
+    public static boolean supportsAccessibleDrop(ItemInfo info) {
         return (info instanceof ShortcutInfo)
                 || (info instanceof LauncherAppWidgetInfo)
                 || (info instanceof FolderInfo);
     }
 
     @Override
-    protected boolean supportsDrop(DragSource source, Object info) {
-        return source.supportsDeleteDropTarget() && supportsDrop(info);
+    public boolean supportsDrop(DragSource source, ItemInfo info) {
+        return true;
     }
 
-    @Override
-    @Thunk
-    void completeDrop(DragObject d) {
-        ItemInfo item = (ItemInfo) d.dragInfo;
+    /**
+     * Set the drop target's text to either "Remove" or "Cancel" depending on the drag source.
+     */
+    public void setTextBasedOnDragSource(DragSource dragSource) {
+        if (!TextUtils.isEmpty(getText())) {
+            setText(dragSource.supportsDeleteDropTarget() ? R.string.remove_drop_target_label
+                    : android.R.string.cancel);
+        }
+    }
+
+    @Thunk void completeDrop(DragObject d) {
+        ItemInfo item = d.dragInfo;
         if ((d.dragSource instanceof Workspace) || (d.dragSource instanceof Folder)) {
             removeWorkspaceOrFolderItem(mLauncher, item, null);
         }
@@ -83,7 +101,6 @@ public class DeleteDropTarget extends ButtonDropTarget {
     public void onFlingToDelete(final DragObject d, PointF vel) {
         // Don't highlight the icon as it's animating
         d.dragView.setColor(0);
-        d.dragView.updateInitialScaleToCurrentScale();
 
         final DragLayer dragLayer = mLauncher.getDragLayer();
         FlingAnimation fling = new FlingAnimation(d, vel,

@@ -83,9 +83,7 @@ public class BaseRecyclerViewFastScrollBar {
         mTrackPaint = new Paint();
         mTrackPaint.setColor(rv.getFastScrollerTrackColor(Color.BLACK));
         mTrackPaint.setAlpha(MAX_TRACK_ALPHA);
-        mThumbInactiveColor = rv.getFastScrollerThumbInactiveColor(
-                res.getColor(R.color.container_fastscroll_thumb_inactive_color));
-        mThumbActiveColor = res.getColor(R.color.container_fastscroll_thumb_active_color);
+        mThumbActiveColor = mThumbInactiveColor = Utilities.getColorAccent(rv.getContext());
         mThumbPaint = new Paint();
         mThumbPaint.setAntiAlias(true);
         mThumbPaint.setColor(mThumbInactiveColor);
@@ -140,11 +138,11 @@ public class BaseRecyclerViewFastScrollBar {
     // Setter/getter for the track bar width for animations
     public void setTrackWidth(int width) {
         mInvalidateRect.set(mThumbOffset.x - mThumbCurvature, 0, mThumbOffset.x + mThumbWidth,
-                mRv.getHeight());
+                mRv.getVisibleHeight());
         mTrackWidth = width;
         updateThumbPath();
         mInvalidateRect.union(mThumbOffset.x - mThumbCurvature, 0, mThumbOffset.x + mThumbWidth,
-                mRv.getHeight());
+                mRv.getVisibleHeight());
         mRv.invalidate(mInvalidateRect);
     }
 
@@ -158,10 +156,6 @@ public class BaseRecyclerViewFastScrollBar {
 
     public int getThumbMaxWidth() {
         return mThumbMaxWidth;
-    }
-
-    public float getLastTouchY() {
-        return mLastTouchY;
     }
 
     public boolean isDraggingThumb() {
@@ -206,7 +200,7 @@ public class BaseRecyclerViewFastScrollBar {
                 if (mIsDragging) {
                     // Update the fastscroller section name at this touch position
                     int top = mRv.getBackgroundPadding().top;
-                    int bottom = mRv.getHeight() - mRv.getBackgroundPadding().bottom - mThumbHeight;
+                    int bottom = top + mRv.getVisibleHeight() - mThumbHeight;
                     float boundedY = (float) Math.max(top, Math.min(bottom, y - mTouchOffset));
                     String sectionName = mRv.scrollToPositionAtProgress((boundedY - top) /
                             (bottom - top));
@@ -214,6 +208,7 @@ public class BaseRecyclerViewFastScrollBar {
                     mPopup.animateVisibility(!sectionName.isEmpty());
                     mRv.invalidate(mPopup.updateFastScrollerBounds(lastY));
                     mLastTouchY = boundedY;
+                    setThumbOffset(mRv.getScrollBarX(), (int) mLastTouchY);
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -237,7 +232,8 @@ public class BaseRecyclerViewFastScrollBar {
 
         // Draw the scroll bar track and thumb
         if (mTrackPaint.getAlpha() > 0) {
-            canvas.drawRect(mThumbOffset.x, 0, mThumbOffset.x + mThumbWidth, mRv.getHeight(), mTrackPaint);
+            canvas.drawRect(mThumbOffset.x, 0, mThumbOffset.x + mThumbWidth,
+                    mRv.getVisibleHeight(), mTrackPaint);
         }
         canvas.drawPath(mThumbPath, mThumbPaint);
 
@@ -294,7 +290,7 @@ public class BaseRecyclerViewFastScrollBar {
     /**
      * Returns whether the specified points are near the scroll bar bounds.
      */
-    private boolean isNearThumb(int x, int y) {
+    public boolean isNearThumb(int x, int y) {
         mTmpRect.set(mThumbOffset.x, mThumbOffset.y, mThumbOffset.x + mThumbWidth,
                 mThumbOffset.y + mThumbHeight);
         mTmpRect.inset(mTouchInset, mTouchInset);

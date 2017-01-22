@@ -24,14 +24,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import xyz.klinker.blur.launcher3.BaseContainerView;
 import xyz.klinker.blur.launcher3.CellLayout;
 import xyz.klinker.blur.launcher3.DeleteDropTarget;
-import xyz.klinker.blur.launcher3.DragController;
 import xyz.klinker.blur.launcher3.DragSource;
-import xyz.klinker.blur.launcher3.Folder;
+import xyz.klinker.blur.launcher3.DropTarget;
+import xyz.klinker.blur.launcher3.DropTarget.DragObject;
+import xyz.klinker.blur.launcher3.dragndrop.DragOptions;
+import xyz.klinker.blur.launcher3.folder.Folder;
 import xyz.klinker.blur.launcher3.IconCache;
 import xyz.klinker.blur.launcher3.ItemInfo;
 import xyz.klinker.blur.launcher3.Launcher;
@@ -41,9 +44,12 @@ import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.Utilities;
 import xyz.klinker.blur.launcher3.WidgetPreviewLoader;
 import xyz.klinker.blur.launcher3.Workspace;
+import xyz.klinker.blur.launcher3.dragndrop.DragController;
 import xyz.klinker.blur.launcher3.model.WidgetsModel;
+import xyz.klinker.blur.launcher3.userevent.nano.LauncherLogProto;
+import xyz.klinker.blur.launcher3.userevent.nano.LauncherLogProto.Target;
 import xyz.klinker.blur.launcher3.util.Thunk;
-import xyz.klinker.blur.launcher3.DropTarget;
+import xyz.klinker.blur.launcher3.util.TransformingTouchDelegate;
 
 /**
  * The widgets list view container.
@@ -59,9 +65,12 @@ public class WidgetsContainerView extends BaseContainerView
     private DragController mDragController;
     private IconCache mIconCache;
 
+    private final Rect mTmpBgPaddingRect = new Rect();
+
     /* Recycler view related member variables */
     private WidgetsRecyclerView mRecyclerView;
     private WidgetsListAdapter mAdapter;
+    private TransformingTouchDelegate mRecyclerViewTouchDelegate;
 
     /* Touch handling related member variables. */
     private Toast mWidgetInstructionToast;
@@ -79,13 +88,24 @@ public class WidgetsContainerView extends BaseContainerView
 
     public WidgetsContainerView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mLauncher = (Launcher) context;
+        mLauncher = Launcher.getLauncher(context);
         mDragController = mLauncher.getDragController();
-        mAdapter = new WidgetsListAdapter(context, this, this, mLauncher);
+        mAdapter = new WidgetsListAdapter(this, this, context);
         mIconCache = (LauncherAppState.getInstance()).getIconCache();
         if (LOGD) {
             Log.d(TAG, "WidgetsContainerView constructor");
         }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        getRevealView().getBackground().getPadding(mTmpBgPaddingRect);
+        mRecyclerViewTouchDelegate.setBounds(
+                mRecyclerView.getLeft() - mTmpBgPaddingRect.left,
+                mRecyclerView.getTop() - mTmpBgPaddingRect.top,
+                mRecyclerView.getRight() + mTmpBgPaddingRect.right,
+                mRecyclerView.getBottom() + mTmpBgPaddingRect.bottom);
     }
 
     @Override
@@ -94,6 +114,13 @@ public class WidgetsContainerView extends BaseContainerView
         mRecyclerView = (WidgetsRecyclerView) getContentView().findViewById(R.id.widgets_list_view);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerViewTouchDelegate = new TransformingTouchDelegate(mRecyclerView);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        ((View) mRecyclerView.getParent()).setTouchDelegate(mRecyclerViewTouchDelegate);
     }
 
     //
@@ -183,7 +210,7 @@ public class WidgetsContainerView extends BaseContainerView
 
         // Compose the drag image
         Bitmap preview;
-        float scale = 1f;
+        final float scale;
         final Rect bounds = image.getBitmapBounds();
 
         if (createItemInfo instanceof PendingAddWidgetInfo) {
@@ -220,17 +247,14 @@ public class WidgetsContainerView extends BaseContainerView
             scale = ((float) mLauncher.getDeviceProfile().iconSizePx) / preview.getWidth();
         }
 
-        // Don't clip alpha values for the drag outline if we're using the default widget preview
-        boolean clipAlpha = !(createItemInfo instanceof PendingAddWidgetInfo &&
-                (((PendingAddWidgetInfo) createItemInfo).previewImage == 0));
+        // Since we are not going through the workspace for starting the drag, set drag related
+        // information on the workspace before starting the drag.
+        mLauncher.getWorkspace().prepareDragWithProvider(
+                new PendingItemPreviewProvider(v, createItemInfo, preview));
 
         // Start the drag
-        mLauncher.lockScreenOrientation();
-        mLauncher.getWorkspace().onDragStartedWithItem(createItemInfo, preview, clipAlpha);
         mDragController.startDrag(image, preview, this, createItemInfo,
-                bounds, DragController.DRAG_ACTION_COPY, scale);
-
-        preview.recycle();
+                bounds, scale, new DragOptions());
         return true;
     }
 
@@ -240,7 +264,7 @@ public class WidgetsContainerView extends BaseContainerView
 
     @Override
     public boolean supportsFlingToDelete() {
-        return false;
+        return true;
     }
 
     @Override
@@ -293,7 +317,7 @@ public class WidgetsContainerView extends BaseContainerView
                 int currentScreen = mLauncher.getCurrentWorkspaceScreen();
                 Workspace workspace = (Workspace) target;
                 CellLayout layout = (CellLayout) workspace.getChildAt(currentScreen);
-                ItemInfo itemInfo = (ItemInfo) d.dragInfo;
+                ItemInfo itemInfo = d.dragInfo;
                 if (layout != null) {
                     showOutOfSpaceMessage =
                             !layout.findCellForSpan(null, itemInfo.spanX, itemInfo.spanY);
@@ -306,22 +330,6 @@ public class WidgetsContainerView extends BaseContainerView
         }
     }
 
-    //
-    // Container rendering related.
-    //
-    @Override
-    protected void onUpdateBgPadding(Rect padding, Rect bgPadding) {
-        if (Utilities.isRtl(getResources())) {
-            getContentView().setPadding(0, bgPadding.top,
-                    bgPadding.right, bgPadding.bottom);
-            mRecyclerView.updateBackgroundPadding(new Rect(bgPadding.left, 0, 0, 0));
-        } else {
-            getContentView().setPadding(bgPadding.left, bgPadding.top,
-                    0, bgPadding.bottom);
-            mRecyclerView.updateBackgroundPadding(new Rect(0, 0, bgPadding.right, 0));
-        }
-    }
-
     /**
      * Initialize the widget data model.
      */
@@ -329,6 +337,11 @@ public class WidgetsContainerView extends BaseContainerView
         mRecyclerView.setWidgets(model);
         mAdapter.setWidgetsModel(model);
         mAdapter.notifyDataSetChanged();
+
+        View loader = getContentView().findViewById(R.id.loader);
+        if (loader != null) {
+            ((ViewGroup) getContentView()).removeView(loader);
+        }
     }
 
     public boolean isEmpty() {
@@ -340,5 +353,10 @@ public class WidgetsContainerView extends BaseContainerView
             mWidgetPreviewLoader = LauncherAppState.getInstance().getWidgetCache();
         }
         return mWidgetPreviewLoader;
+    }
+
+    @Override
+    public void fillInLaunchSourceData(View v, ItemInfo info, Target target, Target targetParent) {
+        targetParent.containerType = LauncherLogProto.WIDGETS;
     }
 }

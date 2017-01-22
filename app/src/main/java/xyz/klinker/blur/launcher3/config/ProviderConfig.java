@@ -19,4 +19,6 @@ package xyz.klinker.blur.launcher3.config;
 public class ProviderConfig {
 
     public static final String AUTHORITY = "xyz.klinker.blur.launcher3.settings".intern();
+
+    public static boolean IS_DOGFOOD_BUILD = true;
 }

@@ -17,8 +17,6 @@ package xyz.klinker.blur.launcher3.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.pm.ResolveInfo;
-import android.content.res.Resources;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,14 +27,12 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
 import xyz.klinker.blur.launcher3.BubbleTextView;
-import xyz.klinker.blur.launcher3.DeviceProfile;
-import xyz.klinker.blur.launcher3.Launcher;
 import xyz.klinker.blur.launcher3.LauncherAppState;
-import xyz.klinker.blur.launcher3.LauncherAppWidgetProviderInfo;
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.Utilities;
 import xyz.klinker.blur.launcher3.WidgetPreviewLoader;
 import xyz.klinker.blur.launcher3.model.PackageItemInfo;
+import xyz.klinker.blur.launcher3.model.WidgetItem;
 import xyz.klinker.blur.launcher3.model.WidgetsModel;
 
 import java.util.List;
@@ -54,29 +50,25 @@ public class WidgetsListAdapter extends RecyclerView.Adapter<WidgetsRowViewHolde
     private static final String TAG = "WidgetsListAdapter";
     private static final boolean DEBUG = false;
 
-    private Launcher mLauncher;
-    private LayoutInflater mLayoutInflater;
+    private final WidgetPreviewLoader mWidgetPreviewLoader;
+    private final LayoutInflater mLayoutInflater;
+
+    private final View.OnClickListener mIconClickListener;
+    private final View.OnLongClickListener mIconLongClickListener;
 
     private WidgetsModel mWidgetsModel;
-    private WidgetPreviewLoader mWidgetPreviewLoader;
 
-    private View.OnClickListener mIconClickListener;
-    private View.OnLongClickListener mIconLongClickListener;
+    private final int mIndent;
 
-    private static final int PRESET_INDENT_SIZE_TABLET = 56;
-    private int mIndent = 0;
-
-    public WidgetsListAdapter(Context context,
-            View.OnClickListener iconClickListener,
+    public WidgetsListAdapter(View.OnClickListener iconClickListener,
             View.OnLongClickListener iconLongClickListener,
-            Launcher launcher) {
+            Context context) {
         mLayoutInflater = LayoutInflater.from(context);
+        mWidgetPreviewLoader = LauncherAppState.getInstance().getWidgetCache();
 
         mIconClickListener = iconClickListener;
         mIconLongClickListener = iconLongClickListener;
-        mLauncher = launcher;
-
-        setContainerHeight();
+        mIndent = context.getResources().getDimensionPixelSize(R.dimen.widget_section_indent);
     }
 
     public void setWidgetsModel(WidgetsModel w) {
@@ -93,9 +85,9 @@ public class WidgetsListAdapter extends RecyclerView.Adapter<WidgetsRowViewHolde
 
     @Override
     public void onBindViewHolder(WidgetsRowViewHolder holder, int pos) {
-        List<Object> infoList = mWidgetsModel.getSortedWidgets(pos);
+        List<WidgetItem> infoList = mWidgetsModel.getSortedWidgets(pos);
 
-        ViewGroup row = ((ViewGroup) holder.getContent().findViewById(R.id.widgets_cell_list));
+        ViewGroup row = holder.cellContainer;
         if (DEBUG) {
             Log.d(TAG, String.format(
                     "onBindViewHolder [pos=%d, widget#=%d, row.getChildCount=%d]",
@@ -128,27 +120,12 @@ public class WidgetsListAdapter extends RecyclerView.Adapter<WidgetsRowViewHolde
         }
 
         // Bind the views in the application info section.
-        PackageItemInfo infoOut = mWidgetsModel.getPackageItemInfo(pos);
-        BubbleTextView tv = ((BubbleTextView) holder.getContent().findViewById(R.id.section));
-        tv.applyFromPackageItemInfo(infoOut);
+        holder.title.applyFromPackageItemInfo(mWidgetsModel.getPackageItemInfo(pos));
 
         // Bind the view in the widget horizontal tray region.
-        if (getWidgetPreviewLoader() == null) {
-            return;
-        }
         for (int i=0; i < infoList.size(); i++) {
             WidgetCell widget = (WidgetCell) row.getChildAt(i);
-            if (infoList.get(i) instanceof LauncherAppWidgetProviderInfo) {
-                LauncherAppWidgetProviderInfo info = (LauncherAppWidgetProviderInfo) infoList.get(i);
-                PendingAddWidgetInfo pawi = new PendingAddWidgetInfo(mLauncher, info, null);
-                widget.setTag(pawi);
-                widget.applyFromAppWidgetProviderInfo(info, mWidgetPreviewLoader);
-            } else if (infoList.get(i) instanceof ResolveInfo) {
-                ResolveInfo info = (ResolveInfo) infoList.get(i);
-                PendingAddShortcutInfo pasi = new PendingAddShortcutInfo(info.activityInfo);
-                widget.setTag(pasi);
-                widget.applyFromResolveInfo(mLauncher.getPackageManager(), info, mWidgetPreviewLoader);
-            }
+            widget.applyFromCellItem(infoList.get(i), mWidgetPreviewLoader);
             widget.ensurePreview();
             widget.setVisibility(View.VISIBLE);
         }
@@ -178,10 +155,9 @@ public class WidgetsListAdapter extends RecyclerView.Adapter<WidgetsRowViewHolde
 
     @Override
     public void onViewRecycled(WidgetsRowViewHolder holder) {
-        ViewGroup row = ((ViewGroup) holder.getContent().findViewById(R.id.widgets_cell_list));
-
-        for (int i = 0; i < row.getChildCount(); i++) {
-            WidgetCell widget = (WidgetCell) row.getChildAt(i);
+        int total = holder.cellContainer.getChildCount();
+        for (int i = 0; i < total; i++) {
+            WidgetCell widget = (WidgetCell) holder.cellContainer.getChildAt(i);
             widget.clear();
         }
     }
@@ -197,20 +173,5 @@ public class WidgetsListAdapter extends RecyclerView.Adapter<WidgetsRowViewHolde
     @Override
     public long getItemId(int pos) {
         return pos;
-    }
-
-    private WidgetPreviewLoader getWidgetPreviewLoader() {
-        if (mWidgetPreviewLoader == null) {
-            mWidgetPreviewLoader = LauncherAppState.getInstance().getWidgetCache();
-        }
-        return mWidgetPreviewLoader;
-    }
-
-    private void setContainerHeight() {
-        Resources r = mLauncher.getResources();
-        DeviceProfile profile = mLauncher.getDeviceProfile();
-        if (profile.isLargeTablet || profile.isTablet) {
-            mIndent = Utilities.pxFromDp(PRESET_INDENT_SIZE_TABLET, r.getDisplayMetrics());
-        }
     }
 }
