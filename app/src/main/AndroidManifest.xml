@@ -19,6 +19,7 @@
 -->
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
+<<<<<<< HEAD
     package="xyz.klinker.blur">
 
     <permission
@@ -27,6 +28,10 @@
         android:protectionLevel="dangerous"
         android:label="@string/permlab_install_shortcut"
         android:description="@string/permdesc_install_shortcut" />
+=======
+    package="com.android.launcher3">
+    
+>>>>>>> upstream/master
     <permission
         android:name="xyz.klinker.blur.launcher3.permission.READ_SETTINGS"
         android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
@@ -39,6 +44,7 @@
         android:protectionLevel="signatureOrSystem"
         android:label="@string/permlab_write_settings"
         android:description="@string/permdesc_write_settings"/>
+<<<<<<< HEAD
     <permission
         android:name="xyz.klinker.blur.launcher3.permission.RECEIVE_LAUNCH_BROADCASTS"
         android:protectionLevel="signature"
@@ -88,15 +94,35 @@
         android:icon="@mipmap/ic_launcher_home"
         android:label="@string/app_name"
         android:largeHeap="true"
+=======
+
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="com.android.launcher3.permission.READ_SETTINGS" />
+    <uses-permission android:name="com.android.launcher3.permission.WRITE_SETTINGS" />
+
+    <application
+        android:backupAgent="com.android.launcher3.LauncherBackupAgent"
+        android:fullBackupOnly="true"
+        android:fullBackupContent="@xml/backupscheme"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher_home"
+        android:label="@string/derived_app_name"
+        android:largeHeap="@bool/config_largeHeap"
+>>>>>>> upstream/master
         android:restoreAnyVersion="true"
         android:supportsRtl="true">
 
+        <!--
+        Main launcher activity. When extending only change the name, and keep all the
+        attributes and intent filters the same
+        -->
         <activity
             android:name=".launcher3.Launcher"
             android:launchMode="singleTask"
             android:clearTaskOnLaunch="true"
             android:stateNotNeeded="true"
-            android:theme="@style/Theme"
+            android:theme="@style/LauncherTheme"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="nosensor"
             android:configChanges="keyboard|keyboardHidden|navigation"
@@ -113,6 +139,7 @@
             </intent-filter>
         </activity>
 
+<<<<<<< HEAD
         <activity android:name="xyz.klinker.blur.addons.settings.SettingsActivity"
             android:theme="@style/Theme"
             android:label="@string/settings_button_text"
@@ -211,9 +238,15 @@
             </intent-filter>
         </activity>
 
+=======
+        <!--
+        The settings activity. When extending keep the intent filter present
+        -->
+>>>>>>> upstream/master
         <activity
             android:name=".launcher3.SettingsActivity"
             android:label="@string/settings_button_text"
+<<<<<<< HEAD
             android:autoRemoveFromRecents="true"
             android:process=":settings_process">
         </activity>
@@ -235,12 +268,20 @@
         </receiver>
 
         <receiver android:name=".launcher3.StartupReceiver" >
+=======
+            android:autoRemoveFromRecents="true">
+>>>>>>> upstream/master
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </receiver>
+        </activity>
 
-        <!-- The settings provider contains Home's data, like the workspace favorites -->
+        <!--
+        The settings provider contains Home's data, like the workspace favorites. The permissions
+        should be changed to what is defined above. The authorities should also be changed to
+        represent the package name.
+        -->
         <provider
             android:name=".launcher3.LauncherProvider"
             android:authorities="xyz.klinker.blur.launcher3.settings"
@@ -248,6 +289,7 @@
             android:writePermission="xyz.klinker.blur.launcher3.permission.WRITE_SETTINGS"
             android:readPermission="xyz.klinker.blur.launcher3.permission.READ_SETTINGS" />
 
+<<<<<<< HEAD
         <meta-data android:name="android.nfc.disable_beam_default"
                        android:value="true" />
 
@@ -257,6 +299,19 @@
             android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data android:name="android.app.device_admin"
                 android:resource="@xml/device_admin" />
+=======
+        <!-- ENABLE_FOR_TESTING
+
+        <activity
+            android:name="com.android.launcher3.testing.LauncherExtension"
+            android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
+            android:stateNotNeeded="true"
+            android:theme="@style/Theme"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="nosensor"
+            >
+>>>>>>> upstream/master
             <intent-filter>
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>

@@ -16,11 +16,8 @@
 
 package xyz.klinker.blur.launcher3;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
-import android.annotation.TargetApi;
-import android.app.ActivityManager;
 import android.content.Context;
+<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/LauncherClings.java
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -253,6 +250,13 @@ class LauncherClings implements OnClickListener {
             !sharedPrefs.getBoolean(MIGRATION_CLING_DISMISSED_KEY, false);
     }
 
+=======
+
+@Deprecated
+public class LauncherClings {
+    private static final String WORKSPACE_CLING_DISMISSED_KEY = "cling_gel.workspace.dismissed";
+
+>>>>>>> upstream/master:app/src/main/java/com/android/launcher3/LauncherClings.java
     public static void markFirstRunClingDismissed(Context ctx) {
         Utilities.getPrefs(ctx).edit()
                 .putBoolean(WORKSPACE_CLING_DISMISSED_KEY, true)

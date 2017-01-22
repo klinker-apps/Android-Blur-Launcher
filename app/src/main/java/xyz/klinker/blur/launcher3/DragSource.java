@@ -18,10 +18,16 @@ package xyz.klinker.blur.launcher3;
 
 import android.view.View;
 
+<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/DragSource.java
+=======
+import com.android.launcher3.DropTarget.DragObject;
+import com.android.launcher3.logging.UserEventDispatcher.LaunchSourceProvider;
+
+>>>>>>> upstream/master:app/src/main/java/com/android/launcher3/DragSource.java
 /**
  * Interface defining an object that can originate a drag.
  */
-public interface DragSource {
+public interface DragSource extends LaunchSourceProvider {
 
     /**
      * @return whether items dragged from this source supports
@@ -35,7 +41,7 @@ public interface DragSource {
 
     /**
      * @return whether items dragged from this source supports 'Delete' drop target (e.g. to remove
-     * a shortcut.
+     * a shortcut.) If this returns false, the drop target will say "Cancel" instead of "Remove."
      */
     boolean supportsDeleteDropTarget();
 

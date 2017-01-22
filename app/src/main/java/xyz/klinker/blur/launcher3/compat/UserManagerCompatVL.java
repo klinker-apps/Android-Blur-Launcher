@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2014 The Android Open Source Project
  *
@@ -67,10 +66,13 @@ public class UserManagerCompatVL extends UserManagerCompatV17 {
 
     @Override
     public long getUserCreationTime(UserHandleCompat user) {
+<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/compat/UserManagerCompatVL.java
         if (Utilities.ATLEAST_MARSHMALLOW) {
             return mUserManager.getUserCreationTime(user.getUser());
         }
 
+=======
+>>>>>>> upstream/master:app/src/main/java/com/android/launcher3/compat/UserManagerCompatVL.java
         SharedPreferences prefs = Utilities.getPrefs(mContext);
         String key = USER_CREATION_TIME_KEY + getSerialNumberForUser(user);
         if (!prefs.contains(key)) {

@@ -22,10 +22,18 @@ import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 
+<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/FocusHelper.java
 import xyz.klinker.blur.launcher3.util.FocusLogic;
 import xyz.klinker.blur.launcher3.util.Thunk;
 
 import xyz.klinker.blur.R;
+=======
+import com.android.launcher3.config.ProviderConfig;
+import com.android.launcher3.folder.Folder;
+import com.android.launcher3.folder.FolderPagedView;
+import com.android.launcher3.util.FocusLogic;
+import com.android.launcher3.util.Thunk;
+>>>>>>> upstream/master:app/src/main/java/com/android/launcher3/FocusHelper.java
 
 /**
  * A keyboard listener we set on all the workspace icons.
@@ -92,7 +100,7 @@ public class FocusHelper {
             }
 
             if (!(v.getParent() instanceof ShortcutAndWidgetContainer)) {
-                if (LauncherAppState.isDogfoodBuild()) {
+                if (ProviderConfig.IS_DOGFOOD_BUILD) {
                     throw new IllegalStateException("Parent of the focused item is not supported.");
                 } else {
                     return false;
@@ -203,7 +211,7 @@ public class FocusHelper {
             return consume;
         }
 
-        final Launcher launcher = (Launcher) v.getContext();
+        final Launcher launcher = Launcher.getLauncher(v.getContext());
         final DeviceProfile profile = launcher.getDeviceProfile();
 
         if (DEBUG) {
@@ -238,14 +246,12 @@ public class FocusHelper {
 
         if (keyCode == KeyEvent.KEYCODE_DPAD_UP &&
                 !profile.isVerticalBarLayout()) {
-            matrix = FocusLogic.createSparseMatrixWithHotseat(iconLayout, hotseatLayout,
-                    true /* hotseat horizontal */, profile.inv.hotseatAllAppsRank);
+            matrix = FocusLogic.createSparseMatrixWithHotseat(iconLayout, hotseatLayout, profile);
             iconIndex += iconParent.getChildCount();
             parent = iconParent;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT &&
                 profile.isVerticalBarLayout()) {
-            matrix = FocusLogic.createSparseMatrixWithHotseat(iconLayout, hotseatLayout,
-                    false /* hotseat horizontal */, profile.inv.hotseatAllAppsRank);
+            matrix = FocusLogic.createSparseMatrixWithHotseat(iconLayout, hotseatLayout, profile);
             iconIndex += iconParent.getChildCount();
             parent = iconParent;
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT &&
@@ -342,7 +348,7 @@ public class FocusHelper {
             return consume;
         }
 
-        Launcher launcher = (Launcher) v.getContext();
+        Launcher launcher = Launcher.getLauncher(v.getContext());
         DeviceProfile profile = launcher.getDeviceProfile();
 
         if (DEBUG) {
@@ -355,7 +361,7 @@ public class FocusHelper {
         CellLayout iconLayout = (CellLayout) parent.getParent();
         final Workspace workspace = (Workspace) iconLayout.getParent();
         final ViewGroup dragLayer = (ViewGroup) workspace.getParent();
-        final ViewGroup tabs = (ViewGroup) dragLayer.findViewById(R.id.search_drop_target_bar);
+        final ViewGroup tabs = (ViewGroup) dragLayer.findViewById(R.id.drop_target_bar);
         final Hotseat hotseat = (Hotseat) dragLayer.findViewById(R.id.hotseat);
 
         final ItemInfo itemInfo = (ItemInfo) v.getTag();
@@ -371,12 +377,10 @@ public class FocusHelper {
         // to take a user to the hotseat. For other dpad navigation, do not use the matrix extended
         // with the hotseat.
         if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN && !profile.isVerticalBarLayout()) {
-            matrix = FocusLogic.createSparseMatrixWithHotseat(iconLayout, hotseatLayout,
-                    true /* horizontal */, profile.inv.hotseatAllAppsRank);
+            matrix = FocusLogic.createSparseMatrixWithHotseat(iconLayout, hotseatLayout, profile);
         } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT &&
                 profile.isVerticalBarLayout()) {
-            matrix = FocusLogic.createSparseMatrixWithHotseat(iconLayout, hotseatLayout,
-                    false /* horizontal */, profile.inv.hotseatAllAppsRank);
+            matrix = FocusLogic.createSparseMatrixWithHotseat(iconLayout, hotseatLayout, profile);
         } else if (isUninstallKeyChord(e)) {
             matrix = FocusLogic.createSparseMatrix(iconLayout);
             if (UninstallDropTarget.supportsDrop(launcher, itemInfo)) {

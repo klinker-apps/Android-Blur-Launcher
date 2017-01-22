@@ -29,11 +29,20 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
+<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/InstallShortcutReceiver.java
 import xyz.klinker.blur.launcher3.compat.LauncherActivityInfoCompat;
 import xyz.klinker.blur.launcher3.compat.LauncherAppsCompat;
 import xyz.klinker.blur.launcher3.compat.UserHandleCompat;
 import xyz.klinker.blur.launcher3.compat.UserManagerCompat;
 import xyz.klinker.blur.launcher3.util.Thunk;
+=======
+import com.android.launcher3.compat.LauncherActivityInfoCompat;
+import com.android.launcher3.compat.LauncherAppsCompat;
+import com.android.launcher3.compat.UserHandleCompat;
+import com.android.launcher3.compat.UserManagerCompat;
+import com.android.launcher3.util.PackageManagerHelper;
+import com.android.launcher3.util.Thunk;
+>>>>>>> upstream/master:app/src/main/java/com/android/launcher3/InstallShortcutReceiver.java
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -146,6 +155,15 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
         }
         PendingInstallShortcutInfo info = createPendingInfo(context, data);
         if (info != null) {
+            if (!info.isLauncherActivity()) {
+                // Since its a custom shortcut, verify that it is safe to launch.
+                if (!PackageManagerHelper.hasPermissionForActivity(
+                        context, info.launchIntent, null)) {
+                    // Target cannot be launched, or requires some special permission to launch
+                    Log.e(TAG, "Ignoring malicious intent " + info.launchIntent.toUri(0));
+                    return;
+                }
+            }
             queuePendingShortcutInfo(info, context);
         }
     }
@@ -348,7 +366,7 @@ public class InstallShortcutReceiver extends BroadcastReceiver {
 
         public ShortcutInfo getShortcutInfo() {
             if (activityInfo != null) {
-                return ShortcutInfo.fromActivityInfo(activityInfo, mContext);
+                return new ShortcutInfo(activityInfo, mContext);
             } else {
                 return LauncherAppState.getInstance().getModel().infoFromShortcutIntent(mContext, data);
             }

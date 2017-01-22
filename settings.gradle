@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 include ':wallpaper_picker', ':extra_pages', ':app'
+=======
+include ':app'
+>>>>>>> upstream/master

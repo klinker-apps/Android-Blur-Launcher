@@ -17,7 +17,9 @@ package xyz.klinker.blur.launcher3;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.DragEvent;
 import android.view.KeyEvent;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 
@@ -25,6 +27,8 @@ import android.widget.EditText;
  * The edit text for the search container
  */
 public class ExtendedEditText extends EditText {
+
+    private boolean mShowImeAfterFirstLayout;
 
     /**
      * Implemented by listeners of the back key.
@@ -36,11 +40,13 @@ public class ExtendedEditText extends EditText {
     private OnBackKeyListener mBackKeyListener;
 
     public ExtendedEditText(Context context) {
-        this(context, null);
+        // ctor chaining breaks the touch handling
+        super(context);
     }
 
     public ExtendedEditText(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        // ctor chaining breaks the touch handling
+        super(context, attrs);
     }
 
     public ExtendedEditText(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -61,5 +67,36 @@ public class ExtendedEditText extends EditText {
             return false;
         }
         return super.onKeyPreIme(keyCode, event);
+    }
+
+    @Override
+    public boolean onDragEvent(DragEvent event) {
+        // We don't want this view to interfere with Launcher own drag and drop.
+        return false;
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        if (mShowImeAfterFirstLayout) {
+            // soft input only shows one frame after the layout of the EditText happens,
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    showSoftInput();
+                    mShowImeAfterFirstLayout = false;
+                }
+            });
+        }
+    }
+
+    public void showKeyboard() {
+        mShowImeAfterFirstLayout = !showSoftInput();
+    }
+
+    private boolean showSoftInput() {
+        return requestFocus() &&
+                ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                    .showSoftInput(this, InputMethodManager.SHOW_IMPLICIT);
     }
 }

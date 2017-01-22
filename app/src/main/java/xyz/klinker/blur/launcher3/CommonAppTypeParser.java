@@ -40,6 +40,12 @@ public class CommonAppTypeParser implements AutoInstallsLayout.LayoutParserCallb
 
     private static final int RESTORE_FLAG_BIT_SHIFT = 4;
 
+    public static final int TARGET_PHONE = 1;
+    public static final int TARGET_MESSENGER = 2;
+    public static final int TARGET_EMAIL = 3;
+    public static final int TARGET_BROWSER = 4;
+    public static final int TARGET_GALLERY = 5;
+    public static final int TARGET_CAMERA = 6;
 
     private final long mItemId;
     @Thunk
@@ -66,10 +72,16 @@ public class CommonAppTypeParser implements AutoInstallsLayout.LayoutParserCallb
         parsedValues = values;
 
         // Remove unwanted values
+<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/CommonAppTypeParser.java
         values.put(LauncherSettings.Favorites.ICON_TYPE, (Integer) null);
         values.put(LauncherSettings.Favorites.ICON_PACKAGE, (String) null);
         values.put(LauncherSettings.Favorites.ICON_RESOURCE, (String) null);
         values.put(LauncherSettings.Favorites.ICON, (byte[]) null);
+=======
+        values.put(Favorites.ICON_PACKAGE, (String) null);
+        values.put(Favorites.ICON_RESOURCE, (String) null);
+        values.put(Favorites.ICON, (byte[]) null);
+>>>>>>> upstream/master:app/src/main/java/com/android/launcher3/CommonAppTypeParser.java
         return 1;
     }
 
@@ -117,23 +129,23 @@ public class CommonAppTypeParser implements AutoInstallsLayout.LayoutParserCallb
 
     public static int getResourceForItemType(int type) {
         switch (type) {
-            /*case Favorite.TARGET_PHONE:
+            case TARGET_PHONE:
                 return R.xml.app_target_phone;
 
-            case Favorite.TARGET_MESSENGER:
+            case TARGET_MESSENGER:
                 return R.xml.app_target_messenger;
 
-            case Favorite.TARGET_EMAIL:
+            case TARGET_EMAIL:
                 return R.xml.app_target_email;
 
-            case Favorite.TARGET_BROWSER:
+            case TARGET_BROWSER:
                 return R.xml.app_target_browser;
 
-            case Favorite.TARGET_GALLERY:
+            case TARGET_GALLERY:
                 return R.xml.app_target_gallery;
 
-            case Favorite.TARGET_CAMERA:
-                return R.xml.app_target_camera;*/
+            case TARGET_CAMERA:
+                return R.xml.app_target_camera;
 
             default:
                 return 0;

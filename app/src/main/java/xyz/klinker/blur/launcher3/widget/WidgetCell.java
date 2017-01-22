@@ -17,8 +17,6 @@
 package xyz.klinker.blur.launcher3.widget;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
@@ -30,6 +28,7 @@ import android.view.ViewPropertyAnimator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/widget/WidgetCell.java
 import xyz.klinker.blur.launcher3.DeviceProfile;
 import xyz.klinker.blur.launcher3.InvariantDeviceProfile;
 import xyz.klinker.blur.launcher3.ItemInfo;
@@ -40,6 +39,18 @@ import xyz.klinker.blur.R;
 import xyz.klinker.blur.launcher3.StylusEventHelper;
 import xyz.klinker.blur.launcher3.WidgetPreviewLoader;
 import xyz.klinker.blur.launcher3.compat.AppWidgetManagerCompat;
+=======
+import com.android.launcher3.DeviceProfile;
+import com.android.launcher3.ItemInfo;
+import com.android.launcher3.Launcher;
+import com.android.launcher3.LauncherAppState;
+import com.android.launcher3.SimpleOnStylusPressListener;
+import com.android.launcher3.R;
+import com.android.launcher3.StylusEventHelper;
+import com.android.launcher3.WidgetPreviewLoader;
+import com.android.launcher3.WidgetPreviewLoader.PreviewLoadRequest;
+import com.android.launcher3.model.WidgetItem;
+>>>>>>> upstream/master:app/src/main/java/com/android/launcher3/widget/WidgetCell.java
 
 /**
  * Represents the individual cell of the widget inside the widget tray. The preview is drawn
@@ -70,14 +81,13 @@ public class WidgetCell extends LinearLayout implements OnLayoutChangeListener {
     private TextView mWidgetName;
     private TextView mWidgetDims;
 
-    private String mDimensionsFormatString;
-    private Object mInfo;
+    private WidgetItem mItem;
 
     private WidgetPreviewLoader mWidgetPreviewLoader;
     private WidgetPreviewLoader.PreviewLoadRequest mActiveRequest;
     private StylusEventHelper mStylusEventHelper;
 
-    private Launcher mLauncher;
+    private final Launcher mLauncher;
 
     public WidgetCell(Context context) {
         this(context, null);
@@ -91,14 +101,13 @@ public class WidgetCell extends LinearLayout implements OnLayoutChangeListener {
         super(context, attrs, defStyle);
 
         final Resources r = context.getResources();
-        mLauncher = (Launcher) context;
-        mStylusEventHelper = new StylusEventHelper(this);
+        mLauncher = Launcher.getLauncher(context);
+        mStylusEventHelper = new StylusEventHelper(new SimpleOnStylusPressListener(this), this);
 
-        mDimensionsFormatString = r.getString(R.string.widget_dims_format);
         setContainerWidth();
         setWillNotDraw(false);
         setClipToPadding(false);
-        setAccessibilityDelegate(LauncherAppState.getInstance().getAccessibilityDelegate());
+        setAccessibilityDelegate(mLauncher.getAccessibilityDelegate());
     }
 
     private void setContainerWidth() {
@@ -134,33 +143,20 @@ public class WidgetCell extends LinearLayout implements OnLayoutChangeListener {
         }
     }
 
-    /**
-     * Apply the widget provider info to the view.
-     */
-    public void applyFromAppWidgetProviderInfo(LauncherAppWidgetProviderInfo info,
-            WidgetPreviewLoader loader) {
-
-        InvariantDeviceProfile profile =
-                LauncherAppState.getInstance().getInvariantDeviceProfile();
-        mInfo = info;
-        // TODO(hyunyoungs): setup a cache for these labels.
-        mWidgetName.setText(AppWidgetManagerCompat.getInstance(getContext()).loadLabel(info));
-        int hSpan = Math.min(info.spanX, profile.numColumns);
-        int vSpan = Math.min(info.spanY, profile.numRows);
-        mWidgetDims.setText(String.format(mDimensionsFormatString, hSpan, vSpan));
+    public void applyFromCellItem(WidgetItem item, WidgetPreviewLoader loader) {
+        mItem = item;
+        mWidgetName.setText(mItem.label);
+        mWidgetDims.setText(getContext().getString(R.string.widget_dims_format,
+                mItem.spanX, mItem.spanY));
+        mWidgetDims.setContentDescription(getContext().getString(
+                R.string.widget_accessible_dims_format, mItem.spanX, mItem.spanY));
         mWidgetPreviewLoader = loader;
-    }
 
-    /**
-     * Apply the resolve info to the view.
-     */
-    public void applyFromResolveInfo(
-            PackageManager pm, ResolveInfo info, WidgetPreviewLoader loader) {
-        mInfo = info;
-        CharSequence label = info.loadLabel(pm);
-        mWidgetName.setText(label);
-        mWidgetDims.setText(String.format(mDimensionsFormatString, 1, 1));
-        mWidgetPreviewLoader = loader;
+        if (item.activityInfo != null) {
+            setTag(new PendingAddShortcutInfo(item.activityInfo));
+        } else {
+            setTag(new PendingAddWidgetInfo(mLauncher, item.widgetInfo));
+        }
     }
 
     public int[] getPreviewSize() {
@@ -189,7 +185,7 @@ public class WidgetCell extends LinearLayout implements OnLayoutChangeListener {
             Log.d(TAG, String.format("[tag=%s] ensurePreview (%d, %d):",
                     getTagToString(), size[0], size[1]));
         }
-        mActiveRequest = mWidgetPreviewLoader.getPreview(mInfo, size[0], size[1], this);
+        mActiveRequest = mWidgetPreviewLoader.getPreview(mItem, size[0], size[1], this);
     }
 
     @Override
@@ -210,7 +206,7 @@ public class WidgetCell extends LinearLayout implements OnLayoutChangeListener {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         boolean handled = super.onTouchEvent(ev);
-        if (mStylusEventHelper.checkAndPerformStylusEvent(ev)) {
+        if (mStylusEventHelper.onMotionEvent(ev)) {
             return true;
         }
         return handled;
@@ -225,5 +221,10 @@ public class WidgetCell extends LinearLayout implements OnLayoutChangeListener {
             return getTag().toString();
         }
         return "";
+    }
+
+    @Override
+    public CharSequence getAccessibilityClassName() {
+        return WidgetCell.class.getName();
     }
 }

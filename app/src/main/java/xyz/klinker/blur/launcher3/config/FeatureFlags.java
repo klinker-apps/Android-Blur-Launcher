@@ -18,20 +18,29 @@ package xyz.klinker.blur.launcher3.config;
 
 /**
  * Defines a set of flags used to control various launcher behaviors
- * All the flags must be defined as
- *   public static boolean LAUNCHER3_FLAG_NAME = true/false;
- *
- * Use LAUNCHER3_ prefix for prevent namespace conflicts.
  */
 public final class FeatureFlags {
-
     private FeatureFlags() {}
 
-    public static boolean IS_DEV_BUILD = false;
-    public static boolean IS_ALPHA_BUILD = false;
-    public static boolean IS_RELEASE_BUILD = true;
-
     // Custom flags go below this
+<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/config/FeatureFlags.java
     public static boolean LAUNCHER3_ICON_NORMALIZATION = true;
+=======
+    public static boolean LAUNCHER3_DISABLE_ICON_NORMALIZATION = false;
+    // As opposed to the new spring-loaded workspace.
+    public static boolean LAUNCHER3_LEGACY_WORKSPACE_DND = false;
+    public static boolean LAUNCHER3_LEGACY_FOLDER_ICON = false;
+    public static boolean LAUNCHER3_USE_SYSTEM_DRAG_DRIVER = true;
+    public static boolean LAUNCHER3_DISABLE_PINCH_TO_OVERVIEW = false;
+    public static boolean LAUNCHER3_ALL_APPS_PULL_UP = true;
+>>>>>>> upstream/master:app/src/main/java/com/android/launcher3/config/FeatureFlags.java
 
+    // Feature flag to enable moving the QSB on the 0th screen of the workspace.
+    public static final boolean QSB_ON_FIRST_SCREEN = true;
+    // When enabled the all-apps icon is not added to the hotseat.
+    public static final boolean NO_ALL_APPS_ICON = true;
+    // When enabled fling down gesture on the first workspace triggers search.
+    public static final boolean PULLDOWN_SEARCH = false;
+    // When enabled the status bar may show dark icons based on the top of the wallpaper.
+    public static final boolean LIGHT_STATUS_BAR = false;
 }

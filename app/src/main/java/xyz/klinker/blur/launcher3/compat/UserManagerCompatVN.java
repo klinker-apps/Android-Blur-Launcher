@@ -19,11 +19,14 @@ package xyz.klinker.blur.launcher3.compat;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/compat/UserManagerCompatVN.java
+=======
+
+import com.android.launcher3.Utilities;
+>>>>>>> upstream/master:app/src/main/java/com/android/launcher3/compat/UserManagerCompatVN.java
 
 @TargetApi(Build.VERSION_CODES.N)
-public class UserManagerCompatVN extends UserManagerCompatVL {
-
-    private static final String TAG = "UserManagerCompatVN";
+public class UserManagerCompatVN extends UserManagerCompatVM {
 
     UserManagerCompatVN(Context context) {
         super(context);
@@ -31,15 +34,12 @@ public class UserManagerCompatVN extends UserManagerCompatVL {
 
     @Override
     public boolean isQuietModeEnabled(UserHandleCompat user) {
-        if (user != null) {
-            try {
-                return mUserManager.isQuietModeEnabled(user.getUser());
-            } catch (IllegalArgumentException e) {
-                // TODO remove this when API is fixed to not throw this
-                // when called on user that isn't a managed profile.
-            }
-        }
-        return false;
+        return mUserManager.isQuietModeEnabled(user.getUser());
+    }
+
+    @Override
+    public boolean isUserUnlocked(UserHandleCompat user) {
+        return mUserManager.isUserUnlocked(user.getUser());
     }
 }
 

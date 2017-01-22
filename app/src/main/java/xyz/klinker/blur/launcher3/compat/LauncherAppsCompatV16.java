@@ -22,17 +22,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.content.pm.LauncherApps;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 
+<<<<<<< HEAD:app/src/main/java/xyz/klinker/blur/launcher3/compat/LauncherAppsCompatV16.java
 import xyz.klinker.blur.launcher3.util.Thunk;
 import xyz.klinker.blur.launcher3.util.PackageManagerHelper;
+=======
+import com.android.launcher3.Utilities;
+import com.android.launcher3.shortcuts.ShortcutInfoCompat;
+import com.android.launcher3.util.PackageManagerHelper;
+import com.android.launcher3.util.Thunk;
+>>>>>>> upstream/master:app/src/main/java/com/android/launcher3/compat/LauncherAppsCompatV16.java
 
 import java.util.ArrayList;
 import java.util.List;
