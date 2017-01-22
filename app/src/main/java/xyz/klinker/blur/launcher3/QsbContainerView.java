@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import xyz.klinker.blur.R;
+import xyz.klinker.blur.addons.settings.AppSettings;
 import xyz.klinker.blur.launcher3.compat.AppWidgetManagerCompat;
 
 /**
@@ -105,6 +106,10 @@ public class QsbContainerView extends FrameLayout {
         }
 
         private View createQsb(LayoutInflater inflater, ViewGroup container) {
+            if (!AppSettings.getInstance(getActivity()).showSearchBar) {
+                return new View(getActivity());
+            }
+
             Launcher launcher = Launcher.getLauncher(getActivity());
             mWidgetInfo = getSearchWidgetProvider(launcher);
             if (mWidgetInfo == null) {

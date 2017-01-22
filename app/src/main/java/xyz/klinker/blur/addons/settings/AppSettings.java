@@ -22,6 +22,7 @@ import android.preference.PreferenceManager;
 
 import xyz.klinker.blur.R;
 import xyz.klinker.blur.addons.utils.Utils;
+import xyz.klinker.blur.launcher3.config.FeatureFlags;
 
 public class AppSettings {
 
@@ -102,6 +103,10 @@ public class AppSettings {
         this.iconPack = sharedPrefs.getString("icon_pack", "");
 
         setUpGestures(sharedPrefs);
+
+        if (!showSearchBar) {
+            FeatureFlags.QSB_ON_FIRST_SCREEN = false;
+        }
     }
 
     public static final String[] gestureTitles = {
