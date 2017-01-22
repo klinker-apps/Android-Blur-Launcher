@@ -69,7 +69,7 @@ public class ItemDropHelper {
 
         if (originalX == newLocation.cellX &&
                 originalY == newLocation.cellY) {
-            getPopupMenu(context, icon).show();
+            //getPopupMenu(context, icon).show();
         }
     }
 
@@ -83,7 +83,7 @@ public class ItemDropHelper {
         Log.v("folder_drag", "newX: " + newX + ", newY: " + newY);
 
         if (originalX == newX && originalY == newY) {
-            getPopupMenu(context, icon).show();
+            //getPopupMenu(context, icon).show();
         }
     }
 
