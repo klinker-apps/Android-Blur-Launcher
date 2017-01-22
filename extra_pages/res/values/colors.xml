@@ -17,5 +17,5 @@ limitations under the License.
 -->
         
 <resources>
-    <color name="background_grey">#eeeeee</color>
+    <color name="background_grey">#f5f5f5</color>
 </resources>

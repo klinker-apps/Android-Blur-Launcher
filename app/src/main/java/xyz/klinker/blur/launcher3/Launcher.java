@@ -27,7 +27,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.app.SearchManager;
 import android.appwidget.AppWidgetHostView;
 import android.appwidget.AppWidgetManager;
@@ -67,7 +66,6 @@ import android.os.SystemClock;
 import android.os.Trace;
 import android.os.UserHandle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -1987,6 +1985,26 @@ public class Launcher extends Activity
         super.onRestoreInstanceState(state);
         for (int page: mSynchronouslyBoundPages) {
             mWorkspace.restoreInstanceStateForChild(page);
+        }
+
+        if (mLauncherDrawer.isDrawerOpen(Gravity.START)) {
+            if (Utilities.ATLEAST_MARSHMALLOW) {
+                mLauncherDrawer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
+
+            if (Utilities.ATLEAST_LOLLIPOP) {
+                ValueAnimator animator = ValueAnimator.ofArgb(Color.TRANSPARENT, Color.parseColor("#22000000"));
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        int color = (Integer) valueAnimator.getAnimatedValue();
+                        getWindow().setNavigationBarColor(color);
+                        getWindow().setStatusBarColor(color);
+                    }
+                });
+                animator.setDuration(300);
+                animator.start();
+            }
         }
     }
 
@@ -4673,7 +4691,7 @@ public class Launcher extends Activity
                 adapter.pagesOpened();
 
                 if (Utilities.ATLEAST_MARSHMALLOW) {
-                    drawerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+                    mLauncherDrawer.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 }
 
                 if (Utilities.ATLEAST_LOLLIPOP) {
@@ -4702,7 +4720,7 @@ public class Launcher extends Activity
                 imm.hideSoftInputFromWindow(mLauncherDrawer.getWindowToken(), 0);
 
                 if (Utilities.ATLEAST_MARSHMALLOW) {
-                    drawerView.setSystemUiVisibility(drawerView.getSystemUiVisibility() &
+                    mLauncherDrawer.setSystemUiVisibility(mLauncherDrawer.getSystemUiVisibility() &
                             ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
                 }
 

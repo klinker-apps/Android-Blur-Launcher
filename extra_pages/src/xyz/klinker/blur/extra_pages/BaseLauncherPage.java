@@ -34,14 +34,6 @@ public abstract class BaseLauncherPage extends Fragment {
     public abstract BaseLauncherPage getNewInstance();
 
     /**
-     * Creates a View array which will be faded in and out as the page
-     * is opened and closed from the main launcher
-     *
-     * @return an array of all the views to be faded in and out
-     */
-    public abstract View[] getBackground();
-
-    /**
      * Get the layout to inflate.
      *
      * @return layout resource (R.layout.calculator_page)
@@ -56,12 +48,37 @@ public abstract class BaseLauncherPage extends Fragment {
     public abstract void initLayout(View inflated);
 
     public View root;
+    private View background;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(getLayoutRes(), container, false);
+        background = root.findViewById(LauncherPageLayout.BACKGROUND_ID);
+
         initLayout(root);
         return root;
+    }
+
+    /**
+     * Creates a View array which will be faded in and out as the page
+     * is opened and closed from the main launcher.
+     *
+     * Override this method if you want to do something other than R.id.background.
+     *
+     * @return an array of all the views to be faded in and out
+     */
+    public View[] getAlphaChangingViews() {
+        // if background is null, that is ok, we handle null views in this array, as well
+        // as a null array.
+        return new View[] {
+                background
+        };
     }
 
     /**

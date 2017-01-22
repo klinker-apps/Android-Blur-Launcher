@@ -22,9 +22,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v13.app.FragmentPagerAdapter;
-import android.support.v13.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -113,8 +113,17 @@ public class PagesFragmentAdapter extends FragmentPagerAdapter {
         return pages.size();
     }
 
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        BaseLauncherPage fragment = (BaseLauncherPage) super.instantiateItem(container, position);
+        pages.add(position, fragment);
+        pages.remove(position + 1);
+
+        return fragment;
+    }
+
     public void adjustFragmentBackgroundAlpha(int position, float alpha) {
-        View[] backgrounds = pages.get(position).getBackground();
+        View[] backgrounds = pages.get(position).getAlphaChangingViews();
 
         if (backgrounds != null) {
             for (View view : backgrounds) {

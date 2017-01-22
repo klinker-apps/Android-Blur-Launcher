@@ -40,7 +40,7 @@ public class HolderPage extends BaseLauncherPage {
     }
 
     @Override
-    public View[] getBackground() {
+    public View[] getAlphaChangingViews() {
         return new View[] {
                 root.findViewById(R.id.holder_background)
         };
