@@ -120,6 +120,7 @@
         <activity
             android:name="xyz.klinker.blur.addons.settings.SettingsActivity"
             android:label="@string/settings_button_text"
+            android:theme="@style/Theme"
             android:autoRemoveFromRecents="true"
             android:process=":settings_process">
             <intent-filter>

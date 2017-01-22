@@ -98,7 +98,8 @@ import xyz.klinker.blur.R;
 import xyz.klinker.blur.addons.PermissionModelUtil;
 import xyz.klinker.blur.addons.PersisterService;
 import xyz.klinker.blur.addons.pages.PagesFragmentAdapter;
-import xyz.klinker.blur.addons.settings.AppSettings;
+import xyz.klinker.blur.addons.settings.*;
+import xyz.klinker.blur.addons.settings.SettingsActivity;
 import xyz.klinker.blur.addons.utils.GestureUtils;
 import xyz.klinker.blur.addons.utils.UpdateUtils;
 import xyz.klinker.blur.addons.view.LauncherDrawerLayout;
@@ -861,6 +862,10 @@ public class Launcher extends Activity
         handleActivityResult(requestCode, resultCode, data);
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onActivityResult(requestCode, resultCode, data);
+        }
+
+        if (requestCode == SettingsActivity.REQUEST && resultCode == SettingsActivity.PREF_CHANGED) {
+            android.os.Process.killProcess(android.os.Process.myPid());
         }
     }
 
@@ -2769,7 +2774,7 @@ public class Launcher extends Activity
         Intent intent = new Intent(Intent.ACTION_APPLICATION_PREFERENCES)
                 .setPackage(getPackageName());
         intent.setSourceBounds(getViewBounds(v));
-        startActivity(intent, getActivityLaunchOptions(v));
+        startActivityForResult(intent, SettingsActivity.REQUEST, getActivityLaunchOptions(v));
     }
 
     public View.OnTouchListener getHapticFeedbackTouchListener() {

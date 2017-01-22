@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
@@ -35,6 +36,9 @@ import xyz.klinker.blur.launcher3.Utilities;
 
 
 public class SettingsActivity extends Activity {
+
+    public static final int REQUEST = 10203;
+    public static final int PREF_CHANGED = 12002;
 
     public Context context;
     public static boolean prefChanged;
@@ -73,16 +77,6 @@ public class SettingsActivity extends Activity {
         int green = Color.green(color);
         int blue = Color.blue(color);
         return Color.argb(alpha, red, green, blue);
-    }
-
-    @Override
-    public void onStop() {
-        if (SettingsActivity.prefChanged) {
-            // Manually kill this process
-            android.os.Process.killProcess(android.os.Process.myPid());
-        } else {
-            super.onStop();
-        }
     }
 
     public TextView layout;
@@ -214,7 +208,7 @@ public class SettingsActivity extends Activity {
         restartLauncher.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SettingsActivity.prefChanged = true;
+                setResult(PREF_CHANGED);
                 finish();
             }
         });
