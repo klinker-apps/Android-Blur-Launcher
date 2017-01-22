@@ -70,12 +70,11 @@
             android:defaultValue="true"
             />
 
-        <CheckBoxPreference
+        <!--<CheckBoxPreference
             android:key="show_page_indicator"
             android:title="@string/show_page_indicator"
             android:defaultValue="true"
-            />
-
-
+            />-->
+        
     </PreferenceCategory>
 </PreferenceScreen>
