@@ -93,7 +93,7 @@
     <!-- Homescreen Icon Counts -->
     <integer name="default_all_app_col_count">4</integer>
     <integer name="default_col_count">5</integer>
-    <integer name="default_row_count">5</integer>
+    <integer name="default_row_count">4</integer>
 
     <!-- View ID to use for QSB widget -->
     <item type="id" name="qsb_widget" />
