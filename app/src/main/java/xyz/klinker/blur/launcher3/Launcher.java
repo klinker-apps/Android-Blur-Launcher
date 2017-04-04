@@ -385,16 +385,8 @@ public class Launcher extends Activity
 
     private RotationPrefChangeHandler mRotationPrefChangeHandler;
 
-
-    private static Launcher sLauncher;
-
-    public static Launcher getInstance() {
-        return sLauncher;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
- sLauncher = this;
 
         if (DEBUG_STRICT_MODE) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
@@ -515,9 +507,10 @@ public class Launcher extends Activity
         startSearch(null, false, null, true);
     }
 
-    public void g(){
-        Intent LaunchIntent = getPackageManager().getLaunchIntentForPackage("com.android.calendar");
-        startActivity(LaunchIntent);
+    public void showCalendar(){
+        Intent calIntent = new Intent(Intent.ACTION_MAIN);
+        calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR);
+        startActivity(calIntent);
     }
 
     @Override
