@@ -3,7 +3,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_done"
-        android:title="@string/wallpaper_delete"
+        android:title="@string/delete"
         android:showAsAction="always"
-        android:icon="@drawable/ic_actionbar_accept" />
+        android:icon="@drawable/ic_accept" />
 </menu>

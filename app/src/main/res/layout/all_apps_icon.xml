@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<com.klinker.android.launcher.launcher3.BubbleTextView
+<xyz.klinker.blur.launcher3.BubbleTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:launcher="http://schemas.android.com/apk/res-auto"
     style="@style/Icon.AllApps"
@@ -21,9 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:paddingTop="@dimen/all_apps_icon_top_bottom_padding"
-    android:paddingBottom="@dimen/all_apps_icon_top_bottom_padding"
     android:focusable="true"
-    android:background="@drawable/focusable_view_bg"
-    launcher:iconDisplay="all_apps" />
+    launcher:iconDisplay="all_apps"
+    launcher:centerVertically="true" />
 

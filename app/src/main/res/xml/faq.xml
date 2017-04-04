@@ -26,7 +26,7 @@
         <text>
             To get "Talon for Twitter" to work with Blur, you need to install the "Talon (Blur Launcher Page)" app, found here:
 
-            https://play.google.com/store/apps/details?id=com.klinker.android.launcher.twitter_page
+            https://play.google.com/store/apps/details?id=xyz.klinker.blur.twitter_page
 
             This is due to some limitations with paid packages from the Google Play Store. Google themselves ran into these limitations head on when they released Android Wear. The problem is that you cannot read anything other than resources (images, layouts, strings, etc.) from a paid package on the Play Store.
 

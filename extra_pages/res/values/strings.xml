@@ -17,24 +17,8 @@ limitations under the License.
 -->
         
 <resources>
-    <string name="info_page">Blur Info</string>
     <string name="app_name">Blur</string>
-    <string name="google">Google</string>
-
-    <!-- Card Settings Strings -->
-    <string name="choose_app">Choose App:</string>
-    <string name="all_day">All Day</string>
-    <string name="show_all_day">Show all\nday events?</string>
 
     <!-- Calculator Page -->
     <string name="syntax_error">Syntax Error</string>
-
-    <!-- Weather Card -->
-    <string name="no_weather_data">No Weather Data</string>
-    <string name="find_location_hint">Find a location…</string>
-    <string name="location_not_found">Location not found</string>
-    <string name="choose_location">Choose Location</string>
-    <string name="temp_units">Temperature Units</string>
-    <string name="auto">Auto</string>
-    <string name="find">Find</string>
 </resources>

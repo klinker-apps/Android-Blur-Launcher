@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minWidth="300dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never" >
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingBottom="30dp" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/fragment_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:textColor="@android:color/white"
+                        android:text="@string/fragment_settings"
+                        android:drawableLeft="@drawable/ic_fragments"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textAllCaps="true"
+                        android:textSize="20sp"
+                        android:singleLine="true"
+                        android:paddingLeft="5dp"
+                        android:layout_marginLeft="@dimen/settings_title_margin_left"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="20dp"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/choose_fragments_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/choose_fragments"
+                            android:textColor="@android:color/white"
+                            android:drawablePadding="4dp"
+                            android:drawableTop="@drawable/btn_choose_fragment"
+                            android:gravity="center_horizontal"
+                            android:contentDescription="Page Picker"
+                            android:fontFamily="sans-serif-condensed"
+                            android:textAllCaps="true"
+                            android:textSize="12sp" />
+                        <Space
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/restart_launcher_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:text="@string/restart_launcher"
+                            android:contentDescription="Restart Launcher"
+                            android:drawablePadding="4dp"
+                            android:gravity="center_horizontal"
+                            android:drawableTop="@drawable/btn_restart_launcher"
+                            android:fontFamily="sans-serif-condensed"
+                            android:textAllCaps="true"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:layout_marginTop="15dp" >
+
+                    <TextView
+                        android:id="@+id/display_settings"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:textColor="@android:color/white"
+                        android:text="@string/display_settings"
+                        android:drawableLeft="@drawable/ic_action_display"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textAllCaps="true"
+                        android:textSize="20sp"
+                        android:singleLine="true"
+                        android:paddingLeft="5dp"
+                        android:layout_marginLeft="@dimen/settings_title_margin_left"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="20dp"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/screen_layout_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:text="@string/layout"
+                            android:contentDescription="Layout"
+                            android:drawablePadding="4dp"
+                            android:drawableTop="@drawable/btn_layout"
+                            android:gravity="center_horizontal"
+                            android:fontFamily="sans-serif-condensed"
+                            android:textAllCaps="true"
+                            android:textSize="12sp" />
+                        <Space
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/visuals_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:text="@string/visuals"
+                            android:contentDescription="Visuals"
+                            android:drawablePadding="4dp"
+                            android:gravity="center_horizontal"
+                            android:drawableTop="@drawable/btn_visuals"
+                            android:fontFamily="sans-serif-condensed"
+                            android:textAllCaps="true"
+                            android:textSize="12sp"/>
+                        <Space
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/dock_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:text="@string/dock"
+                            android:contentDescription="Dock"
+                            android:drawablePadding="4dp"
+                            android:gravity="center_horizontal"
+                            android:drawableTop="@drawable/btn_dock"
+                            android:fontFamily="sans-serif-condensed"
+                            android:textAllCaps="true"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="15dp"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/other_information"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:textColor="@android:color/white"
+                        android:text="@string/other_information"
+                        android:drawableLeft="@drawable/ic_other_info"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textAllCaps="true"
+                        android:textSize="20sp"
+                        android:singleLine="true"
+                        android:paddingLeft="5dp"
+                        android:layout_marginLeft="@dimen/settings_title_margin_left"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="20dp"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/help_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:text="@string/help"
+                            android:contentDescription="Help"
+                            android:drawablePadding="4dp"
+                            android:drawableTop="@drawable/btn_help"
+                            android:gravity="center_horizontal"
+                            android:fontFamily="sans-serif-condensed"
+                            android:textAllCaps="true"
+                            android:textSize="12sp" />
+                        <Space
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"/>
+                        <TextView
+                            android:id="@+id/donate_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:text="@string/donate"
+                            android:contentDescription="Donate"
+                            android:drawablePadding="4dp"
+                            android:gravity="center_horizontal"
+                            android:drawableTop="@drawable/btn_rate"
+                            android:fontFamily="sans-serif-condensed"
+                            android:textAllCaps="true"
+                            android:textSize="12sp"
+                            android:visibility="gone"/>
+                        <Space
+                            android:layout_width="40dp"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"/>
+                        <TextView
+                            android:id="@+id/our_apps_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:text="@string/our_apps"
+                            android:contentDescription="Klinker Apps"
+                            android:drawablePadding="4dp"
+                            android:gravity="center_horizontal"
+                            android:drawableTop="@drawable/btn_klinker_apps"
+                            android:fontFamily="sans-serif-condensed"
+                            android:textAllCaps="true"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,5 +1,6 @@
 <resources>
     <!-- Homescreen Icon Counts -->
+    <integer name="default_all_app_col_count">5</integer>
     <integer name="default_col_count">5</integer>
     <integer name="default_row_count">8</integer>
 </resources>

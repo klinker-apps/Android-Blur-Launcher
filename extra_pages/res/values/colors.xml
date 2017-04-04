@@ -17,18 +17,5 @@ limitations under the License.
 -->
         
 <resources>
-    <color name="background_grey">#dddddd</color>
-    <color name="white">#ffffff</color>
-
-    <!-- Pull to refresh animation colors -->
-    <color name="holo_blue_light">#ff33b5e5</color>
-    <color name="holo_green_light">#ff99cc00</color>
-    <color name="holo_orange_light">#ffffbb33</color>
-    <color name="holo_red_light">#ffff4444</color>
-    <color name="holo_purple">#ffaa66cc</color>
-
-    <color name="klinker_apps_orange">#ff0099cc</color>
-
-    <color name="vertical_app_drawer_background">#40000000</color>
-
+    <color name="background_grey">#f5f5f5</color>
 </resources>

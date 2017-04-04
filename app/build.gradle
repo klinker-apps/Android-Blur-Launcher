@@ -24,11 +24,13 @@ android {
 
     defaultConfig {
         useJack = false
-        applicationId 'com.klinker.android.launcher'
+        applicationId 'xyz.klinker.blur'
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
         versionCode System.getenv("BUILD_NUMBER") as Integer ?: Integer.parseInt(project.VERSION_CODE)
         versionName project.VERSION_NAME
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     File keystore = new File(props['keystorefile'])
@@ -53,7 +55,6 @@ android {
                 signingConfig signingConfigs.debug
             }
             release {
-                shrinkResources true
                 signingConfig signingConfigs.release
             }
         }
@@ -80,6 +81,7 @@ android {
 
 dependencies {
     compile "com.android.support:support-v4:${project.ANDROID_SUPPORT_VERSION}"
+    compile "com.android.support:palette-v7:${ANDROID_SUPPORT_VERSION}"
     compile "com.android.support:recyclerview-v7:${project.ANDROID_SUPPORT_VERSION}"
 
     compile fileTree(dir: 'lib', include: ['*.jar'])
@@ -87,6 +89,5 @@ dependencies {
     compile(name: 'android-numberpicker', ext: 'aar')
     compile(name: 'dragsortlistview', ext: 'aar')
 
-    compile project(':wallpaper_picker')
     compile project(':extra_pages')
 }

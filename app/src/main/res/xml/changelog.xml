@@ -1,5 +1,15 @@
 <changelog>
 
+    <version name="3.0.0">
+        <text>Overhaul of launcher page support</text>
+        <text>No long look for app pages, since they will never work on future versions of Android. All pages will be built in</text>
+        <text>Add a weather page</text>
+        <text>Add a calendar page</text>
+        <text>Allow for screen rotation on tablets</text>
+        <text>Remove support for the card picker</text>
+        <text>Remove vertical app drawer, since this is always the case in the app drawer</text>
+    </version>
+
     <version name="2.2.1">
         <text>Fix bug preventing icon drop targets from displaying when search bar is disabled</text>
         <text>Improve search bar on landscape tablets</text>

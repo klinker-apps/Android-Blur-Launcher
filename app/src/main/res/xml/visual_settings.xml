@@ -55,9 +55,9 @@
                 android:title="@string/app_style"
                 android:entries="@array/app_style_entries"
                 android:entryValues="@array/app_style_values"
-                android:defaultValue="android-l"/>-->
+                android:defaultValue="android-l"/>
 
-        <!--<ListPreference
+<ListPreference
                 android:key="fontface"
                 android:title="@string/font_type"
                 android:entries="@array/preferences_interface_general_icons_text_font_family_entries"
@@ -70,12 +70,11 @@
             android:defaultValue="true"
             />
 
-        <CheckBoxPreference
+       <!-- <CheckBoxPreference
             android:key="show_page_indicator"
             android:title="@string/show_page_indicator"
             android:defaultValue="true"
-            />
-
+            />-->
 
     </PreferenceCategory>
 </PreferenceScreen>

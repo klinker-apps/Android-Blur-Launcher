@@ -14,6 +14,6 @@
      limitations under the License.
 -->
 
-<com.klinker.android.launcher.launcher3.BubbleTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<xyz.klinker.blur.launcher3.BubbleTextView xmlns:android="http://schemas.android.com/apk/res/android"
    style="@style/Icon"
    android:focusable="true" />

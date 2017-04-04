@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xyz.klinker.blur.launcher3.QsbContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:id="@+id/qsb_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp">
+
+    <View
+        android:id="@+id/now_tab_background"
+        android:background="#f5f5f5"
+        android:clipToPadding="false"
+        android:layout_width="52dp"
+        android:layout_height="52dp" />
+
+    <ImageView
+        android:id="@+id/now_tab"
+        android:background="@drawable/bg_pill"
+        android:layout_width="72dp"
+        android:scaleType="center"
+        android:elevation="10dp"
+        android:layout_height="52dp"
+        android:src="@drawable/ic_qsb_m_letter_color_google"
+        android:layout_marginStart="16dp"
+        android:gravity="center|start" />
+
+    <LinearLayout
+        android:layout_toEndOf="@id/now_tab"
+        android:id="@+id/qsb_base"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:gravity="end"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/date1"
+            android:textColor="@android:color/white"
+            android:paddingBottom="4.0dp"
+            android:fontFamily="sans-serif-light"
+            android:includeFontPadding="false"
+            android:textSize="32.0dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/date2"
+            android:textSize="12.0dip"
+            android:textColor="@android:color/white"
+            android:includeFontPadding="false"
+            android:textAllCaps="true"
+            android:fontFamily="sans-serif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</xyz.klinker.blur.launcher3.QsbContainerView>

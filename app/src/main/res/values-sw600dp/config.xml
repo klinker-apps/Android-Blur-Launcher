@@ -1,11 +1,15 @@
 <resources>
     <bool name="is_tablet">true</bool>
-    <bool name="allow_rotation">false</bool>
+    <bool name="allow_rotation">true</bool>
 
     <!-- DragController -->
     <integer name="config_flingToDeleteMinVelocity">-1000</integer>
 
+    <!-- Dock Icon Count -->
+    <integer name="default_dock_items">7</integer>
+
     <!-- Homescreen Icon Counts -->
+    <integer name="default_all_app_col_count">5</integer>
     <integer name="default_col_count">6</integer>
     <integer name="default_row_count">7</integer>
 
