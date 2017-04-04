@@ -387,6 +387,7 @@ public class Launcher extends Activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         if (DEBUG_STRICT_MODE) {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                     .detectDiskReads()
@@ -500,6 +501,16 @@ public class Launcher extends Activity
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onCreate(savedInstanceState);
         }
+    }
+
+  public void showGlobalSearch() {
+        startSearch(null, false, null, true);
+    }
+
+    public void showCalendar(){
+        Intent calIntent = new Intent(Intent.ACTION_MAIN);
+        calIntent.addCategory(Intent.CATEGORY_APP_CALENDAR);
+        startActivity(calIntent);
     }
 
     @Override

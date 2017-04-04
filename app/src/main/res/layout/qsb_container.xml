@@ -1,30 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright (C) 2016 The Android Open Source Project
+<xyz.klinker.blur.launcher3.QsbContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:id="@+id/qsb_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp">
 
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
+    <View
+        android:id="@+id/now_tab_background"
+        android:background="#f5f5f5"
+        android:clipToPadding="false"
+        android:layout_width="52dp"
+        android:layout_height="52dp" />
 
-          http://www.apache.org/licenses/LICENSE-2.0
+    <ImageView
+        android:id="@+id/now_tab"
+        android:background="@drawable/bg_pill"
+        android:layout_width="72dp"
+        android:scaleType="center"
+        android:elevation="10dp"
+        android:layout_height="52dp"
+        android:src="@drawable/ic_qsb_m_letter_color_google"
+        android:layout_marginStart="16dp"
+        android:gravity="center|start" />
 
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-<xyz.klinker.blur.launcher3.QsbContainerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        android:layout_toEndOf="@id/now_tab"
+        android:id="@+id/qsb_base"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
+        android:gravity="end"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:id="@+id/qsb_container"
-        android:padding="0dp" >
+        android:layout_height="match_parent">
 
-    <fragment
-        android:name="xyz.klinker.blur.launcher3.QsbContainerView$QsbFragment"
-        android:layout_width="match_parent"
-        android:tag="qsb_view"
-        android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/date1"
+            android:textColor="@android:color/white"
+            android:paddingBottom="4.0dp"
+            android:fontFamily="sans-serif-light"
+            android:includeFontPadding="false"
+            android:textSize="32.0dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/date2"
+            android:textSize="12.0dip"
+            android:textColor="@android:color/white"
+            android:includeFontPadding="false"
+            android:textAllCaps="true"
+            android:fontFamily="sans-serif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 </xyz.klinker.blur.launcher3.QsbContainerView>
