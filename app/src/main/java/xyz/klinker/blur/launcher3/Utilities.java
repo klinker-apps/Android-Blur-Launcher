@@ -18,6 +18,7 @@ package xyz.klinker.blur.launcher3;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.SearchManager;
 import android.app.WallpaperManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -989,5 +990,13 @@ public final class Utilities {
             event.getText().add(text);
             accessibilityManager.sendAccessibilityEvent(event);
         }
+    }
+
+ public static boolean searchActivityExists(Context context) {
+        final SearchManager searchManager =
+                (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);
+        ComponentName globalSearchActivity = searchManager.getGlobalSearchActivity();
+
+        return globalSearchActivity != null;
     }
 }

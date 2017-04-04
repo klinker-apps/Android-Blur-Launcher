@@ -46,11 +46,11 @@
 
         </PreferenceCategory>-->
 
-    <PreferenceCategory
+    <!--<PreferenceCategory
         android:title="@string/other"
         android:key="other">
 
-        <!--<ListPreference
+        <ListPreference
                 android:key="app_style"
                 android:title="@string/app_style"
                 android:entries="@array/app_style_entries"
@@ -62,7 +62,7 @@
                 android:title="@string/font_type"
                 android:entries="@array/preferences_interface_general_icons_text_font_family_entries"
                 android:entryValues="@array/preferences_interface_general_icons_text_font_family_values"
-                android:defaultValue="sans-serif-condensed"/>-->
+                android:defaultValue="sans-serif-condensed"/>
 
         <CheckBoxPreference
             android:key="show_search_bar"
@@ -70,7 +70,7 @@
             android:defaultValue="true"
             />
 
-        <!--<CheckBoxPreference
+        <CheckBoxPreference
             android:key="show_page_indicator"
             android:title="@string/show_page_indicator"
             android:defaultValue="true"
