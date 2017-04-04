@@ -9,17 +9,19 @@
     android:paddingTop="16dp">
 
     <View
-        android:background="#ffffffff"
+        android:id="@+id/now_tab_background"
+        android:background="#f5f5f5"
         android:clipToPadding="false"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_width="52dp"
+        android:layout_height="52dp" />
+
     <ImageView
         android:id="@+id/now_tab"
         android:background="@drawable/bg_pill"
-        android:layout_width="70dp"
+        android:layout_width="72dp"
         android:scaleType="center"
         android:elevation="10dp"
-        android:layout_height="50dp"
+        android:layout_height="52dp"
         android:src="@drawable/ic_qsb_m_letter_color_google"
         android:layout_marginStart="16dp"
         android:gravity="center|start" />
@@ -30,6 +32,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         android:gravity="end"
         android:layout_width="match_parent"
