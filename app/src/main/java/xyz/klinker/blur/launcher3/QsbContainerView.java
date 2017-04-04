@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -26,10 +25,12 @@ public class QsbContainerView extends RelativeLayout implements View.OnClickList
 
     public QsbContainerView(Context context) {
         super(context);
+        mLauncher = Launcher.getLauncher(context);
     }
 
     public QsbContainerView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+        mLauncher = Launcher.getLauncher(context);
     }
 
     public void setLauncher(Launcher sLauncher) {
@@ -73,23 +74,22 @@ public class QsbContainerView extends RelativeLayout implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        Log.d("TEST", "onClick");
         v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         if (v.getId() == R.id.now_tab) {
-            if (Utilities.searchActivityExists(Launcher.getInstance())){
+            if (Utilities.searchActivityExists(mLauncher)){
             try {
-                Launcher.getInstance().showGlobalSearch();
+                mLauncher.showGlobalSearch();
             }  catch (Exception e) {
                 int error = R.string.activity_not_found;
-                Toast.makeText(Launcher.getInstance(), error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mLauncher, error, Toast.LENGTH_SHORT).show();
             }
             }
             else{
                 int error = R.string.activity_not_found;
-                Toast.makeText(Launcher.getInstance(), error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mLauncher, error, Toast.LENGTH_SHORT).show();
             }
         } else if (v.getId() == R.id.qsb_base) {
-           Launcher.getInstance().g();
+           mLauncher.showCalendar();
         }
     }
 
